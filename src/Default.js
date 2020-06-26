@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import TeacherProfile from "./ProjectData/TeacherProfile";
-import Header from "./Header";
+//import Header from "./Header";
 import Signin from './ProjectData/Signin';
 import Signup from './ProjectData/Signup';
 import Contactus from './ProjectData/Contactus';
 import Faqs from "./ProjectData/Faqs";
 import TermOfService from "./ProjectData/TermsofService";
 import PrivacyPolice from "./ProjectData/PrivacyPolicy";
-import Footer from "./Footer";
+//import Footer from "./Footer";
 import ForgetPassword from "./ProjectData/ForgetPassword";
 import Teachers from "./ProjectData/Teachers";
 import MockTestDetails from "./ProjectData/MockTestDetails";
