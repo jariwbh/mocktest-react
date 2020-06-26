@@ -6,16 +6,46 @@ import Footer from '../Footer';
 
 class Teachers extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.state = {
+            fullname: null,
+            status: null
+        };
     }
 
     componentDidMount() {
         document.title = "Igyanam - Teachers";
         window.scrollTo(0, 0);
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'authkey': '5ef44df26bf23edb7fd9a8e8'
+            },
+            body: JSON.stringify({ "search": [] })
+        };
+        fetch("http://live.edzskool.com/api/users/filter", requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                //debugger
+                for (let i = 0; i < data.length; i++) {
+                    this.setState({
+                        fullname: data[i].fullname,
+                        status: data[i].status
+                    });
+                    console.log(data[i].fullname);
+                }
+            })
+            .catch(error => {
+                this.setState({ errorMessage: error });
+                console.error('There was an error!', error);
+            });
     }
 
     render() {
+        const { fullname, status } = this.state;
         return (
             <React.Fragment>
                 <Header />
@@ -47,8 +77,8 @@ class Teachers extends Component {
                                                             <img src={avatarimg} className="rounded-circle img-fluid" alt="Avtar" />
                                                         </div>
                                                         <div className="media-body mt-auto mb-auto">
-                                                            <Link to="/TeacherProfile" className="t-name">Kamlesh Sharma</Link>
-                                                            <div className="">M.sc</div>
+                                                            <Link to="/TeacherProfile" className="t-name">{fullname}</Link>
+                                                            <div className="">{status}</div>
                                                             <div className="t-mock-test">Mock Test (90)</div>
                                                         </div>
                                                     </div>
@@ -62,7 +92,7 @@ class Teachers extends Component {
 					                        </div>
                                             </div>
                                         </div>
-                                        <div className="teacher-block">
+                                        {/* <div className="teacher-block">
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="media mb-3">
@@ -84,8 +114,8 @@ class Teachers extends Component {
                                                     Engineer at ByteBundle Previously associated with MindTech Fusion Pvt Ltd, Delhi as Team Lead & Founding Member Technology...
 					                        </div>
                                             </div>
-                                        </div>
-                                        <div className="teacher-block">
+                                        </div> */}
+                                        {/* <div className="teacher-block">
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="media mb-3">
@@ -107,8 +137,8 @@ class Teachers extends Component {
                                                     Engineer at ByteBundle Previously associated with MindTech Fusion Pvt Ltd, Delhi as Team Lead & Founding Member Technology...
 					                        </div>
                                             </div>
-                                        </div>
-                                        <div className="teacher-block">
+                                        </div> */}
+                                        {/* <div className="teacher-block">
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="media mb-3">
@@ -130,8 +160,8 @@ class Teachers extends Component {
                                                     Engineer at ByteBundle Previously associated with MindTech Fusion Pvt Ltd, Delhi as Team Lead & Founding Member Technology...
 					                        </div>
                                             </div>
-                                        </div>
-                                        <div className="teacher-block">
+                                        </div> */}
+                                        {/* <div className="teacher-block">
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="media mb-3">
@@ -153,8 +183,8 @@ class Teachers extends Component {
                                                     Engineer at ByteBundle Previously associated with MindTech Fusion Pvt Ltd, Delhi as Team Lead & Founding Member Technology...
 					                        </div>
                                             </div>
-                                        </div>
-                                        <div className="teacher-block">
+                                        </div> */}
+                                        {/* <div className="teacher-block">
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="media mb-3">
@@ -176,8 +206,8 @@ class Teachers extends Component {
                                                     Engineer at ByteBundle Previously associated with MindTech Fusion Pvt Ltd, Delhi as Team Lead & Founding Member Technology...
 					                        </div>
                                             </div>
-                                        </div>
-                                        <div className="teacher-block">
+                                        </div> */}
+                                        {/* <div className="teacher-block">
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="media mb-3">
@@ -199,8 +229,8 @@ class Teachers extends Component {
                                                     Engineer at ByteBundle Previously associated with MindTech Fusion Pvt Ltd, Delhi as Team Lead & Founding Member Technology...
 					                        </div>
                                             </div>
-                                        </div>
-                                        <div className="teacher-block">
+                                        </div> */}
+                                        {/* <div className="teacher-block">
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="media mb-3">
@@ -222,8 +252,8 @@ class Teachers extends Component {
                                                     Engineer at ByteBundle Previously associated with MindTech Fusion Pvt Ltd, Delhi as Team Lead & Founding Member Technology...
 					                        </div>
                                             </div>
-                                        </div>
-                                        <div className="teacher-block">
+                                        </div> */}
+                                        {/* <div className="teacher-block">
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="media mb-3">
@@ -245,8 +275,8 @@ class Teachers extends Component {
                                                     Engineer at ByteBundle Previously associated with MindTech Fusion Pvt Ltd, Delhi as Team Lead & Founding Member Technology...
 					                        </div>
                                             </div>
-                                        </div>
-                                        <div className="teacher-block">
+                                        </div> */}
+                                        {/* <div className="teacher-block">
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="media mb-3">
@@ -268,8 +298,7 @@ class Teachers extends Component {
                                                     Engineer at ByteBundle Previously associated with MindTech Fusion Pvt Ltd, Delhi as Team Lead & Founding Member Technology...
 					                        </div>
                                             </div>
-                                        </div>
-
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
