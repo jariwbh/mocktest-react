@@ -1,22 +1,21 @@
 import React, { Component } from "react";
-import TeacherProfile from "./TeacherProfile";
+import TeacherProfile from "./ProjectData/TeacherProfile";
 import Header from "./Header";
-import Signin from './Signin';
-import Signup from './Signup';
-import Contactus from './Contactus';
-import Faqs from "./Faqs";
-import TermOfService from "./TermsofService";
-import PrivacyPolice from "./PrivacyPolicy";
+import Signin from './ProjectData/Signin';
+import Signup from './ProjectData/Signup';
+import Contactus from './ProjectData/Contactus';
+import Faqs from "./ProjectData/Faqs";
+import TermOfService from "./ProjectData/TermsofService";
+import PrivacyPolice from "./ProjectData/PrivacyPolicy";
 import Footer from "./Footer";
-import ForgetPassword from "./ForgetPassword";
-import Teachers from "./Teachers";
-import MockTestDetails from "./MockTestDetails";
-import MockTestList from './MockTestList';
-import MockTestResults from "./MockTestResults";
-import MockTestStartTest from "./MockTestStartTest";
-import Home from './Home';
+import ForgetPassword from "./ProjectData/ForgetPassword";
+import Teachers from "./ProjectData/Teachers";
+import MockTestDetails from "./ProjectData/MockTestDetails";
+import MockTestList from './ProjectData/MockTestList';
+import MockTestResults from "./ProjectData/MockTestResults";
+import MockTestStartTest from "./ProjectData/MockTestStartTest";
+import Home from './ProjectData/Home';
 import { Switch, Route } from 'react-router-dom';
-import AboutMe from "./AboutMe";
 
 class Default extends Component {
     constructor() {
@@ -47,7 +46,6 @@ class Default extends Component {
                     <Route exact path="/MockTestStartTest" component={MockTestStartTest} />
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/TeacherProfile" component={TeacherProfile} />
-                    <Route exact path="/AboutMe" component={AboutMe} />
                 </Switch>
             </React.Fragment>
         );
