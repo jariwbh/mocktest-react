@@ -97,7 +97,7 @@ class MockTestDetails extends Component {
                                             <div className="col-lg-12">
                                                 <h2> SPEED KOTA  Foundation Test</h2>
                                                 <div className="mb-3"><span className="mr-4" >10 June 2020</span>   <span className="mt-price">Free</span> </div>
-                                                <div className="mt-tags mb-4"><a href="#" >NEET</a> <a href="#" >Maths</a> </div>
+                                                <div className="mt-tags mb-4"><a href="#"  >NEET</a> <a href="#" >Maths</a> </div>
                                                 <div className="d-flex mb-2">
                                                     <div className="mr-auto justify-content-start font-weight-bold" >
                                                         1. Which vitamin helps in blood clotting?
