@@ -28,7 +28,7 @@ class Teachers extends Component {
         fetch("http://live.edzskool.com/api/users/filter", requestOptions)
             .then(response => response.json())
             .then(data => {
-                //for (let i = 0; i < data.length; i++) {
+                // for (let i = 0; i < data.length; i++) {
                 this.setState({ teachers: data });
                 console.log(data);
                 //}
@@ -61,7 +61,7 @@ class Teachers extends Component {
                                 </div>
                             </div>
                             {teachers.map((obj) => (
-                                < div className="row" key={teachers[0]._id} >
+                                < div className="row" >
                                     <div className="col-lg-12" >
                                         <div className="white-box-no-animate animate slideIn" >
                                             <div className="teacher-block">
@@ -72,7 +72,7 @@ class Teachers extends Component {
                                                                 <img src={avatarimg} className="rounded-circle img-fluid" alt="Avtar" />
                                                             </div>
                                                             <div className="media-body mt-auto mb-auto">
-                                                                <Link to="/TeacherProfile" className="t-name">{teachers[0].fullname}</Link>
+                                                                <Link to="/TeacherProfile" className="t-name">{teachers[2].fullname}</Link>
                                                                 <div className="">m.sc</div>
                                                                 <div className="t-mock-test">Mock Test (90)</div>
                                                             </div>

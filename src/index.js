@@ -5,6 +5,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 
+// var reactapp = document.createElement("");
+// document.body.appendChild(reactapp);
+
 ReactDOM.render(
   <BrowserRouter>
     <App />
