@@ -20,7 +20,7 @@ class Signup extends Component {
                     <section className="common-block">
                         <div className="container">
                             <div className="login-main">
-                                <h2 className="mb-3"> Sign Up</h2>
+                                <h2 className="mb-3"> Student Sign Up</h2>
                                 <div className="white-box-no-animate p-20">
                                     <div className="form-group">
                                         <label >Full Name</label>

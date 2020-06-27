@@ -1,20 +1,20 @@
 import React, { Component } from "react";
-import TeacherProfile from "./ProjectData/TeacherProfile";
-import Header from "./Header";
-import Signin from './ProjectData/Signin';
-import Signup from './ProjectData/Signup';
-import Contactus from './ProjectData/Contactus';
-import Faqs from "./ProjectData/Faqs";
-import TermOfService from "./ProjectData/TermsofService";
-import PrivacyPolice from "./ProjectData/PrivacyPolicy";
-import Footer from "./Footer";
-import ForgetPassword from "./ProjectData/ForgetPassword";
-import Teachers from "./ProjectData/Teachers";
-import MockTestDetails from "./ProjectData/MockTestDetails";
-import MockTestList from './ProjectData/MockTestList';
-import MockTestResults from "./ProjectData/MockTestResults";
-import MockTestStartTest from "./ProjectData/MockTestStartTest";
-import Home from './ProjectData/Home';
+import TeacherProfile from "./Components/TeacherProfile";
+//import Header from "./Header";
+import Signin from './Components/Signin';
+import Signup from './Components/Signup';
+import Contactus from './Components/Contactus';
+import Faqs from "./Components/Faqs";
+import TermOfService from "./Components/TermsofService";
+import PrivacyPolice from "./Components/PrivacyPolicy";
+//import Footer from "./Footer";
+import ForgetPassword from "./Components/ForgetPassword";
+import Teachers from "./Components/Teachers";
+import MockTestDetails from "./Components/MockTestDetails";
+import MockTestList from './Components/MockTestList';
+import MockTestResults from "./Components/MockTestResults";
+import MockTestStartTest from "./Components/MockTestStartTest";
+import Home from './Components/Home';
 import { Switch, Route } from 'react-router-dom';
 
 class Default extends Component {
