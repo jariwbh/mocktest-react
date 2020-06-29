@@ -22,7 +22,6 @@ class Default extends Component {
         super();
     }
 
-
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
