@@ -921,4 +921,14 @@ h1, h2, h3, h4, h5, h6,
 	max-width: 396px;
 	margin: 54px auto;
 }
+
+.help-block {
+    color: #cc0000;
+    margin-bottom: 12px;
+  }
+  
+  .sucessMsg {
+    color: #6B8E23;
+    margin-bottom: 10px;
+  }
 /* new prj */
