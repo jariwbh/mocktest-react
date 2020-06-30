@@ -5,7 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
+<<<<<<< HEAD
             "type": "chrome",
+=======
+            "type": "pwa-chrome",
+>>>>>>> a75f55cfdb008d4cebea912a9899c24f4e802620
             "request": "launch",
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:3000",
