@@ -58,7 +58,6 @@ class Signin extends Component {
     this.setState({ validation });
     this.submitted = true;
 
-
     if (validation.isValid) {
       //reaches here if form validates successfully...
 
