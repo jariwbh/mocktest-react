@@ -4,7 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 
 class Teachers extends Component {
-
+    _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
@@ -19,6 +19,7 @@ class Teachers extends Component {
     componentDidMount() {
         document.title = "Igyanam - Teachers";
         window.scrollTo(0, 0);
+        this._isMounted = true;
         // const [post, setpost] = useState([]);
         const requestOptions = {
             method: 'POST',
@@ -31,12 +32,18 @@ class Teachers extends Component {
         fetch("http://live.edzskool.com/api/users/filter", requestOptions)
             .then(response => response.json())
             .then(data => {
-                this.setState({ teachers: data });
+                if (this._isMounted) {
+                    this.setState({ teachers: data });
+                }
             })
             .catch(error => {
                 this.setState({ errorMessage: error });
                 console.error('There was an error!', error);
             });
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     searchSpace = (event) => {

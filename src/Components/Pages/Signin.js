@@ -137,12 +137,12 @@ class Signin extends Component {
                 <form method="post" name="userSignUpForm" onChange={this.handleInputChange} >
                   <h2 className="mb-3"> Sign In</h2>
                   <div className="form-group">
-                    <label htmlFor="email">Email* </label>
+                    <label htmlFor="email" className="user-select-all">Email <span style={{ color: 'red' }}>*</span> </label>
                     <input type="email" name='email' placeholder="Enter The Email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                     <span className="help-block">{validation.email.message}</span>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Password*</label>
+                    <label htmlFor="exampleInputPassword1">Password <span style={{ color: 'red' }}>*</span></label>
                     <input type="Password" name='password' placeholder="Enter The Password" className="form-control" id="exampleInputPassword1" />
                     <span className="help-block">{validation.password.message}</span>
                   </div>
