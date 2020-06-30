@@ -75,31 +75,31 @@ class Signin extends Component{
             componentDidMount() {
               document.title = "Igyanam - Sign In";
               window.scrollTo(0, 0);
-          //     const requestOptions = {
-          //       method: 'POST',
-          //       headers: {
-          //           'Content-Type': 'application/json'
-          //          // 'authkey': '5ef44df26bf23edb7fd9a8e8'
-          //       },
-          //       body: JSON.stringify({ 
+              const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                   // 'authkey': '5ef44df26bf23edb7fd9a8e8'
+                },
+                body: JSON.stringify({ 
                  
-          //           "email": "",
-          //           "password": ""
+                    "email": "",
+                    "password": ""
                  
-          //        })
-          // };
-          // fetch("http://live.edzskool.com/api/auth/memberlogin", requestOptions)
-          // .then(response => response.json())
-          // .then(obj => {
+                 })
+          };
+          fetch("http://live.edzskool.com/api/auth/memberlogin", requestOptions)
+          .then(response => response.json())
+          .then(obj => {
             
-          //     this.setState({ obj });
-          //     console.log(obj);
+              this.setState({ obj });
+              console.log(obj);
              
-          // })
-          // .catch(error => {
-          //     this.setState({ errorMessage: error });
-          //     console.error('There was an error!', error);
-          // });
+          })
+          .catch(error => {
+              this.setState({ errorMessage: error });
+              console.error('There was an error!', error);
+          });
         }
     render() {
       const validation = this.submitted ?this.validator.validate(this.state) : this.state.validation            
