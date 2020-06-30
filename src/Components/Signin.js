@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -48,7 +47,20 @@ class Signin extends Component{
               [event.target.name]: event.target.value,
             });
           }
-            
+           
+          handleEmail(Text){
+            this.setState({email:Text.target.value})
+          }
+
+          handlePassword(Text){
+            this.setState({password:Text.target.value})
+          }
+          Signin(){
+            let obj ={}
+            obj.email = this.state.email
+            obj.password = this.state.password 
+          }
+
           handleFormSubmit = event => {
             event.preventDefault();
         
@@ -63,31 +75,31 @@ class Signin extends Component{
             componentDidMount() {
               document.title = "Igyanam - Sign In";
               window.scrollTo(0, 0);
-              const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                   // 'authkey': '5ef44df26bf23edb7fd9a8e8'
-                },
-                body: JSON.stringify({ 
+          //     const requestOptions = {
+          //       method: 'POST',
+          //       headers: {
+          //           'Content-Type': 'application/json'
+          //          // 'authkey': '5ef44df26bf23edb7fd9a8e8'
+          //       },
+          //       body: JSON.stringify({ 
                  
-                    "username": "",
-                    "password": ""
+          //           "email": "",
+          //           "password": ""
                  
-                 })
-          };
-          fetch("http://live.edzskool.com/api/members", requestOptions)
-          .then(response => response.json())
-          .then(data => {
+          //        })
+          // };
+          // fetch("http://live.edzskool.com/api/auth/memberlogin", requestOptions)
+          // .then(response => response.json())
+          // .then(obj => {
             
-              this.setState({ data });
-              console.log(data);
+          //     this.setState({ obj });
+          //     console.log(obj);
              
-          })
-          .catch(error => {
-              this.setState({ errorMessage: error });
-              console.error('There was an error!', error);
-          });
+          // })
+          // .catch(error => {
+          //     this.setState({ errorMessage: error });
+          //     console.error('There was an error!', error);
+          // });
         }
     render() {
       const validation = this.submitted ?this.validator.validate(this.state) : this.state.validation            
@@ -103,14 +115,14 @@ class Signin extends Component{
                                      <div className="form-group">
                                      <div className={validation.email.isInvalid && 'has-error'}>
                                         <label htmlFor="email">Email* </label>
-                                        <input type="email"  name='email'  placeholder="Enter The Email"  onChange={this.handleInputChange} className="form-control" id="exampleInputEmail1"  aria-describedby="emailHelp" />
+                                        <input type="email" value="" name='email'  placeholder="Enter The Email"  onChange={this.handleInputChange} className="form-control" id="exampleInputEmail1"  aria-describedby="emailHelp" />
                                         <span className="help-block">{validation.email.message}</span>
                                         </div>
                                         </div> 
                                      <div className="form-group">
                                     <div className={validation.password.isInvalid && 'has-error'}>
                                         <label htmlFor="exampleInputPassword1">Password*</label>
-                                        <input type="Password" name='password'  placeholder="Enter The Password" onChange={this.handleInputChange} className="form-control" id="exampleInputPassword1"  />
+                                        <input type="Password" value="" name='password'  placeholder="Enter The Password" onChange={this.handleInputChange} className="form-control" id="exampleInputPassword1"  />
                                         <span className="help-block">{validation.password.message}</span>
                                         </div>
                                         </div>
