@@ -1,11 +1,9 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Pagination from "react-js-pagination";
 import Header from '../Header';
 import Footer from '../Footer';
 
 class Teachers extends Component {
-
 
     constructor(props) {
         super(props);
@@ -13,8 +11,9 @@ class Teachers extends Component {
             teachers: [],
             search: null,
             errorMessage: null,
-            activePage: 1
+
         };
+
     }
 
     componentDidMount() {
@@ -32,10 +31,7 @@ class Teachers extends Component {
         fetch("http://live.edzskool.com/api/users/filter", requestOptions)
             .then(response => response.json())
             .then(data => {
-                // for (let i = 0; i < data.length; i++) {
                 this.setState({ teachers: data });
-                //console.log(data);
-                //}
             })
             .catch(error => {
                 this.setState({ errorMessage: error });
@@ -48,11 +44,6 @@ class Teachers extends Component {
         this.setState({ search: keyword })
     }
 
-    // handlePageChange(pageNumber) {
-    //     console.log(`active page is ${pageNumber}`);
-    //     this.setState({ activePage: pageNumber });
-    // }
-
     render() {
         const { teachers } = this.state;
         const teachersList = teachers.filter((obj) => {
@@ -61,38 +52,41 @@ class Teachers extends Component {
             else if (obj.fullname.toLowerCase().includes(this.state.search.toLowerCase()) || obj.username.toLowerCase().includes(this.state.search.toLowerCase())) {
                 return obj
             }
-        }).map(function getdata(obj) {
-            return (
-                <div className="row" key={obj._id}>
-                    <div className="col-lg-12" >
-                        <div className="white-box-no-animate animate slideIn" >
-                            <div className="teacher-block">
-                                <div className="row">
-                                    <div className="col-lg-4">
-                                        <div className="media mb-3">
-                                            <div className="t-avatar-img-main mr-4">
-                                                <img src={obj.profileimage} className="rounded-circle img-fluid" alt="Avtar" />
-                                            </div>
-                                            <div className="media-body mt-auto mb-auto">
-                                                <Link to="/TeacherProfile" className="t-name">{obj.property.fullname}</Link>
-                                                <div className="">{obj.property.qualification}</div>
-                                                <div className="t-mock-test">Mock Test (90)</div>
-                                            </div>
+        }).map((val) => (
+            < div className="row" key={val._id} >
+                <div className="col-lg-12" >
+                    <div className="white-box-no-animate animate slideIn" >
+                        <div className="teacher-block">
+                            <div className="row">
+                                <div className="col-lg-4">
+                                    <div className="media mb-3">
+                                        <div className="t-avatar-img-main mr-4">
+                                            <img src={val.profileimage} className="rounded-circle img-fluid" alt="Avtar" />
+                                        </div>
+                                        <div className="media-body mt-auto mb-auto">
+                                            <Link to="/TeacherProfile" className="t-name">{val.property.fullname}</Link>
+                                            <div className="">{val.property.qualification}</div>
+                                            <div className="t-mock-test">Mock Test (90)</div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-8">
-                                        <div className="mt-tags"><a href="#" >{obj.property.subject}</a> </div>
+                                </div>
+                                <div className="col-lg-8" >
+                                    <div className="mt-tags" >
+                                        {val.property.subject.map((subject, index) => (
+                                            <a href="#" key={index} >{subject === null ? '' : subject}</a>
+                                        ))}
                                     </div>
-                                    <div className="col-lg-12">
-                                        {obj.property.aboutme}
-                                    </div>
+                                </div>
+
+                                <div className="col-lg-12">
+                                    {val.property.aboutme}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            );
-        })
+            </div >
+        ))
         console.log(teachers)
         return (
             <React.Fragment>
