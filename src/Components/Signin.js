@@ -48,18 +48,18 @@ class Signin extends Component{
             });
           }
            
-          handleEmail(Text){
-            this.setState({email:Text.target.value})
-          }
+          // handleEmail(Text){
+          //   this.setState({email:Text.target.value})
+          // }
 
-          handlePassword(Text){
-            this.setState({password:Text.target.value})
-          }
-          Signin(){
-            let obj ={}
-            obj.email = this.state.email
-            obj.password = this.state.password 
-          }
+          // handlePassword(Text){
+          //   this.setState({password:Text.target.value})
+          // }
+          // Signin(){
+          //   let obj ={}
+          //   obj.email = this.state.email
+          //   obj.password = this.state.password 
+          // }
 
           handleFormSubmit = event => {
             event.preventDefault();
@@ -75,31 +75,31 @@ class Signin extends Component{
             componentDidMount() {
               document.title = "Igyanam - Sign In";
               window.scrollTo(0, 0);
-              const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                   // 'authkey': '5ef44df26bf23edb7fd9a8e8'
-                },
-                body: JSON.stringify({ 
+          //     const requestOptions = {
+          //       method: 'POST',
+          //       headers: {
+          //           'Content-Type': 'application/json'
+          //          // 'authkey': '5ef44df26bf23edb7fd9a8e8'
+          //       },
+          //       body: JSON.stringify({ 
                  
-                    "email": "",
-                    "password": ""
+          //           "email": "",
+          //           "password": ""
                  
-                 })
-          };
-          fetch("http://live.edzskool.com/api/auth/memberlogin", requestOptions)
-          .then(response => response.json())
-          .then(obj => {
+          //        })
+          // };
+          // fetch("http://live.edzskool.com/api/auth/memberlogin", requestOptions)
+          // .then(response => response.json())
+          // .then(obj => {
             
-              this.setState({ obj });
-              console.log(obj);
+          //     this.setState({ obj });
+          //     console.log(obj);
              
-          })
-          .catch(error => {
-              this.setState({ errorMessage: error });
-              console.error('There was an error!', error);
-          });
+          // })
+          // .catch(error => {
+          //     this.setState({ errorMessage: error });
+          //     console.error('There was an error!', error);
+          // });
         }
     render() {
       const validation = this.submitted ?this.validator.validate(this.state) : this.state.validation            
@@ -114,14 +114,14 @@ class Signin extends Component{
                                 <h2 className="mb-3"> Sign In</h2>
                                      <div className="form-group">
                                      <div className={validation.email.isInvalid && 'has-error'}>
-                                        <label htmlFor="email">Email* </label>
+                                        <label htmlFor="email">Email <span style={{ color: 'red' }}>*</span> </label>
                                         <input type="email" value="" name='email'  placeholder="Enter The Email"  onChange={this.handleInputChange} className="form-control" id="exampleInputEmail1"  aria-describedby="emailHelp" />
                                         <span className="help-block">{validation.email.message}</span>
                                         </div>
                                         </div> 
                                      <div className="form-group">
                                     <div className={validation.password.isInvalid && 'has-error'}>
-                                        <label htmlFor="exampleInputPassword1">Password*</label>
+                                        <label htmlFor="exampleInputPassword1">Password <span style={{ color: 'red' }}>*</span></label>
                                         <input type="Password" value="" name='password'  placeholder="Enter The Password" onChange={this.handleInputChange} className="form-control" id="exampleInputPassword1"  />
                                         <span className="help-block">{validation.password.message}</span>
                                         </div>

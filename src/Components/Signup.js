@@ -99,7 +99,7 @@ class Signup extends Component {
                                 <div className="white-box-no-animate p-20">
                                     <div className="form-group">
                                     <div className={validation.email.isInvalid && 'has-error'}>
-                                        <label >Full Name</label>
+                                        <label >Full Name <span style={{ color: 'red' }}>*</span></label>
                                         <input type="string" placeholder="Enter The Full Name" className="form-control"  onChange={this.handleInputChange} name='fullName' />
                                         {/* <div className="errorMsg">{this.state.errors.fullName}</div> */}
                                         <span className="help-block">{validation.fullName.message}</span>
@@ -107,7 +107,7 @@ class Signup extends Component {
                                     </div>
                                     <div className="form-group">
                                     <div className={validation.email.isInvalid && 'has-error'}>
-                                        <label htmlFor="exampleInputEmail1">Email</label>
+                                        <label htmlFor="exampleInputEmail1">Email <span style={{ color: 'red' }}>*</span></label>
                                         <input type="email" placeholder="Enter The Email" className="form-control"  name='email' onChange={this.handleInputChange} />
                                         {/* <div className="errorMsg">{this.state.errors.email}</div> */}
                                         <span className="help-block">{validation.email.message}</span>
@@ -115,7 +115,7 @@ class Signup extends Component {
                                     </div>
                                     <div className="form-group">
                                     <div className={validation.mobile.isInvalid && 'has-error'}>
-                                        <label >Mobile</label>
+                                        <label >Mobile  <span style={{ color: 'red' }}>*</span></label>
                                         <input type="mobile" placeholder="Enter The Mobile No" className="form-control" name='mobile' onChange={this.handleInputChange} />
                                         {/* <div className="errorMsg">{this.state.errors.mobile}</div> */}
                                         <span className="help-block">{validation.mobile.message}</span>
