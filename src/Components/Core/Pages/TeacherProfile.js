@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { avatarimg, quesimg, marksimg, timeimg, negativeimg } from '../Image';
-import Header from '../Header';
-import Footer from '../Footer';
+import { avatarimg, quesimg, marksimg, timeimg, negativeimg } from './Image';
+import Header from './Header';
+import Footer from './Footer';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 

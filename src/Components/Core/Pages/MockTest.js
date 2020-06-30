@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { avatarimg, quesimg, marksimg, timeimg, negativeimg } from '../Image';
+import { avatarimg, quesimg, marksimg, timeimg, negativeimg } from '../../../Image';
 
 class MockTest extends Component {
     render() {

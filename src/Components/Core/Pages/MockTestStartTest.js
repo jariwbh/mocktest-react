@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import { avatarimg, quesimg, marksimg, timeimg, negativeimg, logo } from '../Image';
+import React, { Component } from 'react'
+import { logo, negativeimg, timeimg, marksimg, quesimg, avatarimg } from './Image'
 import { Link } from 'react-router-dom';
 
-class MockTestDetails extends Component {
+class MockTestStartTest extends Component {
+
     constructor() {
         super();
+        this.state = { visible: null };
     }
 
     componentDidMount() {
@@ -45,8 +47,8 @@ class MockTestDetails extends Component {
                                                     </div>
                                                     <div className="media-body">
                                                         <div className="mt-0"><a href="#">Kamlesh Sharma</a> </div>
-                                                    M.sc
-                                                </div>
+                                                            M.sc
+                                                        </div>
                                                 </div>
                                             </div>
                                             <div className="col-lg-8">
@@ -56,8 +58,8 @@ class MockTestDetails extends Component {
                                                             <img src={quesimg} width="40" height="40" className="mr-3" alt="Question" />
                                                             <div className="media-body">
                                                                 <div className="mt-0">50 </div>
-                                                            Questions
-                                                        </div>
+                                                                        Questions
+                                                                    </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
@@ -65,17 +67,17 @@ class MockTestDetails extends Component {
                                                             <img src={marksimg} width="40" height="40" className="mr-3" alt="Marks" />
                                                             <div className="media-body">
                                                                 <div className="mt-0">200  </div>
-                                                            Marks
-                                                        </div>
+                                                                            Marks
+                                                                        </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
                                                         <div className="media mb-20">
-                                                            <img src={timeimg} width="40" height="40" className="mr-3" alt="Times" />
+                                                            <img src={timeimg} width="40" height="40" className="mr-3" alt="times" />
                                                             <div className="media-body">
                                                                 <div className="mt-0">60 </div>
-                                                            Minutes
-                                                        </div>
+                                                                                    Minutes
+                                                                                </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
@@ -83,55 +85,21 @@ class MockTestDetails extends Component {
                                                             <img src={negativeimg} width="40" height="40" className="mr-3" alt="Negative" />
                                                             <div className="media-body">
                                                                 <div className="mt-0">1 </div>
-                                                            Negative
-                                                        </div>
+                                                                                    Negative
+                                                                                </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     <div className="white-box-no-animate p-20 animate slideIn" >
                                         <div className="row">
                                             <div className="col-lg-12">
-                                                <h2> SPEED KOTA  Foundation Test</h2>
-                                                <div className="mb-3"><span className="mr-4" >10 June 2020</span>   <span className="mt-price">Free</span> </div>
-                                                <div className="mt-tags mb-4"><a href="#"  >NEET</a> <a href="#" >Maths</a> </div>
-                                                <div className="d-flex mb-2">
-                                                    <div className="mr-auto justify-content-start font-weight-bold" >
-                                                        1. Which vitamin helps in blood clotting?
-						                        </div>
-                                                    <div className="justify-content-end" ><span className="badge badge-mt-custom"> Marks - 4 </span></div>
+                                                <h2 className="mb-5"> SPEED KOTA  Foundation Test</h2>
+                                                <div>
+                                                    <Link to="/MockTestDetails" className="btn btn-primary btn-lg xs-mrb30"> Start Test </Link>
                                                 </div>
-                                                <div className="form-check mb-3">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" value="option1" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                                        a. Vitamin A2
-						                        </label>
-                                                </div>
-                                                <div className="form-check mb-3">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" value="option1" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                                        a. Vitamin A2
-						                        </label>
-                                                </div>
-                                                <div className="form-check mb-3">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" value="option1" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                                        a. Vitamin A2
-						                        </label>
-                                                </div>
-                                                <div className="form-check mb-4">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" value="option2" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                                        a. Vitamin A2
-						                        </label>
-                                                </div>
-                                                <div className="mb-5">
-                                                    <a href="#">Deselect </a>
-                                                </div>
-                                                <div><a href="#" className="btn btn-primary btn-lg xs-mrb30">Previous</a> <a href="#" className="btn btn-primary btn-lg xs-mrb30 ml-1">Next</a></div>
                                             </div>
                                         </div>
                                     </div>
@@ -145,4 +113,4 @@ class MockTestDetails extends Component {
     }
 }
 
-export default MockTestDetails;
+export default MockTestStartTest;
