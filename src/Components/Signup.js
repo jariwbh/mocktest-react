@@ -69,6 +69,7 @@ class Signup extends Component {
     document.title = "Igyanam - Sign Up";
     window.scrollTo(0, 0);
   }
+
   render() {
     const validation = this.submitted ? this.validator.validate(this.state) : this.state.validation
     return (
