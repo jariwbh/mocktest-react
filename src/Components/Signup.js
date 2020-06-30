@@ -3,83 +3,60 @@ import Header from '../Header';
 import Footer from '../Footer';
 import FormValidator from './FromValidator';
 
-
-
-
-
 class Signup extends Component {
 
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.validator = new FormValidator([
-          { 
-            field: 'fullName', 
-            method: 'isEmpty', 
-            validWhen: false, 
-            message: 'Enter full name.' 
-          },
-          { 
-              field: 'email', 
-              method: 'isEmpty', 
-              validWhen: false, 
-              message: 'Enter your email .' 
-            },
-            { 
-              field: 'email',
-              method: 'isEmail', 
-              validWhen: true, 
-              message: 'Enter valid email.'
-            },
-            { 
-              field: 'mobile', 
-              method: 'isEmpty', 
-              validWhen: false, 
-              message: 'Enter a phone number.'
-            },
-            {
-              field: 'mobile', 
-              method: 'matches',
-              args: [/^\(?\d\d\d\)? ?\d\d\d-?\d\d\d\d$/],
-              validWhen: true, 
-              message: 'Enter valid phone number.'
-            },
-      ]);
+    this.validator = new FormValidator([
+      {
+        field: 'fullName',
+        method: 'isEmpty',
+        validWhen: false,
+        message: 'Enter full name.'
+      },
+      {
+        field: 'email',
+        method: 'isEmpty',
+        validWhen: false,
+        message: 'Enter your email .'
+      },
+      {
+        field: 'email',
+        method: 'isEmail',
+        validWhen: true,
+        message: 'Enter valid email.'
+      },
+      {
+        field: 'mobile',
+        method: 'isEmpty',
+        validWhen: false,
+        message: 'Enter Mobile No.'
+      },
+      {
+        field: 'mobile',
+        method: 'matches',
+        args: [/^\(?\d\d\d\)? ?\d\d\d-?\d\d\d\d$/],
+        validWhen: true,
+        message: 'Enter valid Mobile No.'
+      },
+    ]);
 
-      this.state = {
-          fullName : '',
-          email: '',
-          mobile: '',
-          validation: this.validator.valid(),
+    this.state = {
+      fullName: '',
+      email: '',
+      mobile: '',
+      validation: this.validator.valid(),
+    }
+    this.submitted = false;
+  }
 
-        }
-        this.submitted = false;
-      }
-      handleInputChange = event => {
-          event.preventDefault();
-      
-          this.setState({
-            [event.target.name]: event.target.value,
-          });
-        }
-          
-        handleFormSubmit = event => {
-          event.preventDefault();
-      
-          const validation = this.validator.validate(this.state);
-          this.setState({ validation });
-          this.submitted = true;
-      
-          if (validation.isValid) {
-            //reaches here if form validates successfully...
-          }
-        }
-       
-          
-        
-
-    
-    
+  handleInputChange = event => {
+    event.preventDefault();
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
     componentDidMount() {
         document.title = "Igyanam - Sign Up";
         window.scrollTo(0, 0);
