@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import getTeachers from '../../Core/Services/TeacherService'
+import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
 
 class Teachers extends Component {
     _isMounted = false;
@@ -19,18 +19,18 @@ class Teachers extends Component {
         document.title = "Igyanam - Teachers";
         window.scrollTo(0, 0);
         this._isMounted = true;
-
-        getTeachers.getAllTeachers()
-            .then(response => response.json())
+        const body = { "search": [] }
+        TeacherService.getAllTeachers(body)
             .then(data => {
-                if (this._isMounted) {
-                    this.setState({ teachers: data });
+                if (data && data > 0) {
+                    if (this._isMounted) {
+                        this.setState({ teachers: data });
+                    }
+                }
+                else {
+                    alert('fetching error failed. Try later!')
                 }
             })
-            .catch(error => {
-                this.setState({ errorMessage: error });
-                console.error('There was an error!', error);
-            });
     }
 
     componentWillUnmount() {
