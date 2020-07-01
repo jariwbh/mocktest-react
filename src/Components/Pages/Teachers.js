@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import getTeachers from '../../Core/Services/TeacherService'
 
 class Teachers extends Component {
     _isMounted = false;
@@ -11,25 +12,15 @@ class Teachers extends Component {
             teachers: [],
             search: null,
             errorMessage: null,
-
         };
-
     }
 
     componentDidMount() {
         document.title = "Igyanam - Teachers";
         window.scrollTo(0, 0);
         this._isMounted = true;
-        // const [post, setpost] = useState([]);
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'authkey': '5ef44df26bf23edb7fd9a8e8'
-            },
-            body: JSON.stringify({ "search": [] })
-        };
-        fetch("http://live.edzskool.com/api/users/filter", requestOptions)
+
+        getTeachers.getAllTeachers()
             .then(response => response.json())
             .then(data => {
                 if (this._isMounted) {
@@ -56,7 +47,7 @@ class Teachers extends Component {
         const teachersList = teachers.filter((obj) => {
             if (this.state.search == null)
                 return obj
-            else if (obj.fullname.toLowerCase().includes(this.state.search.toLowerCase()) || obj.username.toLowerCase().includes(this.state.search.toLowerCase())) {
+            else if (obj.fullname.toLowerCase().includes(this.state.search.toLowerCase()) || obj.property.qualification.toLowerCase().includes(this.state.search.toLowerCase())) {
                 return obj
             }
         }).map((val) => (
@@ -86,7 +77,7 @@ class Teachers extends Component {
                                 </div>
 
                                 <div className="col-lg-12">
-                                    {val.property.aboutme}
+                                    {val.property.headline === null ? '' : val.property.headline}
                                 </div>
                             </div>
                         </div>
