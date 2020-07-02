@@ -17,6 +17,5 @@ class TeacherService {
                 console.error('There was an error!', error);
             });
     }
-
 }
 export default TeacherService;

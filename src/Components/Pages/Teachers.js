@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
+import { avatarimg } from './Image';
 
 class Teachers extends Component {
     _isMounted = false;
@@ -22,7 +23,7 @@ class Teachers extends Component {
         const body = { "search": [] }
         TeacherService.getAllTeachers(body)
             .then(data => {
-                if (data && data > 0) {
+                if (data != null) {
                     if (this._isMounted) {
                         this.setState({ teachers: data });
                     }
@@ -47,11 +48,11 @@ class Teachers extends Component {
         const teachersList = teachers.filter((obj) => {
             if (this.state.search == null)
                 return obj
-            else if (obj.fullname.toLowerCase().includes(this.state.search.toLowerCase()) || obj.property.qualification.toLowerCase().includes(this.state.search.toLowerCase())) {
+            else if (obj.fullname.toLowerCase().includes(this.state.search.toLowerCase())) {
                 return obj
             }
         }).map((val) => (
-            < div className="row" key={val._id} >
+            <div className="row" key={val._id} >
                 <div className="col-lg-12" >
                     <div className="white-box-no-animate animate slideIn" >
                         <div className="teacher-block">
@@ -59,11 +60,11 @@ class Teachers extends Component {
                                 <div className="col-lg-4">
                                     <div className="media mb-3">
                                         <div className="t-avatar-img-main mr-4">
-                                            <img src={val.profileimage} className="rounded-circle img-fluid" alt="Avtar" />
+                                            <img src={val.profileimage === null ? avatarimg : val.profileimage} className="rounded-circle img-fluid" alt="Avtar" />
                                         </div>
                                         <div className="media-body mt-auto mb-auto">
                                             <Link to="/TeacherProfile" className="t-name">{val.property.fullname}</Link>
-                                            <div className="">{val.property.qualification}</div>
+                                            <div className="">{val.property.qualification === null ? '' : val.property.qualification}</div>
                                             <div className="t-mock-test">Mock Test (90)</div>
                                         </div>
                                     </div>
@@ -83,7 +84,7 @@ class Teachers extends Component {
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
         ))
         console.log(teachers)
         return (
@@ -106,6 +107,7 @@ class Teachers extends Component {
                                 </div>
                             </div>
                             {teachersList}
+                            {avatarimg}
                             <nav >
                                 <ul className="pagination justify-content-center">
                                     <li className="page-item disabled"> <span className="page-link">Previous</span> </li>

@@ -3,19 +3,43 @@ import { quesimg, marksimg, timeimg, negativeimg, avatarimg, homeimg } from './I
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
 
 class Home extends Component {
+    _isMounted = false;
     constructor() {
         super();
-        this.state = { visible: true };
+        this.state = {
+            teachers: [],
+            errorMessage: null,
+        };
     }
 
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
+        this._isMounted = true;
+        const body = { "search": [] }
+        TeacherService.getAllTeachers(body)
+            .then(data => {
+                if (data != null) {
+                    if (this._isMounted) {
+                        this.setState({ teachers: data });
+                    }
+                }
+                else {
+                    alert('fetching error failed. Try later!')
+                }
+            })
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {
+        const { teachers } = this.state;
+
         return (
             <React.Fragment>
                 <Header />
@@ -493,51 +517,29 @@ class Home extends Component {
                             </div>
                             <h2 className="mb-3"> Teachers</h2>
                             <div className="row">
-                                <div className="col-lg-4 col-sm-6 d-flex" >
-                                    <div className="white-box animate slideIn" >
-                                        <div className="media mb-3">
-                                            <div className="t-avatar-img-main mr-4">
-                                                <a href="#" > <img src={avatarimg} className="rounded-circle img-fluid" alt="avtar" /></a>
+                                {console.log(teachers)}
+                                {teachers.map((val, index) => (
+                                    <div className="col-lg-4 col-sm-6 d-flex" key={val._id}>
+                                        <div className="white-box animate slideIn" >
+                                            <div className="media mb-3">
+                                                <div className="t-avatar-img-main mr-4">
+                                                    <a href="#" > <img src={val.profileimage === null ? avatarimg : val.profileimage} className="rounded-circle img-fluid" alt="avtar" /></a>
+                                                </div>
+                                                <div className="media-body mt-auto mb-auto">
+                                                    <a className="t-name" href="#">{val.property.fullname} </a>
+                                                    <div className="">{val.property.qualification === null ? '' : val.property.qualification}</div>
+                                                    <div className="t-mock-test">Mock Test (90)</div>
+                                                </div>
                                             </div>
-                                            <div className="media-body mt-auto mb-auto">
-                                                <a className="t-name" href="#">Kamlesh Sharma </a>
-                                                <div className="">M.sc</div>
-                                                <div className="t-mock-test">Mock Test (90)</div>
-                                            </div>
-                                        </div>
-                                        <div className="mt-tags mb-3"><a href="#" >NEET</a> <a href="#" >Maths</a> <a href="#" >NEET</a> <a href="#" >Maths</a> <a href="#" >NEET</a> <a href="#" >Maths</a> </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-sm-6 d-flex" >
-                                    <div className="white-box animate slideIn" >
-                                        <div className="media mb-3">
-                                            <div className="t-avatar-img-main mr-4">
-                                                <a href="#" > <img src={avatarimg} className="rounded-circle img-fluid" alt="avtar" /></a>
-                                            </div>
-                                            <div className="media-body mt-auto mb-auto">
-                                                <a className="t-name" href="#">Kamlesh Sharma </a>
-                                                <div className="">M.sc</div>
-                                                <div className="t-mock-test">Mock Test (90)</div>
+                                            <div className="mt-tags mb-3">
+                                                {/* {console.log(val.property.subject == null ? 'no record' : val.property.subject)} */}
+                                                {val.property.subject.map((sub, i) => (
+                                                    <a href="#" key={i} >{sub === null ? '' : sub}</a>
+                                                ))}
                                             </div>
                                         </div>
-                                        <div className="mt-tags mb-3"><a href="#" >NEET</a> <a href="#" >Maths</a>  </div>
                                     </div>
-                                </div>
-                                <div className="col-lg-4 col-sm-6 d-flex" >
-                                    <div className="white-box animate slideIn" >
-                                        <div className="media mb-3">
-                                            <div className="t-avatar-img-main mr-4">
-                                                <a href="#" > <img src={avatarimg} className="rounded-circle img-fluid" alt="avtar" /></a>
-                                            </div>
-                                            <div className="media-body mt-auto mb-auto">
-                                                <a className="t-name" href="#">Kamlesh Sharma </a>
-                                                <div className="">M.sc</div>
-                                                <div className="t-mock-test">Mock Test (90)</div>
-                                            </div>
-                                        </div>
-                                        <div className="mt-tags mb-3"><a href="#" >NEET</a> <a href="#" >Maths</a>  </div>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </section>
