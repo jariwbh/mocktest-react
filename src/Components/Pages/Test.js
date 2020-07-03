@@ -123,6 +123,8 @@ class Test extends Component {
           totalItemsCount={this.state.totalPages}
           pageRangeDisplayed={5}
           onChange={this.handlePageChange.bind(this)}
+          itemClass="page-item"
+          linkClass="page-link"
         />
       </div>
       <Footer />
