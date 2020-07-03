@@ -60,8 +60,9 @@ class Home extends Component {
     render() {
         const { teachers, mockTest } = this.state;
         return (
-            <React.Fragment>
+            <React.Fragment >
                 <Header />
+                {console.log(mockTest)}
                 <main className="flex-shrink-0">
                     <section className="coffee-block">
                         <div className="container">
@@ -87,7 +88,7 @@ class Home extends Component {
                                         <div className="white-box animate slideIn" > <a href="#">
                                             <h3 className="mt-head">{obj.title}</h3>
                                         </a>
-                                            <div className="teacher-date-text">By Kamlesh Sharma</div>
+                                            <div className="teacher-date-text">By {obj.addedby.fullname}</div>
                                             <div className="teacher-date-text mb-3">
                                                 {moment(obj.createdAt).format("D MMMM YYYY")}
                                             </div>
@@ -165,7 +166,7 @@ class Home extends Component {
                     </section>
                 </main>
                 <Footer />
-            </React.Fragment>
+            </React.Fragment >
         );
     }
 }

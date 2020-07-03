@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
 //import { avatarimg, logo } from './Image';
+import Pagination from "react-js-pagination";
 
 class Teachers extends Component {
     _isMounted = false;
@@ -13,20 +14,24 @@ class Teachers extends Component {
             teachers: [],
             search: null,
             errorMessage: null,
+            offset: 0,
+            perPage: 3,
+            activePage: 1,
+            totalPages: 0
 
         };
     }
 
-    componentDidMount() {
-        document.title = "Igyanam - Teachers";
-        window.scrollTo(0, 0);
+    receivedData() {
         this._isMounted = true;
         const body = { "search": [] }
         TeacherService.getAllTeachers(body)
             .then(data => {
                 if (data != null) {
-                    if (this._isMounted === true) {
-                        this.setState({ teachers: data });
+                    if (this._isMounted) {
+                        this.setState({ totalPages: data.length });
+                        const slice = data.slice((this.state.activePage - 1) * this.state.perPage, this.state.activePage * this.state.perPage)
+                        this.setState({ teachers: slice });
                     }
                 }
                 else {
@@ -35,8 +40,20 @@ class Teachers extends Component {
             })
     }
 
+    componentDidMount() {
+        document.title = "Igyanam - Teachers";
+        window.scrollTo(0, 0);
+        this.receivedData();
+    }
+
     componentWillUnmount() {
         this._isMounted = false;
+    }
+
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({ activePage: pageNumber, offset: pageNumber });
+        this.receivedData();
     }
 
     searchSpace = (event) => {
@@ -107,8 +124,18 @@ class Teachers extends Component {
                                 </div>
                             </div>
                             {teachersList}
+
                             <nav >
                                 <ul className="pagination justify-content-center">
+                                    {/* <Pagination
+                                        prevPageText={<li className="page-item "> <span className="page-link">Previous</span> </li>}
+                                        nextPageText={<li className="page-item"> <span className="page-link"> Next</span></li>}
+                                        activePage={<li className="page-item active" aria-current="page"><span className="page-link">{this.state.activePage}</span></li>}
+                                        itemsCountPerPage={this.state.perPage}
+                                        totalItemsCount={this.state.totalPages}
+                                        pageRangeDisplayed={<li className="page-item"><span className="page-link" href="#">{3}</span></li>}
+                                        onChange={this.handlePageChange.bind(this)}
+                                    /> */}
                                     <li className="page-item disabled"> <span className="page-link">Previous</span> </li>
                                     <li className="page-item active" aria-current="page"><a className="page-link" href="#">1</a></li>
                                     <li className="page-item" > <span className="page-link"> 2 <span className="sr-only">(current)</span> </span> </li>

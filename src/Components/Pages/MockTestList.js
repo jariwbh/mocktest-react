@@ -62,7 +62,7 @@ class MockTestList extends Component {
                     <Link to="/MockTestStartTest">
                         <h3 className="mt-head">{val.title}</h3>
                     </Link>
-                    <div className="teacher-date-text">By Kamlesh Sharma</div>
+                    <div className="teacher-date-text">By {val.addedby.fullname}</div>
                     <div className="teacher-date-text mb-3">{moment(val.createdAt).format("D MMMM YYYY")}</div>
                     <div className="row">
                         <div className="col-6">
