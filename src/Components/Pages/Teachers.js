@@ -1,9 +1,9 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
-import { avatarimg } from './Image';
+//import { avatarimg, logo } from './Image';
 
 class Teachers extends Component {
     _isMounted = false;
@@ -13,6 +13,7 @@ class Teachers extends Component {
             teachers: [],
             search: null,
             errorMessage: null,
+
         };
     }
 
@@ -24,7 +25,7 @@ class Teachers extends Component {
         TeacherService.getAllTeachers(body)
             .then(data => {
                 if (data != null) {
-                    if (this._isMounted) {
+                    if (this._isMounted === true) {
                         this.setState({ teachers: data });
                     }
                 }
@@ -60,10 +61,10 @@ class Teachers extends Component {
                                 <div className="col-lg-4">
                                     <div className="media mb-3">
                                         <div className="t-avatar-img-main mr-4">
-                                            <img src={val.profileimage === null ? avatarimg : val.profileimage} className="rounded-circle img-fluid" alt="Avtar" />
+                                            <img src={val.profileimage === null ? '' : val.profileimage} className="rounded-circle img-fluid" alt="Avtar" />
                                         </div>
                                         <div className="media-body mt-auto mb-auto">
-                                            <Link to="/TeacherProfile" className="t-name">{val.property.fullname}</Link>
+                                            <Link to="/TeacherProfile" data={this.props.val} className="t-name">{val.property.fullname}</Link>
                                             <div className="">{val.property.qualification === null ? '' : val.property.qualification}</div>
                                             <div className="t-mock-test">Mock Test (90)</div>
                                         </div>
@@ -98,7 +99,6 @@ class Teachers extends Component {
                                     <div className="mt-search mb-5" >
                                         <form action="#" className="mt-form">
                                             <input name="search" className="form-control" onChange={(e) => this.searchSpace(e)} placeholder="Search Teacher" type="search" />
-                                            {/* <input name="search" className="form-control" value="" placeholder="Search Teacher" type="search" /> */}
                                             <span className="mt-btn">
                                                 <button type="submit" ><i className="customicons-search-icon"></i></button>
                                             </span>
@@ -107,7 +107,6 @@ class Teachers extends Component {
                                 </div>
                             </div>
                             {teachersList}
-                            {avatarimg}
                             <nav >
                                 <ul className="pagination justify-content-center">
                                     <li className="page-item disabled"> <span className="page-link">Previous</span> </li>
