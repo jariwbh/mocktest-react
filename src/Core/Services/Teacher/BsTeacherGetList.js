@@ -13,9 +13,10 @@ class TeacherService {
         return fetch(appConfig.baseUrl + 'users/filter', requestOptions)
             .then(response => response.json())
             .catch(error => {
-                this.setState({ errorMessage: error });
+                //this.setState({ errorMessage: error });
                 console.error('There was an error!', error);
-            });
+            }
+            );
     }
 }
 export default TeacherService;
