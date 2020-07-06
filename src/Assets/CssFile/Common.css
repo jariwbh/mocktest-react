@@ -208,6 +208,8 @@ h1, h2, h3, h4, h5, h6,
 	}
 }
 
+
+
 @media only screen and (max-width: 767px) {
 	.xs-mrb30 {
 		margin-bottom: 30px;
@@ -218,6 +220,7 @@ h1, h2, h3, h4, h5, h6,
 		color: #ffffff;
 		line-height: 1.5;
 	}
+		
 	
 	.navbar-dark .navbar-nav .nav-link {
 	   color: #ffffff;
@@ -226,6 +229,8 @@ h1, h2, h3, h4, h5, h6,
 	.navbar-collapse.show {
 		overflow-y: auto;
 	}
+	
+	
 	
 	.feature-text-main {		
 		margin:45px auto;
@@ -244,6 +249,8 @@ h1, h2, h3, h4, h5, h6,
 		line-height: 1.5;
 	}
 		
+	
+
 	.navbar-dark .navbar-nav .nav-link {
 	   color: #ffffff;
 	}
@@ -251,6 +258,9 @@ h1, h2, h3, h4, h5, h6,
 	.navbar-collapse.show {
 		overflow-y: auto;
 	}
+	
+	
+	
 	
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {	
@@ -528,8 +538,6 @@ h1, h2, h3, h4, h5, h6,
 .animate-left{position:relative;animation:animateleft 0.4s}@keyframes animateleft{from{left:-300px;opacity:0} to{left:0;opacity:1}}
 .animate-zoom {animation:animatezoom 0.6s}@keyframes animatezoom{from{transform:scale(0)} to{transform:scale(1)}}
  
-
-
 /* new prj */
 /* mt list*/
 .header-inner {
