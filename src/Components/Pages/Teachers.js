@@ -22,14 +22,9 @@ class Teachers extends Component {
         const body = { "search": [] }
         TeacherService.getAllTeachers(body)
             .then(data => {
-                if (data && data > 0) {
                     if (this._isMounted) {
                         this.setState({ teachers: data });
                     }
-                }
-                else {
-                    alert('fetching error failed. Try later!')
-                }
             })
     }
 
