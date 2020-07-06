@@ -5,6 +5,7 @@ import Header from './Header';
 import Footer from './Footer';
 import MockTestService from '../../Core/Services/MockTest/BsMockTest';
 import * as moment from 'moment';
+import Pagination from "react-js-pagination";
 
 class MockTestList extends Component {
     _isMounted = false;
@@ -14,16 +15,18 @@ class MockTestList extends Component {
             visible: null,
             mockTest: [],
             search: null,
+            offset: 0,
+            perPage: 6,
+            activePage: 1,
+            totalPages: 0
         };
     }
 
-    componentDidMount() {
-        document.title = "Igyanam";
-        window.scrollTo(0, 0);
+    receivedData() {
         this._isMounted = true;
         const MockTestBody = {
             "search": [{ "fieldname": "status", "fieldvalue": "publish", "criteria": "eq", "datatype": "text" }],
-            "limit": 3,
+            //"limit": 6,
             "sort": { "createdAt": 1 }
         }
         MockTestService.getAllMockTest(MockTestBody)
@@ -38,9 +41,21 @@ class MockTestList extends Component {
                 }
             })
     }
+    componentDidMount() {
+        document.title = "Igyanam";
+        window.scrollTo(0, 0);
+        this._isMounted = true;
+        this.receivedData();
+    }
 
     componentWillUnmount() {
         this._isMounted = false;
+    }
+
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({ activePage: pageNumber, offset: pageNumber });
+        this.receivedData();
     }
 
     searchSpace = (event) => {
@@ -53,7 +68,7 @@ class MockTestList extends Component {
         const mockTestList = mockTest.filter((obj) => {
             if (this.state.search == null)
                 return obj
-            else if (obj.title.toLowerCase().includes(this.state.search.toLowerCase())) {
+            else if (obj.title.toLowerCase().includes(this.state.search.toLowerCase()) || obj.addedby.fullname.toLowerCase().includes(this.state.search.toLowerCase())) {
                 return obj
             }
         }).map((val) => (
@@ -71,7 +86,7 @@ class MockTestList extends Component {
                                 <div className="media-body">
                                     <div className="mt-0">{val.questions.length} </div>
                                                     Questions
-                                                </div>
+                                    </div>
                             </div>
                         </div>
                         <div className="col-6">
@@ -132,11 +147,17 @@ class MockTestList extends Component {
                             </div>
                             <nav >
                                 <ul className="pagination justify-content-center">
-                                    <li className="page-item disabled"> <span className="page-link">Previous</span> </li>
-                                    <li className="page-item active" aria-current="page"><a className="page-link" href="#">1</a></li>
-                                    <li className="page-item" > <span className="page-link"> 2 <span className="sr-only">(current)</span> </span> </li>
-                                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                    <li className="page-item"> <a className="page-link" href="#">Next</a> </li>
+                                    <Pagination
+                                        prevPageText='Previous'
+                                        nextPageText='Next'
+                                        activePage={this.state.activePage}
+                                        itemsCountPerPage={this.state.perPage}
+                                        totalItemsCount={this.state.totalPages}
+                                        pageRangeDisplayed={5}
+                                        onChange={this.handlePageChange.bind(this)}
+                                        itemClass="page-item"
+                                        linkClass="page-link"
+                                    />
                                 </ul>
                             </nav>
                         </div>

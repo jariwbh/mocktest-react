@@ -9,6 +9,7 @@ class Header extends Component {
 
     componentDidMount() {
         document.title = "Igyanam";
+        window.scrollTo(0, 0);
     }
 
     render() {

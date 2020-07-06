@@ -1,5 +1,5 @@
-import React, { Component, Children } from 'react';
-import { quesimg, marksimg, timeimg, negativeimg, avatarimg, homeimg } from './Image';
+import React, { Component } from 'react';
+import { quesimg, marksimg, timeimg, negativeimg, avatarimg, homeimg, userIcon } from './Image';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
@@ -83,7 +83,7 @@ class Home extends Component {
                         <div className="container">
                             <h2 className="mb-3"> Recent Mock Tests</h2>
                             <div className="row">
-                                {mockTest.map(obj => (
+                                {mockTest.slice(0, 6).map(obj => (
                                     <div className="col-lg-4 col-sm-6 d-flex" key={obj._id}>
                                         <div className="white-box animate slideIn" > <a href="#">
                                             <h3 className="mt-head">{obj.title}</h3>
@@ -145,7 +145,8 @@ class Home extends Component {
                                         <div className="white-box animate slideIn" >
                                             <div className="media mb-3">
                                                 <div className="t-avatar-img-main mr-4">
-                                                    <a href="#" > <img src={val.profileimage === null ? avatarimg : val.profileimage} className="rounded-circle img-fluid" alt="avtar" /></a>
+                                                    <a href="#" >  {val.profileimage != null ? <img src={val.profileimage} className="rounded-circle img-fluid" alt="" /> :
+                                                        <img src={userIcon} className="rounded-circle img-fluid" alt="" />}</a>
                                                 </div>
                                                 <div className="media-body mt-auto mb-auto">
                                                     <a className="t-name" href="#">{val.property.fullname} </a>

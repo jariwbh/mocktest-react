@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
-//import { avatarimg, logo } from './Image';
+import { userIcon } from './Image';
 import Pagination from "react-js-pagination";
+//import src from '*.bmp';
 
 class Teachers extends Component {
     _isMounted = false;
@@ -15,7 +16,7 @@ class Teachers extends Component {
             search: null,
             errorMessage: null,
             offset: 0,
-            perPage: 3,
+            perPage: 5,
             activePage: 1,
             totalPages: 0
 
@@ -73,7 +74,8 @@ class Teachers extends Component {
                                 <div className="col-lg-4">
                                     <div className="media mb-3">
                                         <div className="t-avatar-img-main mr-4">
-                                            <img src={val.profileimage === null ? '' : val.profileimage} className="rounded-circle img-fluid" alt="Avtar" />
+                                            {val.profileimage != null ? <img src={val.profileimage} className="rounded-circle img-fluid" alt="" /> :
+                                                <img src={userIcon} className="rounded-circle img-fluid" alt="" />}
                                         </div>
                                         <div className="media-body mt-auto mb-auto">
                                             <Link to="/TeacherProfile" data={this.props.val} className="t-name">{val.property.fullname}</Link>
@@ -89,7 +91,6 @@ class Teachers extends Component {
                                         ))}
                                     </div>
                                 </div>
-
                                 <div className="col-lg-12">
                                     {val.property.headline === null ? '' : val.property.headline}
                                 </div>
@@ -119,23 +120,19 @@ class Teachers extends Component {
                                 </div>
                             </div>
                             {teachersList}
-
-                            <nav >
+                            <nav>
                                 <ul className="pagination justify-content-center">
-                                    {/* <Pagination
-                                        prevPageText={<li className="page-item "> <span className="page-link">Previous</span> </li>}
-                                        nextPageText={<li className="page-item"> <span className="page-link"> Next</span></li>}
-                                        activePage={<li className="page-item active" aria-current="page"><span className="page-link">{this.state.activePage}</span></li>}
+                                    <Pagination
+                                        prevPageText='Previous'
+                                        nextPageText='Next'
+                                        activePage={this.state.activePage}
                                         itemsCountPerPage={this.state.perPage}
                                         totalItemsCount={this.state.totalPages}
-                                        pageRangeDisplayed={<li className="page-item"><span className="page-link" href="#">{3}</span></li>}
+                                        pageRangeDisplayed={5}
                                         onChange={this.handlePageChange.bind(this)}
-                                    /> */}
-                                    <li className="page-item disabled"> <span className="page-link">Previous</span> </li>
-                                    <li className="page-item active" aria-current="page"><a className="page-link" href="#">1</a></li>
-                                    <li className="page-item" > <span className="page-link"> 2 <span className="sr-only">(current)</span> </span> </li>
-                                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                    <li className="page-item"> <a className="page-link" href="#">Next</a> </li>
+                                        itemClass="page-item"
+                                        linkClass="page-link"
+                                    />
                                 </ul>
                             </nav>
                         </div>
