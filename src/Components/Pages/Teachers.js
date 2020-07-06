@@ -28,16 +28,11 @@ class Teachers extends Component {
         const body = { "search": [] }
         TeacherService.getAllTeachers(body)
             .then(data => {
-                if (data != null) {
                     if (this._isMounted) {
                         this.setState({ totalPages: data.length });
                         const slice = data.slice((this.state.activePage - 1) * this.state.perPage, this.state.activePage * this.state.perPage)
                         this.setState({ teachers: slice });
                     }
-                }
-                else {
-                    alert('fetching error failed. Try later!')
-                }
             })
     }
 
