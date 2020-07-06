@@ -6,5 +6,6 @@ import timeimg from '../../Assets/Images/time-icon.svg';
 import negativeimg from '../../Assets/Images/negative-icon.svg';
 import logo from '../../Assets/Images/gyanam-logo.png';
 import homeimg from '../../Assets/Images/home-img.svg';
+import userIcon from '../../Assets/Images/generic-user-icon-19.jpg'
 
-export { avatarimg, quesimg, marksimg, timeimg, negativeimg, logo, homeimg };
+export { avatarimg, quesimg, marksimg, timeimg, negativeimg, logo, homeimg, userIcon };

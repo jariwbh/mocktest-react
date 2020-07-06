@@ -15,6 +15,8 @@ import MockTestStartTest from "./MockTestStartTest";
 import Home from './Home';
 import { Switch, Route } from 'react-router-dom';
 import Test from "./Test";
+import Dashboard from "./Dashboard";
+import StudentProfile from "./StudentProfile";
 
 class Default extends Component {
     constructor() {
@@ -44,6 +46,8 @@ class Default extends Component {
                     <Route exact path="/MockTestStartTest" component={MockTestStartTest} />
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/TeacherProfile" component={TeacherProfile} />
+                    <Route exact path="/DashBoard" component={Dashboard} />
+                    <Route exact path="/StudentProfile" component={StudentProfile} />
                     <Route exact path="/Test" component={Test} />
                 </Switch>
             </React.Fragment>

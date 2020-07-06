@@ -55,6 +55,8 @@ h1, h2, h3, h4, h5, h6,
   line-height: 1.2;
   color: #273C63;	
 }
+
+
  /* Global Button Styles */
 
 .btn-primary:link:after, .btn-primary:visited:after, .btn-success:link:after, .btn-success:visited:after  {
@@ -116,6 +118,8 @@ h1, h2, h3, h4, h5, h6,
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 	border-radius: .3rem;
 }
+
+
 /* button hover custom */
  .btn-primary:hover {	
 	color: #fff !important;
@@ -166,6 +170,8 @@ h1, h2, h3, h4, h5, h6,
 	transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
 }
 /* btn succces */
+
+
 .btn-lg {
 	padding: 0.58571429em 1.5em 0.58571429em;
 }
@@ -189,6 +195,7 @@ h1, h2, h3, h4, h5, h6,
 		display: flex;
 	}	
 }
+
 
 @media (min-width: 300px) and (max-height: 360px) and (orientation: landscape) {	
 	.fixed-top .navbar-collapse {
@@ -284,6 +291,10 @@ h1, h2, h3, h4, h5, h6,
 		padding-left: 0;
 	}
 	
+	.navbar-expand-lg .navbar-nav li:last-child .nav-link {
+		margin-right: 0 !important;
+	}
+	
 }
 @media only screen and (min-width: 1200px) {
 	.xl-mt-50 {
@@ -314,7 +325,10 @@ h1, h2, h3, h4, h5, h6,
 		margin-left: 20px;
 		padding-right: 0;
 		padding-left: 0;		
-	}		
+	}	
+	.navbar-expand-lg .navbar-nav li:last-child .nav-link {
+		margin-right: 0 !important;
+	}
 }
 
 .common-block {
@@ -325,6 +339,7 @@ h1, h2, h3, h4, h5, h6,
 	display: inline-block !important;
 }
 
+
 /* footer */
 
 .mrb10 {
@@ -333,6 +348,7 @@ h1, h2, h3, h4, h5, h6,
 .mrb30 {
 	margin-bottom: 30px !important;
 }
+
 
 .footer-main {
   background: #2B2622;
@@ -430,6 +446,13 @@ h1, h2, h3, h4, h5, h6,
     color:#E44600;
 	background-color:transparent;
 }
+
+.dropdown-item.active, .dropdown-item:active {
+    color:#E44600;
+    text-decoration: none;
+    background-color:transparent;
+}
+
 .navbar-dark .navbar-toggler {
     border-color:rgb(255, 255, 255,1);
 
@@ -538,6 +561,8 @@ h1, h2, h3, h4, h5, h6,
 .animate-left{position:relative;animation:animateleft 0.4s}@keyframes animateleft{from{left:-300px;opacity:0} to{left:0;opacity:1}}
 .animate-zoom {animation:animatezoom 0.6s}@keyframes animatezoom{from{transform:scale(0)} to{transform:scale(1)}}
  
+
+
 /* new prj */
 /* mt list*/
 .header-inner {
@@ -930,6 +955,107 @@ h1, h2, h3, h4, h5, h6,
 	margin: 54px auto;
 }
 
+/* dashboard */
+ 
+.dash-subject-icon {
+	background-color: #EEEEFF;
+	border-radius: 5px;
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.dash-price {
+	font-size: 16px;
+	font-weight: bold;
+	color: #707B8E;
+}
+.dash-avg {
+	font-size: 18px;
+	font-weight: bold;
+	color: #707B8E;
+}
+
+/* progress */
+.progress {
+  width: 125px;
+  height: 125px;
+  background: none;
+  position: relative;
+}
+
+.progress::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress>span {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.progress .progress-left {
+  left: 0;
+}
+
+.progress .progress-bar {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border-width: 6px;
+  border-style: solid;
+  position: absolute;
+  top: 0;
+}
+
+.progress .progress-left .progress-bar {
+  left: 100%;
+  border-top-right-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-left: 0;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+}
+
+.progress .progress-right {
+  right: 0;
+}
+
+.progress .progress-right .progress-bar {
+  left: -101%;
+  border-top-left-radius: 80px;
+  border-bottom-left-radius: 80px;
+  border-right: 0;
+  -webkit-transform-origin: center right;
+  transform-origin: center right;
+}
+
+.progress .progress-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/* progress */
+/* dashboard */
+/* new prj */
+
+
+.login-main {
+	max-width: 396px;
+	margin: 54px auto;
+}
+
 .help-block {
     color: #cc0000;
     margin-bottom: 12px;
@@ -939,4 +1065,4 @@ h1, h2, h3, h4, h5, h6,
     color: #6B8E23;
     margin-bottom: 10px;
   }
-/* new prj */
+  /* sign in*/
