@@ -69,12 +69,13 @@ class MockTestStartTest extends Component {
                                                         <div className="media mb-20">
                                                             <img src={quesimg} width="40" height="40" className="mr-3" alt="Question" />
                                                             <div className="media-body">
-                                                                {console.log(mockTest.questions)}
+                                                                {
+                                                                    (mockTest.questions != null) ? mockTest.questions.length : 0
+                                                                }
+
                                                                 <div className="mt-0"></div>
-
                                                                         Questions
-
-                                                                    </div>
+                                                                </div>
 
                                                         </div>
                                                     </div>
@@ -84,7 +85,7 @@ class MockTestStartTest extends Component {
                                                             <div className="media-body">
                                                                 <div className="mt-0">{mockTest.totalmarks}  </div>
                                                                             Marks
-                                                                        </div>
+                                                                </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
@@ -93,7 +94,7 @@ class MockTestStartTest extends Component {
                                                             <div className="media-body">
                                                                 <div className="mt-0">{mockTest.time} </div>
                                                                                     Minutes
-                                                                                </div>
+                                                                </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
@@ -102,7 +103,7 @@ class MockTestStartTest extends Component {
                                                             <div className="media-body">
                                                                 <div className="mt-0">1 </div>
                                                                                     Negative
-                                                                                </div>
+                                                                </div>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -3,12 +3,13 @@ import Header from './Header';
 import Footer from './Footer';
 import FormValidator from './FromValidator';
 import BsSignUp from '../../Core/Services/SignUp/BsSignUp'
+import swal from 'sweetalert';
 
 class Signup extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
-   
+
     this.validator = new FormValidator([
       {
         field: 'fullname',
@@ -47,7 +48,7 @@ class Signup extends Component {
       fullName: '',
       email: '',
       mobile_number: '',
-      responseData:'',
+      responseData: '',
       validation: this.validator.valid(),
     }
     this.submitted = false;
@@ -64,20 +65,25 @@ class Signup extends Component {
     event.preventDefault();
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
-    
+
     let myForm = document.getElementById('myForm');
     let formData = new FormData(myForm);
     var object = {};
-    formData.forEach((value, key) => {object[key] = value});
-    var json ='{"property":' +  JSON.stringify(object) +'}';
+    formData.forEach((value, key) => { object[key] = value });
+    var json = '{"property":' + JSON.stringify(object) + '}';
 
     console.log(json);
 
     BsSignUp.signUp(json)
     console.log('done');
+    swal({
+      title: "Sign Up Success!",
+      text: "You clicked the button!",
+      icon: "success",
+    });
     this.props.history.push('/signin')
     this.submitted = true;
-   }
+  }
 
   componentDidMount() {
     document.title = "Igyanam - Sign Up";

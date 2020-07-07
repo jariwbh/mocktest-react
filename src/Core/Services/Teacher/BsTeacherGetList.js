@@ -21,5 +21,18 @@ class TeacherService {
             }
             );
     }
+
+    static getByIdTeachers(id) {
+        const requestOptions = {
+            method: 'GET',
+            headers: appConfig.headers,
+        };
+        return fetch(appConfig.baseUrl + 'users/' + id, requestOptions)
+            .then(response => response.json())
+            .catch(error => {
+                //this.setState({ errorMessage: error });
+                console.error('There was an error!', error);
+            });
+    }
 }
 export default TeacherService;
