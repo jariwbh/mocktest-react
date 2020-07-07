@@ -6,22 +6,22 @@ import FormValidator from './FromValidator';
 import axios from '../../axiosInst'
 import { authenticateUser } from '../../Core/Auth'
 
-class Signin extends React.Component {
+class Signin extends Component {
   constructor(props) {
     super(props);
 
     this.validator = new FormValidator([
       {
-        field: 'email',
+        field: 'username',
         method: 'isEmpty',
         validWhen: false,
-        message: 'Enter your email.'
+        message: 'Enter your username.'
       },
       {
-        field: 'email',
+        field: 'username',
         method: 'isEmail',
         validWhen: true,
-        message: 'Enter valid email.'
+        message: 'Enter valid username.'
       },
       {
         field: 'password',
@@ -38,7 +38,7 @@ class Signin extends React.Component {
     ]);
 
     this.state = {
-      email: '',
+      username: '',
       password: '',
       validation: this.validator.valid(),
       submitted: false,
@@ -46,37 +46,46 @@ class Signin extends React.Component {
       errorMessage: ''
     }
 
-
     this.handleChange = this.handleChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
 
-  handleFormSubmit = event => {
+  handleFormSubmit = async event => {
+    this.setState({ loading: true })
     event.preventDefault();
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
     this.setState({ submitted: true });
-
+ 
     if (validation.isValid) {
       //reaches here if form validates successfully...
 
     }
 
-    this.setState({ loading: true });
-    const { email, password } = this.state
-    console.log(this.state)
+    const { username, password } = this.state
+
+    console.log('state', this.state)
+    console.log('loading', this.state.loading)
 
     try 
     {
-      const response = axios.post('auth/memberlogin', { email, password })
-      console.log(response.token)
-      authenticateUser(response.token)
+      const response = await axios.post('auth/memberlogin', { username, password })
+    
+      console.log('Request Body', { username, password })
+      console.log('response',response)
+      console.log('response.Token',response.data.token)
+      if (response.data.type && response.data.type == 'Error') {
+        console.log('error', response.data.message)
+        this.setState({ loading: false, error: response.data.message })
+        return
+      }
+      authenticateUser(response.data.token)
       this.setState({loading: false})
       this.props.history.push('/')
     } 
     catch (error) {
-      console.log(error.message)
+      console.log('error', error)
       this.setState({loading: false, error: 'User name or password is wrong!'})
     }
 
@@ -119,7 +128,7 @@ class Signin extends React.Component {
 
   render() {
     const validation = this.state.submitted ? this.validator.validate(this.state) : this.state.validation
-    const { email, password, submitted, loading, error } = this.state;
+    const { username, password, submitted, loading, error } = this.state;
     return (
       <React.Fragment>
         <Header />
@@ -132,8 +141,8 @@ class Signin extends React.Component {
                   <h2 className="mb-3"> Sign In</h2>
                   <div className="form-group">
                     <label htmlFor="email" className="user-select-all">Email <span style={{ color: 'red' }}>*</span> </label>
-                    <input type="email" name='email' placeholder="Enter The Email" className="form-control" id="email" aria-describedby="emailHelp" value={email} onChange={this.handleChange}/>
-                    <span className="help-block">{validation.email.message}</span>
+                    <input type="email" name='username' placeholder="Enter The Email" className="form-control" id="username" aria-describedby="emailHelp" value={username} onChange={this.handleChange}/>
+                    <span className="help-block">{validation.username.message}</span>
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1">Password <span style={{ color: 'red' }}>*</span></label>
@@ -145,10 +154,9 @@ class Signin extends React.Component {
                     <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
                     <Link className="float-right" to="/ForgetPassword">Forgot Password?</Link>
                   </div>
-                  <button onClick={this.handleFormSubmit} className="btn btn-primary" disabled={loading} >Sign In</button>
-                  {loading &&
-                            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                        }
+                  <button onClick={this.handleFormSubmit} className="btn btn-primary" disabled={loading} >
+                  {loading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                  Sign In</button>
                   <div className="mt-4">
                     Need an account? <Link to="/Signup">Sign Up</Link>
                   </div>
