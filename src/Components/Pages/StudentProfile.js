@@ -17,7 +17,7 @@ export class StudentProfile extends Component {
     render() {
         return (
             <React.Fragment>
-                {/* <Header /> */}
+                <Header />
                 <main className="flex-shrink-0">
                     <section className="common-block">
                         <div className="container">
