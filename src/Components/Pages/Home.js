@@ -40,6 +40,7 @@ class Home extends Component {
             "limit": 3,
             "sort": { "createdAt": 1 }
         }
+
         MockTestService.getAllMockTest(MockTestBody)
             .then(data => {
                 if (data != null) {
@@ -167,7 +168,7 @@ class Home extends Component {
                     </section>
                 </main>
                 <Footer />
-            </React.Fragment >
+            </React.Fragment>
         );
     }
 }

@@ -43,7 +43,7 @@ class Default extends Component {
                     <Route exact path="/MockTestDetails" component={MockTestDetails} />
                     <Route exact path="/MockTestResults" component={MockTestResults} />
                     <Route exact path="/MockTestList" component={MockTestList} />
-                    <Route exact path="/MockTestStartTest" component={MockTestStartTest} />
+                    <Route exact path="/MockTestStartTest/:id" component={MockTestStartTest} />
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/TeacherProfile" component={TeacherProfile} />
                     <Route exact path="/DashBoard" component={Dashboard} />
