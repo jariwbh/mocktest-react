@@ -75,6 +75,7 @@ class Signup extends Component {
 
     BsSignUp.signUp(json)
     console.log('done');
+    this.props.history.push('/signin')
     this.submitted = true;
    }
 

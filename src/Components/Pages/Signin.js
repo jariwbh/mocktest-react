@@ -3,23 +3,25 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import FormValidator from './FromValidator';
+import axios from '../../axiosInst'
+import { authenticateUser } from '../../Core/Auth'
 
 class Signin extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.validator = new FormValidator([
       {
-        field: 'email',
+        field: 'username',
         method: 'isEmpty',
         validWhen: false,
-        message: 'Enter your email.'
+        message: 'Enter your username.'
       },
       {
-        field: 'email',
+        field: 'username',
         method: 'isEmail',
         validWhen: true,
-        message: 'Enter valid email.'
+        message: 'Enter valid username.'
       },
       {
         field: 'password',
@@ -36,65 +38,64 @@ class Signin extends Component {
     ]);
 
     this.state = {
-      email: '',
+      username: '',
       password: '',
       validation: this.validator.valid(),
+      submitted: false,
+      loading: false,
       errorMessage: ''
     }
-    this.submitted = false;
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
-  handleInputChange = event => {
-    event.preventDefault();
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
 
-  handleFormSubmit = event => {
+  handleFormSubmit = async event => {
+    this.setState({ loading: true })
     event.preventDefault();
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
-    this.submitted = true;
-
+    this.setState({ submitted: true });
+ 
     if (validation.isValid) {
       //reaches here if form validates successfully...
 
     }
-    this.submitted = false;
-  }
-  handleInputChange = event => {
-    event.preventDefault();
 
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
+    const { username, password } = this.state
 
-  handleEmail(Text) {
-    this.setState({ email: Text.target.value })
-  }
+    console.log('state', this.state)
+    console.log('loading', this.state.loading)
 
-  handlePassword(Text) {
-    this.setState({ password: Text.target.value })
-  }
-  Signin() {
-    let obj = {}
-    obj.email = this.state.email
-    obj.password = this.state.password
-  }
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-
-    const validation = this.validator.validate(this.state);
-    this.setState({ validation });
-    this.submitted = true;
-
-    if (validation.isValid) {
-      //reaches here if form validates successfully...
+    try 
+    {
+      const response = await axios.post('auth/memberlogin', { username, password })
+    
+      console.log('Request Body', { username, password })
+      console.log('response',response)
+      console.log('response.Token',response.data.token)
+      if (response.data.type && response.data.type == 'Error') {
+        console.log('error', response.data.message)
+        this.setState({ loading: false, error: response.data.message })
+        return
+      }
+      authenticateUser(response.data.token)
+      this.setState({loading: false})
+      this.props.history.push('/')
+    } 
+    catch (error) {
+      console.log('error', error)
+      this.setState({loading: false, error: 'User name or password is wrong!'})
     }
+
   }
+  
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+}
+
   componentDidMount() {
     document.title = "Igyanam - Sign In";
     window.scrollTo(0, 0);
@@ -124,8 +125,10 @@ class Signin extends Component {
     //     console.error('There was an error!', error);
     // });
   }
+
   render() {
-    const validation = this.submitted ? this.validator.validate(this.state) : this.state.validation
+    const validation = this.state.submitted ? this.validator.validate(this.state) : this.state.validation
+    const { username, password, submitted, loading, error } = this.state;
     return (
       <React.Fragment>
         <Header />
@@ -134,15 +137,16 @@ class Signin extends Component {
             <div className="container">
               <div className="login-main">
                 <form method="post" name="userSignUpForm" onChange={this.handleInputChange} >
+                { error && <p>{error}</p> }
                   <h2 className="mb-3"> Sign In</h2>
                   <div className="form-group">
                     <label htmlFor="email" className="user-select-all">Email <span style={{ color: 'red' }}>*</span> </label>
-                    <input type="email" name='email' placeholder="Enter The Email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                    <span className="help-block">{validation.email.message}</span>
+                    <input type="email" name='username' placeholder="Enter The Email" className="form-control" id="username" aria-describedby="emailHelp" value={username} onChange={this.handleChange}/>
+                    <span className="help-block">{validation.username.message}</span>
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1">Password <span style={{ color: 'red' }}>*</span></label>
-                    <input type="Password" name='password' placeholder="Enter The Password" className="form-control" id="exampleInputPassword1" />
+                    <input type="Password" name='password' placeholder="Enter The Password" className="form-control" id="password" value={password} onChange={this.handleChange}/>
                     <span className="help-block">{validation.password.message}</span>
                   </div>
                   <div className="form-group form-check">
@@ -150,7 +154,9 @@ class Signin extends Component {
                     <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
                     <Link className="float-right" to="/ForgetPassword">Forgot Password?</Link>
                   </div>
-                  <button onClick={this.handleFormSubmit} className="btn btn-primary" >Sign In</button>
+                  <button onClick={this.handleFormSubmit} className="btn btn-primary" disabled={loading} >
+                  {loading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                  Sign In</button>
                   <div className="mt-4">
                     Need an account? <Link to="/Signup">Sign Up</Link>
                   </div>
