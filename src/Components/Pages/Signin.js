@@ -74,6 +74,7 @@ class Signin extends Component {
       console.log('Request Body', { username, password })
       console.log('response', response)
       console.log('response.Token', response.data.token)
+      console.log('response.User', response.data.user)
       if (response.data.type && response.data.type == 'Error') {
         console.log('error', response.data.message)
         this.setState({ loading: false, error: response.data.message })
@@ -112,7 +113,7 @@ class Signin extends Component {
               <div className="login-main">
                 <form method="post" name="userSignUpForm" onChange={this.handleInputChange} >
                   {error && <div className="alert alert-danger">{error}</div>}
-                  <h2 className="mb-3"> Sign In</h2>
+                  <h2 className="mb-3"> Student Sign In</h2>
                   <div className="form-group">
                     <label htmlFor="email" className="user-select-all">Email <span style={{ color: 'red' }}>*</span> </label>
                     <input type="email" name='username' placeholder="Enter The Email" className="form-control" id="username" aria-describedby="emailHelp" value={username} onChange={this.handleChange} />
