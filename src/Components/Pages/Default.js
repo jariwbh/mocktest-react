@@ -15,6 +15,8 @@ import MockTestStartTest from "./MockTestStartTest";
 import Home from './Home';
 import { Switch, Route } from 'react-router-dom';
 import Test from "./Test";
+import Demo from "./Demo"
+import DemoSlider from "./DemoSlider"
 import Dashboard from "./Dashboard";
 import StudentProfile from "./StudentProfile";
 
@@ -49,6 +51,9 @@ class Default extends Component {
                     <Route exact path="/DashBoard" component={Dashboard} />
                     <Route exact path="/StudentProfile" component={StudentProfile} />
                     <Route exact path="/Test" component={Test} />
+                    <Route exact path="/Demo" component={Demo} />
+                    <Route exact path="/DemoSlider" component={DemoSlider} />
+                    
                 </Switch>
             </React.Fragment>
         );
