@@ -109,20 +109,10 @@ class DemoSlider extends Component
       {
         const { index, disabledNext, disabledPrev } = this.state
         const profile = this.state.profiles ? this.state.profiles[index] : null;
-        console.log('profile',profile);
-        
-        //   return (
-        //       <h1>Demo Slider</h1>
-        //   );
+        console.log('profile',profile);      
+      
         if (profile) {
-            return (
-            //   <div className='profile'>
-            //     <div>
-            //       <Prev toggle={(e) => this.togglePrev(e)} active={disabledPrev} />
-            //       <Next toggle={(e) => this.toggleNext(e)} active={disabledNext} />
-            //     </div>
-            //     <Profile {...profile} />
-            //   </div>
+            return (          
             <React.Fragment>
             <header>
                 <nav className="navbar navbar-expand navbar-dark p-0">
@@ -207,12 +197,6 @@ class DemoSlider extends Component
                                             <h2> SPEED KOTA  Foundation Test</h2>
                                             <div className="mb-3"><span className="mr-4" >10 June 2020</span>   <span className="mt-price">Free</span> </div>
                                             <div className="mt-tags mb-4"><a href="#"  >NEET</a> <a href="#" >Maths</a> </div>
-                                            {/*<div className="d-flex mb-2">
-                                                <div className="mr-auto justify-content-start font-weight-bold" >
-                                                    1. Which vitamin helps in blood clotting?
-                                            </div>
-                                                <div className="justify-content-end" ><span className="badge badge-mt-custom"> Marks - 4 </span></div>
-                                            </div>*/}
                                             <Profile {...profile} />                                            
                                             <div className="mb-5">
                                                 <a href="#">Deselect </a>
@@ -262,7 +246,6 @@ function Prev(props) {
     ));
     return (
       <div>
-         {/* <h1>{props.name}</h1> */}
          <div className="d-flex mb-2">
            <div className="mr-auto justify-content-start font-weight-bold" >
             {props.Question}
