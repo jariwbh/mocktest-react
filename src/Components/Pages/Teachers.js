@@ -5,7 +5,6 @@ import Footer from './Footer';
 import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
 import { userIcon } from './Image';
 import Pagination from "react-js-pagination";
-//import src from '*.bmp';
 
 class Teachers extends Component {
     _isMounted = false;
@@ -28,11 +27,11 @@ class Teachers extends Component {
         const body = { "search": [] }
         TeacherService.getAllTeachers(body)
             .then(data => {
-                    if (this._isMounted) {
-                        this.setState({ totalPages: data.length });
-                        const slice = data.slice((this.state.activePage - 1) * this.state.perPage, this.state.activePage * this.state.perPage)
-                        this.setState({ teachers: slice });
-                    }
+                if (this._isMounted) {
+                    this.setState({ totalPages: data.length });
+                    const slice = data.slice((this.state.activePage - 1) * this.state.perPage, this.state.activePage * this.state.perPage)
+                    this.setState({ teachers: slice });
+                }
             })
     }
 
@@ -78,7 +77,7 @@ class Teachers extends Component {
                                                 <img src={userIcon} className="rounded-circle img-fluid" alt="" />}
                                         </div>
                                         <div className="media-body mt-auto mb-auto">
-                                            <Link to="/TeacherProfile" data={this.props.val} className="t-name">{val.property.fullname}</Link>
+                                            <Link to={"/TeacherProfile/" + val._id} className="t-name">{val.property.fullname}</Link>
                                             <div className="">{val.property.qualification === null ? '' : val.property.qualification}</div>
                                             <div className="t-mock-test">Mock Test (90)</div>
                                         </div>

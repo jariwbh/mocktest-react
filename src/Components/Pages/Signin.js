@@ -4,7 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import FormValidator from './FromValidator';
 import axios from '../../axiosInst'
-import { authenticateUser } from '../../Core/Auth'
+import { authenticateUser, authenticateUserData } from '../../Core/Auth'
 
 class Signin extends Component {
   constructor(props) {
@@ -17,24 +17,24 @@ class Signin extends Component {
         validWhen: false,
         message: 'Enter your username.'
       },
-      {
-        field: 'username',
-        method: 'isEmail',
-        validWhen: true,
-        message: 'Enter valid username.'
-      },
+      // {
+      //   field: 'username',
+      //   method: 'isEmail',
+      //   validWhen: true,
+      //   message: 'Enter valid username.'
+      // },
       {
         field: 'password',
         method: 'isEmpty',
         validWhen: false,
         message: 'Enter password.'
       },
-      {
-        field: 'password',
-        method: 'isEmpty',
-        validWhen: true,
-        message: 'Enter valid password.'
-      },
+      // {
+      //   field: 'password',
+      //   method: 'isEmpty',
+      //   validWhen: true,
+      //   message: 'Enter valid password.'
+      // },
     ]);
 
     this.state = {
@@ -57,7 +57,7 @@ class Signin extends Component {
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
     this.setState({ submitted: true });
- 
+
     if (validation.isValid) {
       //reaches here if form validates successfully...
 
@@ -68,62 +68,40 @@ class Signin extends Component {
     console.log('state', this.state)
     console.log('loading', this.state.loading)
 
-    try 
-    {
+    try {
       const response = await axios.post('auth/memberlogin', { username, password })
-    
+
       console.log('Request Body', { username, password })
-      console.log('response',response)
-      console.log('response.Token',response.data.token)
+      console.log('response', response)
+      console.log('response.Token', response.data.token)
+      console.log('response.User', response.data.user)
       if (response.data.type && response.data.type == 'Error') {
         console.log('error', response.data.message)
         this.setState({ loading: false, error: response.data.message })
         return
       }
-      authenticateUser(response.data.token)
-      this.setState({loading: false})
+      authenticateUser(JSON.stringify(response.data))
+      this.setState({ loading: false })
+      console.log('Sign IN Propers: ', this.props)
       this.props.history.push('/')
-    } 
+      // const { from } = location.state || { from: { pathname: "/" } };
+      // history.push(from);
+    }
     catch (error) {
       console.log('error', error)
-      this.setState({loading: false, error: 'User name or password is wrong!'})
+      this.setState({ loading: false, error: 'User name or password is wrong!' })
     }
 
   }
-  
+
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-}
+  }
 
   componentDidMount() {
     document.title = "Igyanam - Sign In";
     window.scrollTo(0, 0);
-    //     const requestOptions = {
-    //       method: 'POST',
-    //       headers: {
-    //           'Content-Type': 'application/json'
-    //          // 'authkey': '5ef44df26bf23edb7fd9a8e8'
-    //       },
-    //       body: JSON.stringify({ 
-
-    //           "email": "",
-    //           "password": ""
-
-    //        })
-    // };
-    // fetch("http://live.edzskool.com/api/auth/memberlogin", requestOptions)
-    // .then(response => response.json())
-    // .then(obj => {
-
-    //     this.setState({ obj });
-    //     console.log(obj);
-
-    // })
-    // .catch(error => {
-    //     this.setState({ errorMessage: error });
-    //     console.error('There was an error!', error);
-    // });
   }
 
   render() {
@@ -137,16 +115,16 @@ class Signin extends Component {
             <div className="container">
               <div className="login-main">
                 <form method="post" name="userSignUpForm" onChange={this.handleInputChange} >
-                { error && <p>{error}</p> }
-                  <h2 className="mb-3"> Sign In</h2>
+                  {error && <div className="alert alert-danger">{error}</div>}
+                  <h2 className="mb-3"> Student Sign In</h2>
                   <div className="form-group">
                     <label htmlFor="email" className="user-select-all">Email <span style={{ color: 'red' }}>*</span> </label>
-                    <input type="email" name='username' placeholder="Enter The Email" className="form-control" id="username" aria-describedby="emailHelp" value={username} onChange={this.handleChange}/>
+                    <input type="email" name='username' placeholder="Enter The Email" className="form-control" id="username" aria-describedby="emailHelp" value={username} onChange={this.handleChange} />
                     <span className="help-block">{validation.username.message}</span>
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1">Password <span style={{ color: 'red' }}>*</span></label>
-                    <input type="Password" name='password' placeholder="Enter The Password" className="form-control" id="password" value={password} onChange={this.handleChange}/>
+                    <input type="Password" name='password' placeholder="Enter The Password" className="form-control" id="password" value={password} onChange={this.handleChange} />
                     <span className="help-block">{validation.password.message}</span>
                   </div>
                   <div className="form-group form-check">
@@ -155,8 +133,9 @@ class Signin extends Component {
                     <Link className="float-right" to="/ForgetPassword">Forgot Password?</Link>
                   </div>
                   <button onClick={this.handleFormSubmit} className="btn btn-primary" disabled={loading} >
-                  {loading && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                  Sign In</button>
+                    {loading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                  Sign In
+                  </button>
                   <div className="mt-4">
                     Need an account? <Link to="/Signup">Sign Up</Link>
                   </div>

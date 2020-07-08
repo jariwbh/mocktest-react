@@ -65,6 +65,7 @@ class MockTestList extends Component {
 
     render() {
         const { mockTest } = this.state;
+        console.log(mockTest)
         const mockTestList = mockTest.filter((obj) => {
             if (this.state.search == null)
                 return obj
@@ -74,7 +75,7 @@ class MockTestList extends Component {
         }).map((val) => (
             <div className="col-lg-4 col-sm-6 d-flex" key={val._id} >
                 <div className="white-box animate slideIn" >
-                    <Link to="/MockTestStartTest">
+                    <Link to={'/MockTestStartTest/' + val._id}>
                         <h3 className="mt-head">{val.title}</h3>
                     </Link>
                     <div className="teacher-date-text">By {val.addedby.fullname}</div>
