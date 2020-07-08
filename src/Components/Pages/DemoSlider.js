@@ -86,9 +86,9 @@ class DemoSlider extends Component
                     "Marks":"4"
             }
                     ],
-        index: 1,
+        index: 0,
         disabledNext: false,
-        disabledPrev: false        
+        disabledPrev: true        
       };
 
       togglePrev(e) {
