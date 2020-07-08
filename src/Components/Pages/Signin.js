@@ -17,24 +17,24 @@ class Signin extends Component {
         validWhen: false,
         message: 'Enter your username.'
       },
-      {
-        field: 'username',
-        method: 'isEmail',
-        validWhen: true,
-        message: 'Enter valid username.'
-      },
+      // {
+      //   field: 'username',
+      //   method: 'isEmail',
+      //   validWhen: true,
+      //   message: 'Enter valid username.'
+      // },
       {
         field: 'password',
         method: 'isEmpty',
         validWhen: false,
         message: 'Enter password.'
       },
-      {
-        field: 'password',
-        method: 'isEmpty',
-        validWhen: true,
-        message: 'Enter valid password.'
-      },
+      // {
+      //   field: 'password',
+      //   method: 'isEmpty',
+      //   validWhen: true,
+      //   message: 'Enter valid password.'
+      // },
     ]);
 
     this.state = {
@@ -57,7 +57,7 @@ class Signin extends Component {
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
     this.setState({ submitted: true });
- 
+
     if (validation.isValid) {
       //reaches here if form validates successfully...
 
@@ -68,13 +68,12 @@ class Signin extends Component {
     console.log('state', this.state)
     console.log('loading', this.state.loading)
 
-    try 
-    {
+    try {
       const response = await axios.post('auth/memberlogin', { username, password })
-    
+
       console.log('Request Body', { username, password })
-      console.log('response',response)
-      console.log('response.Token',response.data.token)
+      console.log('response', response)
+      console.log('response.Token', response.data.token)
       if (response.data.type && response.data.type == 'Error') {
         console.log('error', response.data.message)
         this.setState({ loading: false, error: response.data.message })
@@ -89,15 +88,15 @@ class Signin extends Component {
     } 
     catch (error) {
       console.log('error', error)
-      this.setState({loading: false, error: 'User name or password is wrong!'})
+      this.setState({ loading: false, error: 'User name or password is wrong!' })
     }
 
   }
-  
+
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-}
+  }
 
   componentDidMount() {
     document.title = "Igyanam - Sign In";
@@ -115,16 +114,16 @@ class Signin extends Component {
             <div className="container">
               <div className="login-main">
                 <form method="post" name="userSignUpForm" onChange={this.handleInputChange} >
-                { error && <p>{error}</p> }
+                  {error && <div className="alert alert-danger">{error}</div>}
                   <h2 className="mb-3"> Sign In</h2>
                   <div className="form-group">
                     <label htmlFor="email" className="user-select-all">Email <span style={{ color: 'red' }}>*</span> </label>
-                    <input type="email" name='username' placeholder="Enter The Email" className="form-control" id="username" aria-describedby="emailHelp" value={username} onChange={this.handleChange}/>
+                    <input type="email" name='username' placeholder="Enter The Email" className="form-control" id="username" aria-describedby="emailHelp" value={username} onChange={this.handleChange} />
                     <span className="help-block">{validation.username.message}</span>
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1">Password <span style={{ color: 'red' }}>*</span></label>
-                    <input type="Password" name='password' placeholder="Enter The Password" className="form-control" id="password" value={password} onChange={this.handleChange}/>
+                    <input type="Password" name='password' placeholder="Enter The Password" className="form-control" id="password" value={password} onChange={this.handleChange} />
                     <span className="help-block">{validation.password.message}</span>
                   </div>
                   <div className="form-group form-check">
