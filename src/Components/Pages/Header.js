@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { logo } from './Image';
 import { Link } from 'react-router-dom';
+import { isAuthenticated } from '../../Core/Auth'
 
 class Header extends Component {
     constructor() {
@@ -10,6 +11,7 @@ class Header extends Component {
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
+        console.log("isAuthenticated", isAuthenticated())
     }
 
     render() {
@@ -32,7 +34,13 @@ class Header extends Component {
                                         <li className="nav-item"> <Link className="nav-link" to="/Faqs">FAQs</Link> </li>
                                         <li className="nav-item"> <Link className="nav-link" to="/Contactus">Contact Us</Link> </li>
                                         <li className="nav-item"> <Link className="nav-link" to="/Signup">Sign Up</Link> </li>
-                                        <li className="nav-item"> <Link className="nav-link" to="/Signin">Sign In</Link> </li>
+                                      {isAuthenticated() ?
+                                           <li className="nav-item"> <Link className="nav-link" to="/Logout">Logout</Link> </li>
+                                           :
+                                           <li className="nav-item"> <Link className="nav-link" to="/Signin">Sign In</Link> </li>
+                                      }
+                                       
+                                      
                                     </ul>
                                 </div>
                             </div>

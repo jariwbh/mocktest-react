@@ -82,7 +82,10 @@ class Signin extends Component {
       }
       authenticateUser(response.data.token)
       this.setState({loading: false})
+      console.log('Sign IN Propers: ', this.props)
       this.props.history.push('/')
+      // const { from } = location.state || { from: { pathname: "/" } };
+      // history.push(from);
     } 
     catch (error) {
       console.log('error', error)
@@ -99,31 +102,6 @@ class Signin extends Component {
   componentDidMount() {
     document.title = "Igyanam - Sign In";
     window.scrollTo(0, 0);
-    //     const requestOptions = {
-    //       method: 'POST',
-    //       headers: {
-    //           'Content-Type': 'application/json'
-    //          // 'authkey': '5ef44df26bf23edb7fd9a8e8'
-    //       },
-    //       body: JSON.stringify({ 
-
-    //           "email": "",
-    //           "password": ""
-
-    //        })
-    // };
-    // fetch("http://live.edzskool.com/api/auth/memberlogin", requestOptions)
-    // .then(response => response.json())
-    // .then(obj => {
-
-    //     this.setState({ obj });
-    //     console.log(obj);
-
-    // })
-    // .catch(error => {
-    //     this.setState({ errorMessage: error });
-    //     console.error('There was an error!', error);
-    // });
   }
 
   render() {
@@ -156,7 +134,8 @@ class Signin extends Component {
                   </div>
                   <button onClick={this.handleFormSubmit} className="btn btn-primary" disabled={loading} >
                   {loading && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                  Sign In</button>
+                  Sign In
+                  </button>
                   <div className="mt-4">
                     Need an account? <Link to="/Signup">Sign Up</Link>
                   </div>
