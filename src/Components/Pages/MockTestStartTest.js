@@ -1,33 +1,20 @@
 import React, { Component } from 'react'
 import { logo, negativeimg, timeimg, marksimg, quesimg, avatarimg } from './Image'
 import { Link } from 'react-router-dom';
-import MockTestService from '../../Core/Services/MockTest/BsMockTest';
 
 class MockTestStartTest extends Component {
-    _isMounted = false;
+
     constructor() {
         super();
-        this.state = {
-            mockTest: []
-        };
+        this.state = { visible: null };
     }
 
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
-        MockTestService.getByIdMockTest(this.props.match.params.id)
-            .then(data => {
-                this.setState({ mockTest: data });
-                console.log(this.state.mockTest)
-            })
-    }
-
-    componentWillUnmount() {
-        this._isMounted = false;
     }
 
     render() {
-        const { mockTest } = this.state;
         return (
             <React.Fragment>
                 <header>
@@ -38,7 +25,8 @@ class MockTestStartTest extends Component {
                                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span className="navbar-toggler-icon"></span> </button>
                                 {/* <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul className="navbar-nav ml-auto">
-                                        <li className="nav-item"> <span className="badge alert-danger badge-time">{mockTest.time + ':00'}</span></li>
+                                        <li className="nav-item"> <span className="badge alert-danger badge-time">54:45</span></li>
+                                        <li className="nav-item"> <Link to="/MockTestResults" className="btn btn-primary btn-lg">Submit</Link> </li>
                                     </ul>
                                 </div> */}
                             </div>
@@ -58,7 +46,7 @@ class MockTestStartTest extends Component {
                                                         <img src={avatarimg} className="rounded-circle img-fluid" alt="Avtar" />
                                                     </div>
                                                     <div className="media-body">
-                                                        <div className="mt-0"><a href="#">{'harshad'}</a> </div>
+                                                        <div className="mt-0"><a href="#">Kamlesh Sharma</a> </div>
                                                             M.sc
                                                         </div>
                                                 </div>
@@ -69,32 +57,27 @@ class MockTestStartTest extends Component {
                                                         <div className="media mb-20">
                                                             <img src={quesimg} width="40" height="40" className="mr-3" alt="Question" />
                                                             <div className="media-body">
-                                                                {
-                                                                    (mockTest.questions != null) ? mockTest.questions.length : 0
-                                                                }
-
-                                                                <div className="mt-0"></div>
+                                                                <div className="mt-0">50 </div>
                                                                         Questions
-                                                                </div>
-
+                                                                    </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
                                                         <div className="media mb-20">
                                                             <img src={marksimg} width="40" height="40" className="mr-3" alt="Marks" />
                                                             <div className="media-body">
-                                                                <div className="mt-0">{mockTest.totalmarks}  </div>
+                                                                <div className="mt-0">200  </div>
                                                                             Marks
-                                                                </div>
+                                                                        </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
                                                         <div className="media mb-20">
                                                             <img src={timeimg} width="40" height="40" className="mr-3" alt="times" />
                                                             <div className="media-body">
-                                                                <div className="mt-0">{mockTest.time} </div>
+                                                                <div className="mt-0">60 </div>
                                                                                     Minutes
-                                                                </div>
+                                                                                </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
@@ -103,7 +86,7 @@ class MockTestStartTest extends Component {
                                                             <div className="media-body">
                                                                 <div className="mt-0">1 </div>
                                                                                     Negative
-                                                                </div>
+                                                                                </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -113,7 +96,7 @@ class MockTestStartTest extends Component {
                                     <div className="white-box-no-animate p-20 animate slideIn" >
                                         <div className="row">
                                             <div className="col-lg-12">
-                                                <h2 className="mb-5"> {mockTest.title}</h2>
+                                                <h2 className="mb-5"> SPEED KOTA  Foundation Test</h2>
                                                 <div>
                                                     <Link to="/MockTestDetails" className="btn btn-primary btn-lg xs-mrb30"> Start Test </Link>
                                                 </div>

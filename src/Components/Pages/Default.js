@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TeacherProfile from "./TeacherProfile";
 import Signin from './Signin';
 import Signup from './Signup';
+import Logout from './Logout';
 import Contactus from './Contactus';
 import Faqs from "./Faqs";
 import TermOfService from "./TermsofService";
@@ -18,6 +19,8 @@ import Test from "./Test";
 import Dashboard from "./Dashboard";
 import StudentProfile from "./StudentProfile";
 
+import {ProtectedRoute} from "./ProtectedRoute";
+
 class Default extends Component {
     constructor() {
         super();
@@ -33,11 +36,12 @@ class Default extends Component {
             <React.Fragment>
                 <Switch>
                     <Route strict exact path="/" component={Home} />
-                    <Route exact path="/Teachers" component={Teachers} />
+                    {/* <Route exact path="/Teachers" component={Teachers} /> */}
                     <Route exact path="/Faqs" component={Faqs} />
                     <Route exact path="/Contactus" component={Contactus} />
                     <Route exact path="/Signup" component={Signup} />
                     <Route exact path="/Signin" component={Signin} />
+                    <Route exact path="/Logout" component={Logout} />
                     <Route exact path="/TermsofService" component={TermOfService} />
                     <Route exact path="/PrivacyPolicy" component={PrivacyPolice} />
                     <Route exact path="/MockTestDetails" component={MockTestDetails} />
@@ -49,6 +53,8 @@ class Default extends Component {
                     <Route exact path="/DashBoard" component={Dashboard} />
                     <Route exact path="/StudentProfile" component={StudentProfile} />
                     <Route exact path="/Test" component={Test} />
+
+                    <ProtectedRoute path="/Teachers" component={Teachers} />
                 </Switch>
             </React.Fragment>
         );

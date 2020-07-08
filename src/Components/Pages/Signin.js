@@ -81,9 +81,12 @@ class Signin extends Component {
         return
       }
       authenticateUser(response.data.token)
-      this.setState({ loading: false })
+      this.setState({loading: false})
+      console.log('Sign IN Propers: ', this.props)
       this.props.history.push('/')
-    }
+      // const { from } = location.state || { from: { pathname: "/" } };
+      // history.push(from);
+    } 
     catch (error) {
       console.log('error', error)
       this.setState({ loading: false, error: 'User name or password is wrong!' })
@@ -130,8 +133,9 @@ class Signin extends Component {
                     <Link className="float-right" to="/ForgetPassword">Forgot Password?</Link>
                   </div>
                   <button onClick={this.handleFormSubmit} className="btn btn-primary" disabled={loading} >
-                    {loading && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                  Sign In</button>
+                  {loading && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                  Sign In
+                  </button>
                   <div className="mt-4">
                     Need an account? <Link to="/Signup">Sign Up</Link>
                   </div>
