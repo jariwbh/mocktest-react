@@ -3,15 +3,20 @@ import { avatarimg, quesimg, marksimg, timeimg, negativeimg, logo, userIcon } fr
 import { Link } from 'react-router-dom';
 import MockTestService from '../../Core/Services/MockTest/BsMockTest';
 import moment from 'moment';
+import ReactHtmlParser from 'react-html-parser';
 
 class MockTestDetails extends Component {
     _isMounted = false;
     constructor() {
         super();
         this.state = {
-            mockTest: [],
+            mockTestData: [],
             addedby: [],
-            property: []
+            property: [],
+            mockTestArray:null,
+            index: 0,
+            disabledNext: false,
+            disabledPrev: true     
 
         };
     }
@@ -21,19 +26,40 @@ class MockTestDetails extends Component {
         window.scrollTo(0, 0);
         MockTestService.getByIdMockTest(this.props.match.params.id)
             .then(data => {
-                this.setState({ mockTest: data, addedby: data.addedby, property: data.addedby.property });
-                console.log(this.state.mockTest)
+                this.setState({ mockTestData: data, addedby: data.addedby, property: data.addedby.property,mockTestArray: data.questions });
+                console.log(this.state.mockTestData)
             }).catch(error => {
                 console.log(error);
             });
     }
+
+    togglePrev(e) {
+        let index = this.state.index - 1;
+        let disabledPrev = (index === 0);
+    
+        this.setState({ index: index, disabledPrev: disabledPrev, disabledNext: false })
+      }
+    
+    toggleNext(e) {
+        debugger;
+         let index = this.state.index + 1;
+         //this.state.mocktestarray[index]
+         let disabledNext = index === (this.state.mockTestArray.length - 1);
+    
+         this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false })
+       }
 
     componentWillUnmount() {
         this._isMounted = false;
     }
 
     render() {
-        const { mockTest, addedby, property } = this.state;
+        const { mockTestData, addedby, property } = this.state;
+        const { index, disabledNext, disabledPrev,mockTestArray } = this.state
+        const mocktestobj = this.state.mockTestArray ? this.state.mockTestArray[index] : null;
+        const mockTest = mockTestArray ? mockTestArray[index] : null;
+        console.log('mockTest',mockTest);   
+        if (mockTest) {
         return (
             <React.Fragment>
                 <header>
@@ -78,7 +104,7 @@ class MockTestDetails extends Component {
                                                             <img src={quesimg} width="40" height="40" className="mr-3" alt="Question" />
                                                             <div className="media-body">
                                                                 {
-                                                                    (mockTest.questions != null) ? mockTest.questions.length : 0
+                                                                    (mockTestData.questions != null) ? mockTestData.questions.length : 0
                                                                 }
                                                                 <div className="mt-0"></div>
                                                                         Questions
@@ -89,7 +115,7 @@ class MockTestDetails extends Component {
                                                         <div className="media mb-20">
                                                             <img src={marksimg} width="40" height="40" className="mr-3" alt="Marks" />
                                                             <div className="media-body">
-                                                                <div className="mt-0">{mockTest.totalmarks}  </div>
+                                                                <div className="mt-0">{mockTestData.totalmarks}  </div>
                                                                             Marks
                                                                 </div>
                                                         </div>
@@ -98,7 +124,7 @@ class MockTestDetails extends Component {
                                                         <div className="media mb-20">
                                                             <img src={timeimg} width="40" height="40" className="mr-3" alt="times" />
                                                             <div className="media-body">
-                                                                <div className="mt-0">{mockTest.time} </div>
+                                                                <div className="mt-0">{mockTestData.time} </div>
                                                                                     Minutes
                                                                 </div>
                                                         </div>
@@ -120,43 +146,14 @@ class MockTestDetails extends Component {
                                     <div className="white-box-no-animate p-20 animate slideIn" >
                                         <div className="row">
                                             <div className="col-lg-12">
-                                                <h2> {mockTest.title}</h2>
-                                                <div className="mb-3"><span className="mr-4" >{moment(mockTest.startdatetime).format("D MMMM YYYY")}</span>   <span className="mt-price">Free</span> </div>
+                                                <h2> {mockTestData.title}</h2>
+                                                <div className="mb-3"><span className="mr-4" >{moment(mockTestData.startdatetime).format("D MMMM YYYY")}</span>   <span className="mt-price">Free</span> </div>
                                                 {/* <div className="mt-tags mb-4"><a href="#"  >NEET</a> <a href="#" >Maths</a> </div> */}
-                                                <div className="d-flex mb-2">
-                                                    <div className="mr-auto justify-content-start font-weight-bold" >
-                                                        1. Which vitamin helps in blood clotting?
-						                        </div>
-                                                    <div className="justify-content-end" ><span className="badge badge-mt-custom"> Marks - 4 </span></div>
+                                                <MockTest {...mockTest} />                                
+                                                <div>
+                                                    <Prev toggle={(e) => this.togglePrev(e)} active={disabledPrev} />
+                                                    <Next toggle={(e) => this.toggleNext(e)} active={disabledNext} />
                                                 </div>
-                                                <div className="form-check mb-3">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" value="option1" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                                        a. Vitamin A2
-						                        </label>
-                                                </div>
-                                                <div className="form-check mb-3">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" value="option1" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                                        a. Vitamin A2
-						                        </label>
-                                                </div>
-                                                <div className="form-check mb-3">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" value="option1" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                                        a. Vitamin A2
-						                        </label>
-                                                </div>
-                                                <div className="form-check mb-4">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" value="option2" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                                        a. Vitamin A2
-						                        </label>
-                                                </div>
-                                                <div className="mb-5">
-                                                    <a href="#">Deselect </a>
-                                                </div>
-                                                <div><a href="#" className="btn btn-primary btn-lg xs-mrb30">Previous</a> <a href="#" className="btn btn-primary btn-lg xs-mrb30 ml-1">Next</a></div>
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +164,64 @@ class MockTestDetails extends Component {
                 </main>
             </React.Fragment>
         );
+    } else {
+        return <span>error</span>
+      }
     }
 }
+function Prev(props) {
+    return (
+      <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30">Previous</button>
+    //   <a href="#" className="btn btn-primary btn-lg xs-mrb30" onClick={props.toggle} disabled={props.active}>Previous</a>
+    );
+  }
+  
+  function Next(props) {
+    return (
+      <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30 ml-1">Next</button>
+    //   <a href="#" className="btn btn-primary btn-lg xs-mrb30 ml-1" onClick={props.toggle} disabled={props.active}>Next</a>
+    );
+  }
+  
+  function MockTest(props) {
+      let OptionList = null;
+      if(props != null)
+      {
+        OptionList = props.options.map((optionval, index) => (
+                                            <div className="form-check mb-3">
+                                                <input className="form-check-input" type="radio" name="radioOption" value={optionval.option} />
+                                               
+                                                   <label className="form-check-label" htmlFor="radioOption">
+                                                    {
+                                                      ReactHtmlParser(optionval.option +'. '+ optionval.value)
+                                                    }
+                                                </label>
+                                            </div>
+                         ));
+                                    
+                                
+                           
+        
+      }
+   
+    return (
+      <div>
+           <div className="d-flex mb-2">
+                <div className="mr-auto justify-content-start font-weight-bold" >
+                    {
+                        ReactHtmlParser(props.question)
+                    }
+                </div>
+                <div className="justify-content-end" ><span className="badge badge-mt-custom">Marks - {props.mark}</span></div>
+            </div>
+            {
+                OptionList
+            }
+           <div className="mb-5">
+                <a href="#">Deselect </a>
+             </div>
+      </div>
+    );
+  }
 
 export default MockTestDetails;
