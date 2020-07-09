@@ -21,7 +21,7 @@ import DemoSlider from "./DemoSlider"
 import Dashboard from "./Dashboard";
 import StudentProfile from "./StudentProfile";
 
-import {ProtectedRoute} from "./ProtectedRoute";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 class Default extends Component {
     constructor() {
@@ -46,7 +46,7 @@ class Default extends Component {
                     <Route exact path="/Logout" component={Logout} />
                     <Route exact path="/TermsofService" component={TermOfService} />
                     <Route exact path="/PrivacyPolicy" component={PrivacyPolice} />
-                    <Route exact path="/MockTestDetails" component={MockTestDetails} />
+                    <Route exact path="/MockTestDetails/:id" component={MockTestDetails} />
                     <Route exact path="/MockTestResults" component={MockTestResults} />
                     <Route exact path="/MockTestList" component={MockTestList} />
                     <Route exact path="/MockTestStartTest/:id" component={MockTestStartTest} />
@@ -57,7 +57,7 @@ class Default extends Component {
                     <Route exact path="/Test" component={Test} />
                     <Route exact path="/Demo" component={Demo} />
                     <Route exact path="/DemoSlider" component={DemoSlider} />
-                    
+
 
                     <ProtectedRoute path="/Teachers" component={Teachers} />
                 </Switch>
