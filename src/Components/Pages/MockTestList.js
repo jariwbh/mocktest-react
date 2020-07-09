@@ -121,7 +121,7 @@ class MockTestList extends Component {
                     <div className="mt-price mb-3">
                         Free
 			                        </div>
-                    <div className="mt-tags"><a href="#" >NEET</a> <a href="#" >Maths</a> </div>
+                    {/* <div className="mt-tags"><a href="#" >NEET</a> <a href="#" >Maths</a> </div> */}
                 </div>
             </div>
         ))
