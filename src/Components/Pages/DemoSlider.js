@@ -1,18 +1,23 @@
 import React ,{Component}from 'react';
 import { avatarimg, quesimg, marksimg, timeimg, negativeimg, logo } from './Image';
 import { Link } from 'react-router-dom';
+import MockTestService from '../../Core/Services/MockTest/BsMockTest';
+import * as moment from 'moment';
+import ReactHtmlParser from 'react-html-parser';
 
 class DemoSlider extends Component
 {
+    _isMounted = false;
+     answers = [];
     constructor(props) {
         super(props);
       }
       state = {
-        profiles : [
+        mocktestarray : [
                         {
-                                "name":"John",
-                                "Question":"1. Which vitamin helps in blood clotting?",
-                                "Options":[
+                            "name":"John",
+                            "question":"<p>Whats come between 9 and 15 ?&nbsp;&nbsp;&nbsp;&nbsp;<br></p>",
+                            "options":[
                                     {
                                         "Option":"a. Vitamin A2"
                                     },
@@ -25,13 +30,13 @@ class DemoSlider extends Component
                                     {
                                         "Option":"a. Vitamin A2"
                                     }
-                                ],
-                                "Marks":"4"
+                            ],
+                            "Marks":"4"
                         },
                         {
                             "name":"Kitty",
-                            "Question":"2. Which vitamin helps in blood clotting?",
-                            "Options":[
+                            "question":"<p>Exapansion of ROM is</p>",
+                            "options":[
                                 {
                                     "Option":"b. Vitamin A2"
                                 },
@@ -46,50 +51,71 @@ class DemoSlider extends Component
                                 }
                             ],
                             "Marks":"4"
-                    },
-                    {
-                        "name":"Ji",
-                        "Question":"3. Which vitamin helps in blood clotting?",
-                        "Options":[
-                            {
-                                "Option":"c. Vitamin A2"
-                            },
-                            {
-                                "Option":"c. Vitamin A2"
-                            },
-                            {
-                                "Option":"c. Vitamin A2"
-                            },
-                            {
-                                "Option":"c. Vitamin A2"
-                            }
-                        ],
-                        "Marks":"4"
-                },
-                {
-                    "name":"Mattis",
-                    "Question":"4. Which vitamin helps in blood clotting?",
-                    "Options":[
-                        {
-                            "Option":"d. Vitamin A2"
                         },
                         {
-                            "Option":"d. Vitamin A2"
+                            "name":"Ji",
+                            "question":"<p>The red cells are formed in the</p>",
+                            "options":[
+                                {
+                                    "Option":"c. Vitamin A2"
+                                },
+                                {
+                                    "Option":"c. Vitamin A2"
+                                },
+                                {
+                                    "Option":"c. Vitamin A2"
+                                },
+                                {
+                                    "Option":"c. Vitamin A2"
+                                }
+                            ],
+                            "Marks":"4"
                         },
                         {
-                            "Option":"d. Vitamin A2"
-                        },
-                        {
-                            "Option":"d. Vitamin A2"
+                            "name":"Mattis",
+                            "question":"<p>Writing A to Z (from the black board )&nbsp;&nbsp;&nbsp;&nbsp;</p>",
+                            "options":[
+                                {
+                                    "Option":"d. Vitamin A2"
+                                },
+                                {
+                                    "Option":"d. Vitamin A2"
+                                },
+                                {
+                                    "Option":"d. Vitamin A2"
+                                },
+                                {
+                                    "Option":"d. Vitamin A2"
+                                }
+                            ],
+                            "Marks":"4"
                         }
                     ],
-                    "Marks":"4"
-            }
-                    ],
+        mockTestArray:null,
         index: 0,
         disabledNext: false,
         disabledPrev: true        
       };
+      componentDidMount() {
+        document.title = "Igyanam";
+        window.scrollTo(0, 0);
+        this._isMounted = true;
+        this.receivedData();
+    }
+      receivedData() {
+        this._isMounted = true;        
+        MockTestService.getByIdMockTest("5e1421df74c98ba991c8929b")
+            .then(data => {
+                if (data.questions != null) {
+                    if (this._isMounted === true) {
+                        this.setState({ mockTestArray: data.questions });
+                    }
+                }
+                else {
+                    console.log('fetching error failed. Try later!')
+                }
+            })
+    }
 
       togglePrev(e) {
         let index = this.state.index - 1;
@@ -100,18 +126,21 @@ class DemoSlider extends Component
     
        toggleNext(e) {
          let index = this.state.index + 1;
-         let disabledNext = index === (this.state.profiles.length - 1);
+         //this.state.mocktestarray[index]
+         let disabledNext = index === (this.state.mocktestarray.length - 2);
     
          this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false })
        }
     
       render()
       {
-        const { index, disabledNext, disabledPrev } = this.state
-        const profile = this.state.profiles ? this.state.profiles[index] : null;
-        console.log('profile',profile);      
+        const { index, disabledNext, disabledPrev,mockTestArray } = this.state
+        const mocktestobj = this.state.mocktestarray ? this.state.mocktestarray[index] : null;
+        const mockTest = mockTestArray ? mockTestArray[index] : null;
+        console.log('mocktestobj',mocktestobj); 
+        console.log('mockTest',mockTest);      
       
-        if (profile) {
+        if (mockTest) {
             return (          
             <React.Fragment>
             <header>
@@ -197,10 +226,7 @@ class DemoSlider extends Component
                                             <h2> SPEED KOTA  Foundation Test</h2>
                                             <div className="mb-3"><span className="mr-4" >10 June 2020</span>   <span className="mt-price">Free</span> </div>
                                             <div className="mt-tags mb-4"><a href="#"  >NEET</a> <a href="#" >Maths</a> </div>
-                                            <Profile {...profile} />                                            
-                                            <div className="mb-5">
-                                                <a href="#">Deselect </a>
-                                            </div>
+                                            <MockTest {...mockTest} />                                
                                             <div>
                                                 <Prev toggle={(e) => this.togglePrev(e)} active={disabledPrev} />
                                                 <Next toggle={(e) => this.toggleNext(e)} active={disabledNext} />
@@ -235,23 +261,43 @@ function Prev(props) {
     );
   }
   
-  function Profile(props) {
-      const QestionOption = props.Options.map((val) => (
-        <div className="form-check mb-3">
-                                                <input className="form-check-input" type="radio" name="exampleRadios" value="option1" />
-                                                <label className="form-check-label" htmlFor="exampleRadios1">
-                                                    {val.Option}
-                                            </label>
+  function MockTest(props) {
+      let OptionList = null;
+      if(props != null)
+      {
+        OptionList = props.options.map((optionval, index) => (
+                                            <div className="form-check mb-3">
+                                                <input className="form-check-input" type="radio" name="radioOption" value={optionval.option} />
+                                               
+                                                   <label className="form-check-label" htmlFor="radioOption">
+                                                    {
+                                                      ReactHtmlParser(optionval.option +'. '+ optionval.value)
+                                                    }
+                                                </label>
                                             </div>
-    ));
+                         ));
+                                    
+                                
+                           
+        
+      }
+   
     return (
       <div>
-         <div className="d-flex mb-2">
-           <div className="mr-auto justify-content-start font-weight-bold" >
-            {props.Question}
-            {QestionOption}
+           <div className="d-flex mb-2">
+                <div className="mr-auto justify-content-start font-weight-bold" >
+                    {
+                        ReactHtmlParser(props.question)
+                    }
+                </div>
+                <div className="justify-content-end" ><span className="badge badge-mt-custom">Marks - {props.mark}</span></div>
             </div>
-           </div>
+            {
+                OptionList
+            }
+           <div className="mb-5">
+                <a href="#">Deselect </a>
+             </div>
       </div>
     );
   }
