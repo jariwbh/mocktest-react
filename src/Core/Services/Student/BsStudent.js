@@ -2,12 +2,14 @@ import React, { Component, useState } from 'react';
 import axios from '../../../axiosInst'
 
 class StudentService {
-    static UpdateStudentProfile(data) {
+    static UpdateStudentProfile(id, data) {
         const body = data
-        console.log('Student Service', body);
-        axios.post('/members', body)
+        console.log('Student Service' + id, body);
+        axios.put('/members/' + id, body)
             .then(response => {
                 console.log(response);
+            }).catch(error => {
+                console.log(error);
             });
     }
 }
