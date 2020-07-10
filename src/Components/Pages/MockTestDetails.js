@@ -16,7 +16,9 @@ class MockTestDetails extends Component {
             mockTestArray: null,
             index: 0,
             disabledNext: false,
-            disabledPrev: true
+            disabledPrev: true,
+            minutes: 0,
+            seconds: 0,
 
         };
     }
@@ -26,11 +28,34 @@ class MockTestDetails extends Component {
         window.scrollTo(0, 0);
         MockTestService.getByIdMockTest(this.props.match.params.id)
             .then(data => {
-                this.setState({ mockTestData: data, addedby: data.addedby, property: data.addedby.property, mockTestArray: data.questions });
+                this.setState({ mockTestData: data, addedby: data.addedby, property: data.addedby.property, mockTestArray: data.questions, minutes: data.time });
                 console.log(this.state.mockTestData)
             }).catch(error => {
                 console.log(error);
             });
+
+    }
+
+    receivedData() {
+        this.myInterval = setInterval(() => {
+            const { seconds, minutes } = this.state
+
+            if (seconds > 0) {
+                this.setState(({ seconds }) => ({
+                    seconds: seconds - 1
+                }))
+            }
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(this.myInterval)
+                } else {
+                    this.setState(({ minutes }) => ({
+                        minutes: minutes - 1,
+                        seconds: 59
+                    }))
+                }
+            }
+        }, 1000)
     }
 
     togglePrev(e) {
@@ -48,13 +73,17 @@ class MockTestDetails extends Component {
 
         this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false })
     }
+    componentWillMount() {
+        this.receivedData();
+    }
 
     componentWillUnmount() {
+        clearInterval(this.receivedData)
         this._isMounted = false;
     }
 
     render() {
-        const { mockTestData, addedby, property } = this.state;
+        const { mockTestData, addedby, property, minutes, seconds } = this.state;
         const { index, disabledNext, disabledPrev, mockTestArray } = this.state
         const mocktestobj = this.state.mockTestArray ? this.state.mockTestArray[index] : null;
         const mockTest = mockTestArray ? mockTestArray[index] : null;
@@ -70,7 +99,12 @@ class MockTestDetails extends Component {
                                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span className="navbar-toggler-icon"></span> </button>
                                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                         <ul className="navbar-nav ml-auto">
-                                            <li className="nav-item"> <span className="badge alert-danger badge-time">54:45</span></li>
+                                            <li className="nav-item"> <span className="badge alert-danger badge-time">
+                                                {minutes === 0 && seconds === 0
+                                                    ? <span>Busted!</span>
+                                                    : <>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</>
+                                                }
+                                            </span></li>
                                             <li className="nav-item"> <Link to="/MockTestResults" className="btn btn-primary btn-lg">Submit</Link> </li>
                                         </ul>
                                     </div>
@@ -165,7 +199,7 @@ class MockTestDetails extends Component {
                 </React.Fragment>
             );
         } else {
-            return <span>error</span>
+            return <span></span>
         }
     }
 }

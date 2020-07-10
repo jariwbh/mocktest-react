@@ -25,7 +25,7 @@ class MockTestList extends Component {
         this._isMounted = true;
         const MockTestBody = {
             "search": [{ "fieldname": "status", "fieldvalue": "publish", "criteria": "eq", "datatype": "text" }],
-            "sort": { "createdAt": 1 }
+            "sort": { "createdAt": -1 }
         }
         MockTestService.getAllMockTest(MockTestBody)
             .then(data => {
@@ -41,10 +41,10 @@ class MockTestList extends Component {
                 }
             })
     }
+
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
-        this._isMounted = true;
         this.receivedData();
     }
 
