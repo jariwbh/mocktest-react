@@ -26,7 +26,6 @@ class MockTestList extends Component {
         this._isMounted = true;
         const MockTestBody = {
             "search": [{ "fieldname": "status", "fieldvalue": "publish", "criteria": "eq", "datatype": "text" }],
-            //"limit": 6,
             "sort": { "createdAt": 1 }
         }
         MockTestService.getAllMockTest(MockTestBody)
@@ -121,7 +120,7 @@ class MockTestList extends Component {
                     <div className="mt-price mb-3">
                         Free
 			                        </div>
-                    <div className="mt-tags"><a href="#" >NEET</a> <a href="#" >Maths</a> </div>
+                    {/* <div className="mt-tags"><a href="#" >NEET</a> <a href="#" >Maths</a> </div> */}
                 </div>
             </div>
         ))

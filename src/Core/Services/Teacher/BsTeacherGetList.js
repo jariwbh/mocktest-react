@@ -18,8 +18,7 @@ class TeacherService {
             .catch(error => {
                 //this.setState({ errorMessage: error });
                 console.error('There was an error!', error);
-            }
-            );
+            });
     }
 
     static getByIdTeachers(id) {

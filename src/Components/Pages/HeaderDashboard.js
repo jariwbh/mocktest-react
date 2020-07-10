@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { logo } from './Image';
 import { Link } from 'react-router-dom';
-
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 class HeaderDashboard extends Component {
     render() {
         return (
@@ -18,12 +19,21 @@ class HeaderDashboard extends Component {
                                         <li className="nav-item"> <Link className="nav-link" to="/Faqs">FAQs</Link> </li>
                                         <li className="nav-item"> <Link className="nav-link" to="/Contactus">Contact Us</Link> </li>
                                         <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {/* <a className="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Dashboard</a>
                                             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                                 <a className="dropdown-item" href="#">My Profile</a>
                                                 <a className="dropdown-item" href="#">Logout</a>
-                                            </div>
+                                            </div> */}
+                                            <Dropdown>
+                                                <Dropdown.Toggle className="nav-link dropdown-toggle" id="dropdown-basic" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Dashboard
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                                    <Dropdown.Item ><Link className="dropdown-item" to="/Contactus">Contact Us</Link></Dropdown.Item>
+                                                    <Dropdown.Item ><Link className="dropdown-item" to="/Teachers">Teachers</Link></Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
                                         </li>
                                     </ul>
                                 </div>

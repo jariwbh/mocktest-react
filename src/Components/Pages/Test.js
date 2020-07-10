@@ -4,14 +4,9 @@ import Header from './Header';
 import Footer from './Footer';
 import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
 import { avatarimg } from './Image';
-
-
-
 import ReactDOM from "react-dom";
 import Pagination from "react-js-pagination";
 //require("bootstrap/less/bootstrap.less");
-
-
 
 class Test extends Component {
     _isMounted = false;
@@ -24,10 +19,10 @@ class Test extends Component {
             search: null,
             errorMessage: null,
             activePage: 1,
-            totalPages:0
+            totalPages: 0
         };
-      }
-      receivedData() {
+    }
+    receivedData() {
         document.title = "Igyanam - Teachers";
         window.scrollTo(0, 0);
         this._isMounted = true;
@@ -36,9 +31,9 @@ class Test extends Component {
             .then(data => {
                 if (data != null) {
                     if (this._isMounted) {
-                        this.setState({totalPages:data.length});
+                        this.setState({ totalPages: data.length });
                         //const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
-                        const slice = data.slice((this.state.activePage - 1)  * this.state.perPage, this.state.activePage * this.state.perPage)
+                        const slice = data.slice((this.state.activePage - 1) * this.state.perPage, this.state.activePage * this.state.perPage)
                         this.setState({ teachers: slice });
                     }
                 }
@@ -46,8 +41,8 @@ class Test extends Component {
                     alert('fetching error failed. Try later!')
                 }
             })
-      }
-      componentDidMount() {
+    }
+    componentDidMount() {
         this.receivedData();
     }
 
@@ -59,11 +54,11 @@ class Test extends Component {
         let keyword = event.target.value;
         this.setState({ search: keyword })
     }
-      handlePageChange(pageNumber) {
+    handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
-        this.setState({activePage: pageNumber,offset : pageNumber});
+        this.setState({ activePage: pageNumber, offset: pageNumber });
         this.receivedData();
-      }
+    }
 
     render() {
         const { teachers } = this.state;
@@ -109,25 +104,25 @@ class Test extends Component {
             </div>
         ))
 
-        return (           
+        return (
             <React.Fragment>
-                 <Header />
+                <Header />
                 <h1>Hello</h1>
                 {teachersList}
                 {console.log(teachersList.length)}
                 <div>
-        <Pagination
-          activePage={this.state.activePage}
-          //activePage={0}
-          itemsCountPerPage={this.state.perPage}
-          totalItemsCount={this.state.totalPages}
-          pageRangeDisplayed={5}
-          onChange={this.handlePageChange.bind(this)}
-          itemClass="page-item"
-          linkClass="page-link"
-        />
-      </div>
-      <Footer />
+                    <Pagination
+                        activePage={this.state.activePage}
+                        //activePage={0}
+                        itemsCountPerPage={this.state.perPage}
+                        totalItemsCount={this.state.totalPages}
+                        pageRangeDisplayed={5}
+                        onChange={this.handlePageChange.bind(this)}
+                        itemClass="page-item"
+                        linkClass="page-link"
+                    />
+                </div>
+                <Footer />
             </React.Fragment>
         );
     }
