@@ -31,7 +31,9 @@ class MockTestList extends Component {
             .then(data => {
                 if (data != null) {
                     if (this._isMounted === true) {
-                        this.setState({ mockTest: data });
+                        this.setState({ totalPages: data.length });
+                        const slice = data.slice((this.state.activePage - 1) * this.state.perPage, this.state.activePage * this.state.perPage)
+                        this.setState({ mockTest: slice });
                     }
                 }
                 else {
