@@ -60,7 +60,7 @@ class MockTestStartTest extends Component {
                                                     </div>
                                                     <div className="media-body">
                                                         <div className="mt-0" style={{ color: '#E58309', textDecoration: 'none' }}> {property.fullname} </div>
-                                                        m.sc
+                                                        {property.qualification}
                                                     </div>
                                                 </div>
                                             </div>
@@ -100,7 +100,7 @@ class MockTestStartTest extends Component {
                                                         <div className="media mb-20">
                                                             <img src={negativeimg} width="40" height="40" className="mr-3" alt="Negative" />
                                                             <div className="media-body">
-                                                                <div className="mt-0">1 </div>
+                                                                <div className="mt-0">0 </div>
                                                                                     Negative
                                                                 </div>
                                                         </div>

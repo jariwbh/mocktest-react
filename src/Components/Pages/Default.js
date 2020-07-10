@@ -52,7 +52,7 @@ class Default extends Component {
                     <Route exact path="/MockTestStartTest/:id" component={MockTestStartTest} />
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/TeacherProfile/:id" component={TeacherProfile} />
-                    <Route exact path="/DashBoard" component={Dashboard} />
+                    {/* <Route exact path="/DashBoard" component={Dashboard} /> */}
                     <Route exact path="/StudentProfile" component={StudentProfile} />
                     <Route exact path="/Test" component={Test} />
                     <Route exact path="/Demo" component={Demo} />
@@ -60,6 +60,7 @@ class Default extends Component {
 
 
                     <ProtectedRoute path="/Teachers" component={Teachers} />
+                    <ProtectedRoute path="/Dashboard" component={Dashboard} />
                 </Switch>
             </React.Fragment>
         );

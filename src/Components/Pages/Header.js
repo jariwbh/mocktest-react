@@ -22,7 +22,11 @@ class Header extends Component {
                     <nav className="navbar navbar-expand-lg navbar-dark p-0">
                         <div id="header" className="header-inner fixed-top">
                             <div className="container">
-                                <Link to="/" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
+                                {isAuthenticated() ?
+                                    <Link to="/Dashboard" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
+                                    :
+                                    <Link to="/" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
+                                }
                                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                                     data-target="navbarSupportedContent" aria-controls="navbarSupportedContent"
                                     aria-expanded="true" aria-label="Toggle navigation">
