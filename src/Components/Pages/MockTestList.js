@@ -26,7 +26,6 @@ class MockTestList extends Component {
         this._isMounted = true;
         const MockTestBody = {
             "search": [{ "fieldname": "status", "fieldvalue": "publish", "criteria": "eq", "datatype": "text" }],
-            //"limit": 6,
             "sort": { "createdAt": 1 }
         }
         MockTestService.getAllMockTest(MockTestBody)
