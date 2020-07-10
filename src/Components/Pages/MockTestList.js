@@ -12,7 +12,6 @@ class MockTestList extends Component {
     constructor() {
         super();
         this.state = {
-            visible: null,
             mockTest: [],
             search: null,
             offset: 0,
