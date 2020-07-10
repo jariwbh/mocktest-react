@@ -4,9 +4,12 @@ import { Link } from 'react-router-dom';
 import MockTestService from '../../Core/Services/MockTest/BsMockTest';
 import moment from 'moment';
 import ReactHtmlParser from 'react-html-parser';
+import $ from 'jquery'; 
 
 class MockTestDetails extends Component {
     _isMounted = false;
+    answers=[];
+   
     constructor() {
         super();
         this.state = {
@@ -59,19 +62,67 @@ class MockTestDetails extends Component {
     }
 
     togglePrev(e) {
+        debugger;
         let index = this.state.index - 1;
         let disabledPrev = (index === 0);
+        this.setState({ index: index, disabledPrev: disabledPrev, disabledNext: false });
+        var questionid = $(".divQuestion")[0].dataset.questionid;
+        var item = this.answers.find( x => x.questionid == questionid);
 
-        this.setState({ index: index, disabledPrev: disabledPrev, disabledNext: false })
+        $.each(this.answers, function(key, val){
+            let k = key;
+            let v= val;
+            if(val.questionid == questionid)
+            {
+                var optId= val.answerid[0];
+            }
+        });
     }
+    
+    radionbuttonClick(e){
+            let optVal = e.target.value;
+            let optId = e.target.id;
+            let qid = e.target.dataset.questionid;
+            let itemindex = e.target.dataset.itemindex;
+            let questiontype = e.target.dataset.questiontype;
 
+            const persons = [...this.answers];
+            //First Remove item from list
+            $(this.answers).each(function (index,val){
+                if(val.questionid ==qid){
+                    persons.splice(index,1);
+                    return false; // This will stop the execution of jQuery each loop.
+                }
+            });
+            
+            this.answers = persons;
+
+            let answer={};
+            let answeridarray=[];
+            
+            answer.questionid =qid;
+            answer.itemindex =itemindex;
+
+            let radioanswerobj={};
+
+            radioanswerobj.radioId=optId;
+            radioanswerobj.radioValue=optVal;
+
+            answeridarray.push(radioanswerobj);
+            answer.answerid = answeridarray;
+
+            this.answers.push(answer);
+    }
     toggleNext(e) {
-        debugger;
+
+        debugger;      
+
         let index = this.state.index + 1;
         //this.state.mocktestarray[index]
         let disabledNext = index === (this.state.mockTestArray.length - 1);
 
-        this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false })
+        this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false });
+        $('input:radio[name=radioOption]').each(function () { $(this).prop('checked', false); });
     }
     componentWillMount() {
         this.receivedData();
@@ -87,8 +138,12 @@ class MockTestDetails extends Component {
         const { index, disabledNext, disabledPrev, mockTestArray } = this.state
         const mocktestobj = this.state.mockTestArray ? this.state.mockTestArray[index] : null;
         const mockTest = mockTestArray ? mockTestArray[index] : null;
+       
         console.log('mockTest', mockTest);
         if (mockTest) {
+            mockTest.itemindex = index;
+            
+
             return (
                 <React.Fragment>
                     <header>
@@ -183,7 +238,7 @@ class MockTestDetails extends Component {
                                                     <h2> {mockTestData.title}</h2>
                                                     <div className="mb-3"><span className="mr-4" >{moment(mockTestData.startdatetime).format("D MMMM YYYY")}</span>   <span className="mt-price">Free</span> </div>
                                                     {/* <div className="mt-tags mb-4"><a href="#"  >NEET</a> <a href="#" >Maths</a> </div> */}
-                                                    <MockTest {...mockTest} />
+                                                    <MockTest {...mockTest} click={(e) => this.radionbuttonClick(e)} />
                                                     <div>
                                                         <Prev toggle={(e) => this.togglePrev(e)} active={disabledPrev} />
                                                         <Next toggle={(e) => this.toggleNext(e)} active={disabledNext} />
@@ -204,43 +259,43 @@ class MockTestDetails extends Component {
     }
 }
 function Prev(props) {
+    console.log('toggle',props.toggle);
     return (
-        <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30">Previous</button>
-        //   <a href="#" className="btn btn-primary btn-lg xs-mrb30" onClick={props.toggle} disabled={props.active}>Previous</a>
+      <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30">Previous</button>
     );
 }
 
 function Next(props) {
     return (
-        <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30 ml-1">Next</button>
-        //   <a href="#" className="btn btn-primary btn-lg xs-mrb30 ml-1" onClick={props.toggle} disabled={props.active}>Next</a>
+      <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30 ml-1">Next</button>    
     );
 }
 
 function MockTest(props) {
     let OptionList = null;
     if (props != null) {
+        console.log('radiclick',props.click);
         OptionList = props.options.map((optionval, index) => (
-            <div className="form-check mb-3">
-                <input className="form-check-input" type="radio" name="radioOption" value={optionval.option} />
-
-                <label className="form-check-label" htmlFor="radioOption">
-                    {
-                        ReactHtmlParser(optionval.option + '. ' + optionval.value)
-                    }
-                </label>
-            </div>
-        ));
-
-
-
-
-    }
-
+                                            <div className="form-check mb-3 divOption">
+                                                <input className="form-check-input" type="radio" name="radioOption" value={optionval.option} id={optionval._id} onClick={props.click} data-questionid={props._id} data-itemindex = {props.itemindex} data-questiontype ={props.questiontype} />
+                                               
+                                                   <label className="form-check-label">
+                                                    {
+                                                      ReactHtmlParser(optionval.option +'. '+ optionval.value)
+                                                    }
+                                                </label>
+                                            </div>
+                         ));
+                                    
+                                
+                           
+        
+      }
+   
     return (
-        <div>
-            <div className="d-flex mb-2">
-                <div className="mr-auto justify-content-start font-weight-bold" >
+      <div>
+           <div className="d-flex mb-2">
+                <div className="mr-auto justify-content-start font-weight-bold divQuestion" data-questionid={props._id}>
                     {
                         ReactHtmlParser(props.question)
                     }

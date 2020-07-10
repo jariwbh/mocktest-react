@@ -37,7 +37,7 @@ class Home extends Component {
 
         const MockTestBody = {
             "search": [{ "fieldname": "status", "fieldvalue": "publish", "criteria": "eq", "datatype": "text" }],
-            "limit": 6,
+            "limit": 3,
             "sort": { "createdAt": 1 }
         }
 
@@ -86,9 +86,9 @@ class Home extends Component {
                             <div className="row">
                                 {mockTest.slice(0, 6).map(obj => (
                                     <div className="col-lg-4 col-sm-6 d-flex" key={obj._id}>
-                                        <div className="white-box animate slideIn" >  <Link to={'/MockTestStartTest/' + obj._id}>
+                                        <div className="white-box animate slideIn" > <a href="#">
                                             <h3 className="mt-head">{obj.title}</h3>
-                                        </Link>
+                                        </a>
                                             <div className="teacher-date-text">By {obj.addedby.fullname}</div>
                                             <div className="teacher-date-text mb-3">
                                                 {moment(obj.createdAt).format("D MMMM YYYY")}
