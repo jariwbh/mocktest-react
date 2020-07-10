@@ -7,6 +7,7 @@ import ReactHtmlParser from 'react-html-parser';
 
 class MockTestDetails extends Component {
     _isMounted = false;
+    answers = [];
     constructor() {
         super();
         this.state = {
@@ -172,14 +173,12 @@ class MockTestDetails extends Component {
 function Prev(props) {
     return (
       <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30">Previous</button>
-    //   <a href="#" className="btn btn-primary btn-lg xs-mrb30" onClick={props.toggle} disabled={props.active}>Previous</a>
     );
   }
   
   function Next(props) {
     return (
-      <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30 ml-1">Next</button>
-    //   <a href="#" className="btn btn-primary btn-lg xs-mrb30 ml-1" onClick={props.toggle} disabled={props.active}>Next</a>
+      <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30 ml-1">Next</button>    
     );
   }
   
@@ -188,7 +187,7 @@ function Prev(props) {
       if(props != null)
       {
         OptionList = props.options.map((optionval, index) => (
-                                            <div className="form-check mb-3">
+                                            <div className="form-check mb-3 divOption">
                                                 <input className="form-check-input" type="radio" name="radioOption" value={optionval.option} />
                                                
                                                    <label className="form-check-label" htmlFor="radioOption">
@@ -207,7 +206,7 @@ function Prev(props) {
     return (
       <div>
            <div className="d-flex mb-2">
-                <div className="mr-auto justify-content-start font-weight-bold" >
+                <div className="mr-auto justify-content-start font-weight-bold divQuestion" data-question-id={props._id}>
                     {
                         ReactHtmlParser(props.question)
                     }
