@@ -4,20 +4,22 @@ import { Link } from 'react-router-dom';
 import MockTestService from '../../Core/Services/MockTest/BsMockTest';
 import moment from 'moment';
 import ReactHtmlParser from 'react-html-parser';
+import $ from 'jquery'; 
 
 class MockTestDetails extends Component {
     _isMounted = false;
-    answers = [];
+    answers=[];
+   
     constructor() {
         super();
         this.state = {
             mockTestData: [],
             addedby: [],
             property: [],
-            mockTestArray:null,
+            mockTestArray: null,
             index: 0,
             disabledNext: false,
-            disabledPrev: true     
+            disabledPrev: true
 
         };
     }
@@ -27,7 +29,7 @@ class MockTestDetails extends Component {
         window.scrollTo(0, 0);
         MockTestService.getByIdMockTest(this.props.match.params.id)
             .then(data => {
-                this.setState({ mockTestData: data, addedby: data.addedby, property: data.addedby.property,mockTestArray: data.questions });
+                this.setState({ mockTestData: data, addedby: data.addedby, property: data.addedby.property, mockTestArray: data.questions });
                 console.log(this.state.mockTestData)
             }).catch(error => {
                 console.log(error);
@@ -35,20 +37,68 @@ class MockTestDetails extends Component {
     }
 
     togglePrev(e) {
+        debugger;
         let index = this.state.index - 1;
         let disabledPrev = (index === 0);
+        this.setState({ index: index, disabledPrev: disabledPrev, disabledNext: false });
+        var questionid = $(".divQuestion")[0].dataset.questionid;
+        var item = this.answers.find( x => x.questionid == questionid);
+
+        $.each(this.answers, function(key, val){
+            let k = key;
+            let v= val;
+            if(val.questionid == questionid)
+            {
+                var optId= val.answerid[0];
+            }
+        });
+    }
     
-        this.setState({ index: index, disabledPrev: disabledPrev, disabledNext: false })
-      }
-    
+    radionbuttonClick(e){
+            let optVal = e.target.value;
+            let optId = e.target.id;
+            let qid = e.target.dataset.questionid;
+            let itemindex = e.target.dataset.itemindex;
+            let questiontype = e.target.dataset.questiontype;
+
+            const persons = [...this.answers];
+            //First Remove item from list
+            $(this.answers).each(function (index,val){
+                if(val.questionid ==qid){
+                    persons.splice(index,1);
+                    return false; // This will stop the execution of jQuery each loop.
+                }
+            });
+            
+            this.answers = persons;
+
+            let answer={};
+            let answeridarray=[];
+            
+            answer.questionid =qid;
+            answer.itemindex =itemindex;
+
+            let radioanswerobj={};
+
+            radioanswerobj.radioId=optId;
+            radioanswerobj.radioValue=optVal;
+
+            answeridarray.push(radioanswerobj);
+            answer.answerid = answeridarray;
+
+            this.answers.push(answer);
+    }
     toggleNext(e) {
-        debugger;
-         let index = this.state.index + 1;
-         //this.state.mocktestarray[index]
-         let disabledNext = index === (this.state.mockTestArray.length - 1);
-    
-         this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false })
-       }
+
+        debugger;      
+
+        let index = this.state.index + 1;
+        //this.state.mocktestarray[index]
+        let disabledNext = index === (this.state.mockTestArray.length - 1);
+
+        this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false });
+        $('input:radio[name=radioOption]').each(function () { $(this).prop('checked', false); });
+    }
 
     componentWillUnmount() {
         this._isMounted = false;
@@ -56,141 +106,146 @@ class MockTestDetails extends Component {
 
     render() {
         const { mockTestData, addedby, property } = this.state;
-        const { index, disabledNext, disabledPrev,mockTestArray } = this.state
+        const { index, disabledNext, disabledPrev, mockTestArray } = this.state
         const mocktestobj = this.state.mockTestArray ? this.state.mockTestArray[index] : null;
         const mockTest = mockTestArray ? mockTestArray[index] : null;
-        console.log('mockTest',mockTest);   
+       
+        console.log('mockTest', mockTest);
         if (mockTest) {
-        return (
-            <React.Fragment>
-                <header>
-                    <nav className="navbar navbar-expand navbar-dark p-0">
-                        <div id="header" className="header-inner fixed-top">
-                            <div className="container">
-                                <Link to="/" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
-                                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span className="navbar-toggler-icon"></span> </button>
-                                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                                    <ul className="navbar-nav ml-auto">
-                                        <li className="nav-item"> <span className="badge alert-danger badge-time">54:45</span></li>
-                                        <li className="nav-item"> <Link to="/MockTestResults" className="btn btn-primary btn-lg">Submit</Link> </li>
-                                    </ul>
+            mockTest.itemindex = index;
+            
+
+            return (
+                <React.Fragment>
+                    <header>
+                        <nav className="navbar navbar-expand navbar-dark p-0">
+                            <div id="header" className="header-inner fixed-top">
+                                <div className="container">
+                                    <Link to="/" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
+                                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span className="navbar-toggler-icon"></span> </button>
+                                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                                        <ul className="navbar-nav ml-auto">
+                                            <li className="nav-item"> <span className="badge alert-danger badge-time">54:45</span></li>
+                                            <li className="nav-item"> <Link to="/MockTestResults" className="btn btn-primary btn-lg">Submit</Link> </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </nav>
-                </header>
-                <main className="flex-shrink-0">
-                    <section className="common-block">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-lg-12" >
-                                    <div className="white-box-no-animate mtd-topbar animate slideIn" >
-                                        <div className="row">
-                                            <div className="col-lg-4">
-                                                <div className="media mb-20">
-                                                    <div className="avatar-img-main mr-3">
-                                                        {addedby.profileimage != null ? <img src={this.state.addedby.profileimage} className="rounded-circle img-fluid" alt="" /> :
-                                                            <img src={userIcon} className="rounded-circle img-fluid" alt="" />}
-                                                    </div>
-                                                    <div className="media-body">
-                                                        <div className="mt-0" style={{ color: '#E58309', textDecoration: 'none' }}> {property.fullname} </div>
+                        </nav>
+                    </header>
+                    <main className="flex-shrink-0">
+                        <section className="common-block">
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col-lg-12" >
+                                        <div className="white-box-no-animate mtd-topbar animate slideIn" >
+                                            <div className="row">
+                                                <div className="col-lg-4">
+                                                    <div className="media mb-20">
+                                                        <div className="avatar-img-main mr-3">
+                                                            {addedby.profileimage != null ? <img src={this.state.addedby.profileimage} className="rounded-circle img-fluid" alt="" /> :
+                                                                <img src={userIcon} className="rounded-circle img-fluid" alt="" />}
+                                                        </div>
+                                                        <div className="media-body">
+                                                            <div className="mt-0" style={{ color: '#E58309', textDecoration: 'none' }}> {property.fullname} </div>
                                                         m.sc
                                                     </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="col-lg-8">
-                                                <div className="row">
-                                                    <div className="col-lg-3 col-md-3">
-                                                        <div className="media mb-20">
-                                                            <img src={quesimg} width="40" height="40" className="mr-3" alt="Question" />
-                                                            <div className="media-body">
-                                                                {
-                                                                    (mockTestData.questions != null) ? mockTestData.questions.length : 0
-                                                                }
-                                                                <div className="mt-0"></div>
+                                                <div className="col-lg-8">
+                                                    <div className="row">
+                                                        <div className="col-lg-3 col-md-3">
+                                                            <div className="media mb-20">
+                                                                <img src={quesimg} width="40" height="40" className="mr-3" alt="Question" />
+                                                                <div className="media-body">
+                                                                    {
+                                                                        (mockTestData.questions != null) ? mockTestData.questions.length : 0
+                                                                    }
+                                                                    <div className="mt-0"></div>
                                                                         Questions
                                                                 </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="col-lg-3 col-md-3">
-                                                        <div className="media mb-20">
-                                                            <img src={marksimg} width="40" height="40" className="mr-3" alt="Marks" />
-                                                            <div className="media-body">
-                                                                <div className="mt-0">{mockTestData.totalmarks}  </div>
+                                                        <div className="col-lg-3 col-md-3">
+                                                            <div className="media mb-20">
+                                                                <img src={marksimg} width="40" height="40" className="mr-3" alt="Marks" />
+                                                                <div className="media-body">
+                                                                    <div className="mt-0">{mockTestData.totalmarks}  </div>
                                                                             Marks
                                                                 </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="col-lg-3 col-md-3">
-                                                        <div className="media mb-20">
-                                                            <img src={timeimg} width="40" height="40" className="mr-3" alt="times" />
-                                                            <div className="media-body">
-                                                                <div className="mt-0">{mockTestData.time} </div>
+                                                        <div className="col-lg-3 col-md-3">
+                                                            <div className="media mb-20">
+                                                                <img src={timeimg} width="40" height="40" className="mr-3" alt="times" />
+                                                                <div className="media-body">
+                                                                    <div className="mt-0">{mockTestData.time} </div>
                                                                                     Minutes
                                                                 </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="col-lg-3 col-md-3">
-                                                        <div className="media mb-20">
-                                                            <img src={negativeimg} width="40" height="40" className="mr-3" alt="Negative" />
-                                                            <div className="media-body">
-                                                                <div className="mt-0">1 </div>
+                                                        <div className="col-lg-3 col-md-3">
+                                                            <div className="media mb-20">
+                                                                <img src={negativeimg} width="40" height="40" className="mr-3" alt="Negative" />
+                                                                <div className="media-body">
+                                                                    <div className="mt-0">1 </div>
                                                                                     Negative
                                                                 </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div className="white-box-no-animate p-20 animate slideIn" >
-                                        <div className="row">
-                                            <div className="col-lg-12">
-                                                <h2> {mockTestData.title}</h2>
-                                                <div className="mb-3"><span className="mr-4" >{moment(mockTestData.startdatetime).format("D MMMM YYYY")}</span>   <span className="mt-price">Free</span> </div>
-                                                {/* <div className="mt-tags mb-4"><a href="#"  >NEET</a> <a href="#" >Maths</a> </div> */}
-                                                <MockTest {...mockTest} />                                
-                                                <div>
-                                                    <Prev toggle={(e) => this.togglePrev(e)} active={disabledPrev} />
-                                                    <Next toggle={(e) => this.toggleNext(e)} active={disabledNext} />
+                                        <div className="white-box-no-animate p-20 animate slideIn" >
+                                            <div className="row">
+                                                <div className="col-lg-12">
+                                                    <h2> {mockTestData.title}</h2>
+                                                    <div className="mb-3"><span className="mr-4" >{moment(mockTestData.startdatetime).format("D MMMM YYYY")}</span>   <span className="mt-price">Free</span> </div>
+                                                    {/* <div className="mt-tags mb-4"><a href="#"  >NEET</a> <a href="#" >Maths</a> </div> */}
+                                                    <MockTest {...mockTest} click={(e) => this.radionbuttonClick(e)} />
+                                                    <div>
+                                                        <Prev toggle={(e) => this.togglePrev(e)} active={disabledPrev} />
+                                                        <Next toggle={(e) => this.toggleNext(e)} active={disabledNext} />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                </main>
-            </React.Fragment>
-        );
-    } else {
-        return <span>error</span>
-      }
+                        </section>
+                    </main>
+                </React.Fragment>
+            );
+        } else {
+            return <span>error</span>
+        }
     }
 }
 function Prev(props) {
+    console.log('toggle',props.toggle);
     return (
       <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30">Previous</button>
     );
-  }
-  
-  function Next(props) {
+}
+
+function Next(props) {
     return (
       <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30 ml-1">Next</button>    
     );
-  }
-  
-  function MockTest(props) {
-      let OptionList = null;
-      if(props != null)
-      {
+}
+
+function MockTest(props) {
+    let OptionList = null;
+    if (props != null) {
+        console.log('radiclick',props.click);
         OptionList = props.options.map((optionval, index) => (
                                             <div className="form-check mb-3 divOption">
-                                                <input className="form-check-input" type="radio" name="radioOption" value={optionval.option} />
+                                                <input className="form-check-input" type="radio" name="radioOption" value={optionval.option} id={optionval._id} onClick={props.click} data-questionid={props._id} data-itemindex = {props.itemindex} data-questiontype ={props.questiontype} />
                                                
-                                                   <label className="form-check-label" htmlFor="radioOption">
+                                                   <label className="form-check-label">
                                                     {
                                                       ReactHtmlParser(optionval.option +'. '+ optionval.value)
                                                     }
@@ -206,7 +261,7 @@ function Prev(props) {
     return (
       <div>
            <div className="d-flex mb-2">
-                <div className="mr-auto justify-content-start font-weight-bold divQuestion" data-question-id={props._id}>
+                <div className="mr-auto justify-content-start font-weight-bold divQuestion" data-questionid={props._id}>
                     {
                         ReactHtmlParser(props.question)
                     }
@@ -216,11 +271,11 @@ function Prev(props) {
             {
                 OptionList
             }
-           <div className="mb-5">
+            <div className="mb-5">
                 <a href="#">Deselect </a>
-             </div>
-      </div>
+            </div>
+        </div>
     );
-  }
+}
 
 export default MockTestDetails;
