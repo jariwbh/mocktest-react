@@ -70,11 +70,7 @@ class Signin extends Component {
 
     try {
       const response = await axios.post('auth/memberlogin', { username, password })
-
-      console.log('Request Body', { username, password })
       console.log('response', response)
-      console.log('response.Token', response.data.token)
-      console.log('response.User', response.data.user)
       if (response.data.type && response.data.type == 'Error') {
         console.log('error', response.data.message)
         this.setState({ loading: false, error: response.data.message })
@@ -82,8 +78,7 @@ class Signin extends Component {
       }
       authenticateUser(JSON.stringify(response.data))
       this.setState({ loading: false })
-      console.log('Sign IN Propers: ', this.props)
-      this.props.history.push('/')
+      this.props.history.push('/Dashboard')
       // const { from } = location.state || { from: { pathname: "/" } };
       // history.push(from);
     }
@@ -91,7 +86,6 @@ class Signin extends Component {
       console.log('error', error)
       this.setState({ loading: false, error: 'User name or password is wrong!' })
     }
-
   }
 
   handleChange(e) {
