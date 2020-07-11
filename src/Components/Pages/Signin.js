@@ -45,11 +45,16 @@ class Signin extends Component {
       loading: false,
       errorMessage: ''
     }
-
     this.handleChange = this.handleChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
+  handleInputChange = event => {
+    event.preventDefault();
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
 
   handleFormSubmit = async event => {
     event.preventDefault();
@@ -108,7 +113,7 @@ class Signin extends Component {
           <section className="common-block">
             <div className="container">
               <div className="login-main">
-                <form method="post" name="userSignUpForm" onChange={this.handleInputChange} >
+                <form method="post" name="userSignInForm" onChange={this.handleInputChange} >
                   {error && <div className="alert alert-danger">{error}</div>}
                   <h2 className="mb-3"> Student Sign In</h2>
                   <div className="form-group">
