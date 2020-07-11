@@ -52,39 +52,39 @@ class Signin extends Component {
 
 
   handleFormSubmit = async event => {
-    this.setState({ loading: true })
     event.preventDefault();
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
-    this.setState({ submitted: true });
 
     if (validation.isValid) {
-      //reaches here if form validates successfully...
+      this.setState({ loading: true })
+      const { username, password } = this.state
 
-    }
+      console.log('state', this.state)
+      console.log('loading', this.state.loading)
 
-    const { username, password } = this.state
-
-    console.log('state', this.state)
-    console.log('loading', this.state.loading)
-
-    try {
-      const response = await axios.post('auth/memberlogin', { username, password })
-      console.log('response', response)
-      if (response.data.type && response.data.type == 'Error') {
-        console.log('error', response.data.message)
-        this.setState({ loading: false, error: response.data.message })
-        return
+      try {
+        const response = await axios.post('auth/memberlogin', { username, password })
+        console.log('response', response)
+        if (response.data.type && response.data.type == 'Error') {
+          console.log('error', response.data.message)
+          this.setState({ loading: false, error: response.data.message })
+          return
+        }
+        authenticateUser(JSON.stringify(response.data))
+        this.setState({ submitted: true });
+        this.setState({ loading: false })
+        this.props.history.push('/Dashboard')
+        // const { from } = location.state || { from: { pathname: "/" } };
+        // history.push(from);
       }
-      authenticateUser(JSON.stringify(response.data))
-      this.setState({ loading: false })
-      this.props.history.push('/Dashboard')
-      // const { from } = location.state || { from: { pathname: "/" } };
-      // history.push(from);
+      catch (error) {
+        console.log('error', error)
+        this.setState({ loading: false, error: 'User name or password is wrong!' })
+      }
     }
-    catch (error) {
-      console.log('error', error)
-      this.setState({ loading: false, error: 'User name or password is wrong!' })
+    else {
+      this.setState({ loading: false })
     }
   }
 
