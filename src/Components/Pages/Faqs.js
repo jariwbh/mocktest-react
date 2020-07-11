@@ -83,7 +83,7 @@ class Faqs extends Component {
                                                 className="btn-link collapsed animate slideIn"
                                                 data-toggle="collapse"
                                                 aria-controls="collapseThree"
-                                                eventKey="1">
+                                                eventKey="3">
                                                 Collapsible Group Item #3
                                                 </Accordion.Toggle>
                                         </h2>
