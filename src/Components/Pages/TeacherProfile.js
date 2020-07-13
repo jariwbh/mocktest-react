@@ -6,28 +6,57 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList';
 import ReactHtmlParser from 'react-html-parser';
+import MockTestService from '../../Core/Services/MockTest/BsMockTest';
+import * as moment from 'moment';
+import { Link } from 'react-router-dom';
 
 class TeacherProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
             teacherProfile: [],
-            property: null
+            property: null,
+            teacherMockTest: null,
+            teacherId: this.props.match.params.id,
         }
     }
 
     componentDidMount() {
         document.title = "Igyanam - Teachers Profile";
         window.scrollTo(0, 0);
-        TeacherService.getByIdTeachers(this.props.match.params.id)
+        //teacherId = ;
+        const { teacherId } = this.state;
+        TeacherService.getByIdTeachers(teacherId)
             .then(data => {
                 this.setState({ teacherProfile: data, property: data.property });
                 console.log(this.state.teacherProfile)
             })
+
+        const TeacherMockTestBody = {
+            "search": [
+                {
+                    "searchfield": "addedby",
+                    "searchvalue": teacherId,
+                    "criteria": "eq",
+                    "datatype": "ObjectId"
+                }
+            ]
+        }
+
+        MockTestService.getByTeacherIdMockTest(TeacherMockTestBody)
+            .then(data => {
+                if (data != null) {
+                    this.setState({ teacherMockTest: data });
+                    console.log(this.state.teacherMockTest);
+                }
+                else {
+                    console.log('fetching error failed. Try later!')
+                }
+            })
     }
 
     render() {
-        const { teacherProfile, property } = this.state;
+        const { teacherProfile, property, teacherMockTest } = this.state;
         return (
             <React.Fragment>
                 <Header />
@@ -75,57 +104,63 @@ class TeacherProfile extends Component {
                                                 {ReactHtmlParser((property != null ? property.aboutme : null))}
                                             </div>
                                         </Tab>
+
                                         <Tab className="nav-link" eventKey="MockTest" title="MockTest" data-toggle="pill" role="tab" aria-controls="pills-mocktest" aria-selected="false">
                                             <div className="row">
-                                                <div className="col-lg-4 col-sm-6 d-flex" >
-                                                    <div className="white-box animate slideIn" > <a href="#">
-                                                        <h3 className="mt-head">SPEED KOTA  Foundation Test</h3>
-                                                    </a>
-                                                        <div className="teacher-date-text mb-3">10 June 2020</div>
-                                                        <div className="row">
-                                                            <div className="col-6">
-                                                                <div className="media mb-3">
-                                                                    <img src={quesimg} width="40" height="40" className="mr-3" alt="quesimg" />
-                                                                    <div className="media-body">
-                                                                        <div className="mt-0">50 </div>
+                                                {teacherMockTest === null ? '' :
+                                                    teacherMockTest.slice(0, 6).map(obj => (
+                                                        <div className="col-lg-4 col-sm-6 d-flex" key={obj._id} >
+                                                            <div className="white-box animate slideIn" >
+                                                                <Link to={'/MockTestStartTest/' + obj._id}>
+                                                                    <h3 className="mt-head">{obj.title}</h3>
+                                                                </Link>
+                                                                <div className="teacher-date-text mb-3">  {moment(obj.createdAt).format("D MMMM YYYY")}</div>
+                                                                <div className="row">
+                                                                    <div className="col-6">
+                                                                        <div className="media mb-3">
+                                                                            <img src={quesimg} width="40" height="40" className="mr-3" alt="quesimg" />
+                                                                            <div className="media-body">
+                                                                                <div className="mt-0">{obj.questions.length} </div>
                                                                             Questions
                                                                         </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-6">
-                                                                <div className="media mb-3">
-                                                                    <img src={marksimg} width="40" height="40" className="mr-3" alt="marksimg" />
-                                                                    <div className="media-body">
-                                                                        <div className="mt-0">200  </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-6">
+                                                                        <div className="media mb-3">
+                                                                            <img src={marksimg} width="40" height="40" className="mr-3" alt="marksimg" />
+                                                                            <div className="media-body">
+                                                                                <div className="mt-0">{obj.totalmarks}  </div>
                                                                         Marks
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-6">
-                                                                <div className="media mb-3">
-                                                                    <img src={timeimg} width="40" height="40" className="mr-3" alt="timeimg" />
-                                                                    <div className="media-body">
-                                                                        <div className="mt-0">60 </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-6">
+                                                                        <div className="media mb-3">
+                                                                            <img src={timeimg} width="40" height="40" className="mr-3" alt="timeimg" />
+                                                                            <div className="media-body">
+                                                                                <div className="mt-0">{obj.time} </div>
                                                                         Minutes
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-6">
-                                                                <div className="media mb-3">
-                                                                    <img src={negativeimg} width="40" height="40" className="mr-3" alt="negativeimg" />
-                                                                    <div className="media-body">
-                                                                        <div className="mt-0">1 </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-6">
+                                                                        <div className="media mb-3">
+                                                                            <img src={negativeimg} width="40" height="40" className="mr-3" alt="negativeimg" />
+                                                                            <div className="media-body">
+                                                                                <div className="mt-0">0 </div>
                                                                         Negative
                                                                     </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
+                                                                <div className="mt-price mb-3">
+                                                                    Free
+			                                                    </div>
+                                                                {/* <div className="mt-tags"><a href="#" >NEET</a> <a href="#" >Maths</a> </div> */}
                                                             </div>
                                                         </div>
-                                                        <div className="mt-price mb-3">
-                                                            Free
-			                                            </div>
-                                                        <div className="mt-tags"><a href="#" >NEET</a> <a href="#" >Maths</a> </div>
-                                                    </div>
-                                                </div>
+                                                    ))
+                                                }
                                             </div>
                                         </Tab>
                                     </Tabs>
