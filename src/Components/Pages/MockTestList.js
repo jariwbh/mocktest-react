@@ -17,7 +17,8 @@ class MockTestList extends Component {
             offset: 0,
             perPage: 6,
             activePage: 1,
-            totalPages: 0
+            totalPages: 0,
+            loading: true
         };
     }
 
@@ -31,9 +32,9 @@ class MockTestList extends Component {
             .then(data => {
                 if (data != null) {
                     if (this._isMounted === true) {
-                        this.setState({ totalPages: data.length });
+                        this.setState({ loading: false, totalPages: data.length });
                         const slice = data.slice((this.state.activePage - 1) * this.state.perPage, this.state.activePage * this.state.perPage)
-                        this.setState({ mockTest: slice });
+                        this.setState({ loading: false, mockTest: slice });
                     }
                 }
                 else {
@@ -53,6 +54,7 @@ class MockTestList extends Component {
     }
 
     handlePageChange(pageNumber) {
+        window.scrollTo(0, 0);
         console.log(`active page is ${pageNumber}`);
         this.setState({ activePage: pageNumber, offset: pageNumber });
         this.receivedData();
@@ -64,7 +66,7 @@ class MockTestList extends Component {
     }
 
     render() {
-        const { mockTest } = this.state;
+        const { mockTest, loading } = this.state;
         console.log(mockTest)
         const mockTestList = mockTest.filter((obj) => {
             if (this.state.search == null)
@@ -143,9 +145,18 @@ class MockTestList extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
-                                {mockTestList}
-                            </div>
+                            {!loading &&
+                                <React.Fragment>
+                                    <div className="row">
+                                        {mockTestList}
+                                    </div>
+                                </React.Fragment>
+                            }
+                            {loading &&
+                                <div colSpan="4" className="text-center">
+                                    <span className="spinner-border spinner-border-lg align-center"></span>
+                                </div>
+                            }
                             <nav >
                                 <ul className="pagination justify-content-center">
                                     <Pagination

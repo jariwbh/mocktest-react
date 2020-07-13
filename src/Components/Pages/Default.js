@@ -7,21 +7,22 @@ import Contactus from './Contactus';
 import Faqs from "./Faqs";
 import TermOfService from "./TermsofService";
 import PrivacyPolice from "./PrivacyPolicy";
-import ForgetPassword from "./ForgetPassword";
+import ForgetPassword from "./ForgetPassword/ForgetPassword";
 import Teachers from "./Teachers";
 import MockTestDetails from "./MockTestDetails";
 import MockTestList from './MockTestList';
 import MockTestResults from "./MockTestResults";
 import MockTestStartTest from "./MockTestStartTest";
 import Home from './Home';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Router } from 'react-router-dom';
 import Test from "./Test";
 import Demo from "./Demo"
 import DemoSlider from "./DemoSlider"
 import Dashboard from "./Dashboard";
 import StudentProfile from "./StudentProfile";
-
 import { ProtectedRoute } from "./ProtectedRoute";
+import ForgetPassVerifyMobile from "./ForgetPassword/ForgetPassVerifyMobile";
+import NewPassword from "./ForgetPassword/NewPassword";
 
 class Default extends Component {
     constructor() {
@@ -57,7 +58,8 @@ class Default extends Component {
                     <Route exact path="/Test" component={Test} />
                     <Route exact path="/Demo" component={Demo} />
                     <Route exact path="/DemoSlider" component={DemoSlider} />
-
+                    <Route exact path="/ForgetPassVerifyMobile" component={ForgetPassVerifyMobile} />
+                    <Route exact path="/NewPassword" component={NewPassword} />
 
                     <ProtectedRoute path="/Teachers" component={Teachers} />
                     <ProtectedRoute path="/Dashboard" component={Dashboard} />

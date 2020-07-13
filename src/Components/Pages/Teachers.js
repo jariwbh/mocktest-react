@@ -17,8 +17,8 @@ class Teachers extends Component {
             offset: 0,
             perPage: 5,
             activePage: 1,
-            totalPages: 0
-
+            totalPages: 0,
+            loading: true,
         };
     }
 
@@ -28,9 +28,9 @@ class Teachers extends Component {
         TeacherService.getAllTeachers(body)
             .then(data => {
                 if (this._isMounted) {
-                    this.setState({ totalPages: data.length });
+                    this.setState({ loading: false, totalPages: data.length });
                     const slice = data.slice((this.state.activePage - 1) * this.state.perPage, this.state.activePage * this.state.perPage)
-                    this.setState({ teachers: slice });
+                    this.setState({ loading: false, teachers: slice });
                 }
             })
     }
@@ -46,6 +46,7 @@ class Teachers extends Component {
     }
 
     handlePageChange(pageNumber) {
+        window.scrollTo(0, 0);
         console.log(`active page is ${pageNumber}`);
         this.setState({ activePage: pageNumber, offset: pageNumber });
         this.receivedData();
@@ -57,7 +58,7 @@ class Teachers extends Component {
     }
 
     render() {
-        const { teachers } = this.state;
+        const { teachers, loading } = this.state;
         const teachersList = teachers.filter((obj) => {
             if (this.state.search == null)
                 return obj
@@ -103,40 +104,47 @@ class Teachers extends Component {
         return (
             <React.Fragment>
                 <Header />
-                <main className="flex-shrink-0">
-                    <section className="common-block">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-lg-6 offset-lg-3">
-                                    <div className="mt-search mb-5" >
-                                        <form action="#" className="mt-form">
-                                            <input name="search" className="form-control" onChange={(e) => this.searchSpace(e)} placeholder="Search Teacher" type="search" />
-                                            <span className="mt-btn">
-                                                <button type="submit" ><i className="customicons-search-icon"></i></button>
-                                            </span>
-                                        </form>
+                {!loading &&
+                    <main className="flex-shrink-0">
+                        <section className="common-block">
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col-lg-6 offset-lg-3">
+                                        <div className="mt-search mb-5" >
+                                            <form action="#" className="mt-form">
+                                                <input name="search" className="form-control" onChange={(e) => this.searchSpace(e)} placeholder="Search Teacher" type="search" />
+                                                <span className="mt-btn">
+                                                    <button type="submit" ><i className="customicons-search-icon"></i></button>
+                                                </span>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
+                                {teachersList}
+                                <nav>
+                                    <ul className="pagination justify-content-center">
+                                        <Pagination
+                                            prevPageText='Previous'
+                                            nextPageText='Next'
+                                            activePage={this.state.activePage}
+                                            itemsCountPerPage={this.state.perPage}
+                                            totalItemsCount={this.state.totalPages}
+                                            pageRangeDisplayed={5}
+                                            onChange={this.handlePageChange.bind(this)}
+                                            itemClass="page-item"
+                                            linkClass="page-link"
+                                        />
+                                    </ul>
+                                </nav>
                             </div>
-                            {teachersList}
-                            <nav>
-                                <ul className="pagination justify-content-center">
-                                    <Pagination
-                                        prevPageText='Previous'
-                                        nextPageText='Next'
-                                        activePage={this.state.activePage}
-                                        itemsCountPerPage={this.state.perPage}
-                                        totalItemsCount={this.state.totalPages}
-                                        pageRangeDisplayed={5}
-                                        onChange={this.handlePageChange.bind(this)}
-                                        itemClass="page-item"
-                                        linkClass="page-link"
-                                    />
-                                </ul>
-                            </nav>
-                        </div>
-                    </section>
-                </main>
+                        </section>
+                    </main>
+                }
+                {loading &&
+                    <div colSpan="4" className="text-center">
+                        <span className="spinner-border spinner-border-lg align-center"></span>
+                    </div>
+                }
                 <Footer />
             </React.Fragment>
         );
