@@ -116,7 +116,7 @@ class Signin extends Component {
                 <form method="post" name="userSignInForm" onChange={this.handleInputChange} >
                   {error && <div className="alert alert-danger">{error}</div>}
                   <h2 className="mb-3"> Student Sign In</h2>
-                  <div class="white-box-no-animate p-20">
+                  <div className="white-box-no-animate p-20">
                     <div className="form-group">
                       <label htmlFor="email" className="user-select-all">Email <span style={{ color: 'red' }}>*</span> </label>
                       <input type="email" name='username' placeholder="Enter The Email" className="form-control" id="username" aria-describedby="emailHelp" value={username} onChange={this.handleChange} />
