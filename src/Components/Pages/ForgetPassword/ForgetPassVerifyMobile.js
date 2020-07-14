@@ -3,6 +3,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import FormValidator from '../FromValidator';
 import { forGetUserIcon } from '../Image';
+import StudentService from '../../../Core/Services/Student/BsStudent'
 
 class ForgetPassVerifyMobile extends Component {
     constructor() {
@@ -15,9 +16,12 @@ class ForgetPassVerifyMobile extends Component {
                 message: 'Enter 6-digit verification code'
             },
         ]);
+
         this.state = {
             verifyCode: '',
             validation: this.validator.valid(),
+            StudentId: '',
+            StudentName: ''
         }
         this.submitted = false;
     }
@@ -38,19 +42,24 @@ class ForgetPassVerifyMobile extends Component {
         if (validation.isValid) {
             this.props.history.push('/NewPassword')
         }
-
     };
 
-    handleChange(e) {
-        let fields = this.state.fields;
-        fields[e.target.name] = e.target.value;
-        this.setState({
-            fields
-        });
+    componentDidMount() {
+        document.title = "Igyanam";
+        window.scrollTo(0, 0);
+        const { StudentId } = this.props.match.params.id
+        console.log('StudentId')
+        console.log(StudentId)
+        StudentService.getByIdStudent(StudentId)
+            .then(data => {
+                this.setState({ StudentName: data });
+                console.log(this.state.StudentName)
+            })
     }
 
     render() {
         const validation = this.submitted ? this.validator.validate(this.state) : this.state.validation
+        const { StudentName } = this.state;
         return (
             <React.Fragment>
                 <Header />
@@ -66,7 +75,7 @@ class ForgetPassVerifyMobile extends Component {
                                                 <img className="rounded-circle img-fluid" src={forGetUserIcon} />
                                             </div>
                                             <br />
-                                            <h4 className="card-title text-center">{'harshad jariwaka'}</h4>
+                                            <h4 className="card-title text-center">{'Jay Parmar'}</h4>
                                             <label htmlFor="exampleInputNumber" className="text-center">
                                                 A text message with a 6-digit verification code was just sent to Registered Mobile number.
                                                 <span style={{ color: 'red' }}>*</span>
