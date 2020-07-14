@@ -58,7 +58,7 @@ class Default extends Component {
                     <Route exact path="/Test" component={Test} />
                     <Route exact path="/Demo" component={Demo} />
                     <Route exact path="/DemoSlider" component={DemoSlider} />
-                    <Route exact path="/ForgetPassVerifyMobile" component={ForgetPassVerifyMobile} />
+                    <Route exact path="/ForgetPassVerifyMobile/:id" component={ForgetPassVerifyMobile} />
                     <Route exact path="/NewPassword" component={NewPassword} />
 
                     <ProtectedRoute path="/Teachers" component={Teachers} />
