@@ -24,13 +24,25 @@ class MockTestDetails extends Component {
             disabledPrev: true,
             minutes: 0,
             seconds: 0,
-            userDetails:''
+            userDetails:'',
 
         };
     }
+     get_Diff_minutes() {
+         let maintDate = new Date();
+         let dt1 =  new Date(new Date(maintDate.getFullYear(),maintDate.getMonth(),maintDate.getDate()).getTime() + this.state.mockTestData.time*60000);            
+         let dt2 = new Date(new Date(maintDate.getFullYear(),maintDate.getMonth(),maintDate.getDate()).getTime() + this.state.minutes*60000 + this.state.seconds * 1000);
+         let difference = dt1.getTime() - dt2.getTime(); // This will give difference in milliseconds
+         let resultInMinutes = Math.round(difference / 60000);
+         let resultInSeconds = Math.round(difference / 1000);
 
+         return resultInMinutes;
+        
+        //return new Date(dt.getTime() + minutes*60000);
+    }
     prepareRelustObjectonSumbit()
     {
+        this.examObject.timetaken = this.get_Diff_minutes();
         this.IsTimerStart = false;
         //let timetaken = (this.state.mockTestData.time - (this.state.minutes +':'+ this.state.seconds));       
         let endtime = new Date();
@@ -116,7 +128,22 @@ class MockTestDetails extends Component {
         this.examObject.percentage = ((this.examObject.markesobtained * 100)/totalmarks).toFixed(2);
         this.examObject.starttime = this.starttime;
         this.examObject.endtime = endtime;
-        
+        console.log('My JSON Object',JSON.stringify(this.examObject));
+
+        this.addExamResult(this.examObject);
+
+    }
+
+    addExamResult(data)
+    { 
+        MockTestService.addExamResult(data)
+        .then(data => {
+            console.log(data);
+            let resultID = data._id;
+            this.props.history.push('/MockTestResults/'+resultID);            
+        }).catch(error => {
+            console.log(error);
+        });
 
     }
     componentDidMount() {
@@ -305,7 +332,7 @@ class MockTestDetails extends Component {
             let answeridarray=[];
             
             answer.questionid =qid;
-            answer.itemindex =itemindex;
+            //answer.itemindex =itemindex;
 
             // let radioanswerobj={};
 
