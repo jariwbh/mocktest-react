@@ -9,7 +9,9 @@ import $ from 'jquery';
 class MockTestDetails extends Component {
     _isMounted = false;
     answers=[];
-   
+    examObject={};
+    starttime = new Date();
+    IsTimerStart = true;
     constructor() {
         super();
         this.state = {
@@ -22,11 +24,103 @@ class MockTestDetails extends Component {
             disabledPrev: true,
             minutes: 0,
             seconds: 0,
+            userDetails:''
 
         };
     }
 
+    prepareRelustObjectonSumbit()
+    {
+        this.IsTimerStart = false;
+        //let timetaken = (this.state.mockTestData.time - (this.state.minutes +':'+ this.state.seconds));       
+        let endtime = new Date();
+        const allMockTestArray = this.state.mockTestArray;
+        this.examObject.attemptedquestions = this.answers.length;
+        this.examObject.unattemptedquestions = this.state.mockTestArray.length - this.examObject.attemptedquestions;
+      
+        let correctanswers = 0;
+        let incorrectanswers = 0;
+        let totalpositivemarks = 0;
+        let totalnegativemarks = 0;
+        let totalmarks = 0;
+
+        $.each(allMockTestArray, function () {
+            totalmarks += this.mark;
+        });
+
+        console.log('this.examObject = ',this.examObject.correctanswers);
+
+        const tempAnswerobj = [...this.answers];
+        $(tempAnswerobj).each(function (index,val){
+           
+            let examibjOption = allMockTestArray.find(x=>x._id == val.questionid);
+
+            if(examibjOption && examibjOption.options)
+            {
+                if(examibjOption.questiontype == 'Multi Select')
+                {
+                    let CorrectOptions =[];
+                    examibjOption.options.forEach(x => {if (x.iscorrect == true) CorrectOptions.push(x)});
+
+                    let isValidTotal = 0;
+
+                    $.each(val.answerid, function (index,Optionval) {
+
+                       let isCorrectOpt = CorrectOptions.find(x=>x.option == Optionval);
+
+                       if(isCorrectOpt)
+                       {
+                          isValidTotal += 1;
+                       }
+                    });
+
+                    if((val.answerid.length == CorrectOptions.length) && (isValidTotal == CorrectOptions.length))
+                    {
+                        correctanswers = correctanswers + 1;
+                        totalpositivemarks = totalpositivemarks + examibjOption.mark;
+                    }
+                    else
+                    {
+                        incorrectanswers = incorrectanswers + 1;
+                        totalnegativemarks = totalnegativemarks + examibjOption.negativemark;
+                    }
+                }
+                else
+                {
+                    var optionObj = examibjOption.options.find(x=>x.iscorrect == true);
+
+                    if(optionObj.option == val.answerid[0])
+                    {
+                        correctanswers = correctanswers + 1;
+                        totalpositivemarks = totalpositivemarks + examibjOption.mark;
+                    }
+                    else
+                    {
+                        incorrectanswers = incorrectanswers+1;
+                        totalnegativemarks = totalnegativemarks + examibjOption.negativemark;
+                    }
+                }
+            }
+
+        });
+
+        this.examObject.examid = this.props.match.params.id;
+        this.examObject.studentid= this.state.userDetails.user._id;
+        this.examObject.answers = this.answers;
+        this.examObject.correctanswers = correctanswers;
+        this.examObject.incorrectanswers = incorrectanswers;       
+        this.examObject.totalpositivemarks = totalpositivemarks;
+        this.examObject.totalnegativemarks = totalnegativemarks;
+        this.examObject.markesobtained = totalpositivemarks - totalnegativemarks;
+        this.examObject.totalmarks = totalmarks;
+        this.examObject.percentage = ((this.examObject.markesobtained * 100)/totalmarks).toFixed(2);
+        this.examObject.starttime = this.starttime;
+        this.examObject.endtime = endtime;
+        
+
+    }
     componentDidMount() {
+        console.log('componentDidMount....');
         document.title = "Igyanam";
         window.scrollTo(0, 0);
         MockTestService.getByIdMockTest(this.props.match.params.id)
@@ -39,25 +133,33 @@ class MockTestDetails extends Component {
 
     }
 
-    receivedData() {
-        this.myInterval = setInterval(() => {
-            const { seconds, minutes } = this.state
-
-            if (seconds > 0) {
-                this.setState(({ seconds }) => ({
-                    seconds: seconds - 1
+    startTimer()
+    {
+        const { seconds, minutes } = this.state
+        console.log(minutes,seconds);
+        if (seconds > 0) {
+            this.setState(({ seconds }) => ({
+                seconds: seconds - 1
+            }))
+        }
+        if (seconds === 0) {
+            if (minutes === 0) {
+                clearInterval(this.myInterval)
+            } else {
+                this.setState(({ minutes }) => ({
+                    minutes: minutes - 1,
+                    seconds: 59
                 }))
             }
-            if (seconds === 0) {
-                if (minutes === 0) {
-                    clearInterval(this.myInterval)
-                } else {
-                    this.setState(({ minutes }) => ({
-                        minutes: minutes - 1,
-                        seconds: 59
-                    }))
-                }
+        }
+    }
+    receivedData() {
+        this.myInterval = setInterval(() => {
+            if(this.IsTimerStart)
+            {
+                this.startTimer()
             }
+            
         }, 1000)
     }
 
@@ -66,53 +168,8 @@ class MockTestDetails extends Component {
         let index = this.state.index - 1;
         let disabledPrev = (index === 0);
         this.setState({ index: index, disabledPrev: disabledPrev, disabledNext: false });
-        var questionid = $(".divQuestion")[0].dataset.questionid;
-        var item = this.answers.find( x => x.questionid == questionid);
-
-        $.each(this.answers, function(key, val){
-            let k = key;
-            let v= val;
-            if(val.questionid == questionid)
-            {
-                var optId= val.answerid[0];
-            }
-        });
-    }
-    
-    radionbuttonClick(e){
-            let optVal = e.target.value;
-            let optId = e.target.id;
-            let qid = e.target.dataset.questionid;
-            let itemindex = e.target.dataset.itemindex;
-            let questiontype = e.target.dataset.questiontype;
-
-            const persons = [...this.answers];
-            //First Remove item from list
-            $(this.answers).each(function (index,val){
-                if(val.questionid ==qid){
-                    persons.splice(index,1);
-                    return false; // This will stop the execution of jQuery each loop.
-                }
-            });
-            
-            this.answers = persons;
-
-            let answer={};
-            let answeridarray=[];
-            
-            answer.questionid =qid;
-            answer.itemindex =itemindex;
-
-            let radioanswerobj={};
-
-            radioanswerobj.radioId=optId;
-            radioanswerobj.radioValue=optVal;
-
-            answeridarray.push(radioanswerobj);
-            answer.answerid = answeridarray;
-
-            this.answers.push(answer);
-    }
+       
+    }   
     toggleNext(e) {
 
         debugger;      
@@ -122,24 +179,182 @@ class MockTestDetails extends Component {
         let disabledNext = index === (this.state.mockTestArray.length - 1);
 
         this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false });
+        this.unselecteOptionAll();
+    }
+
+    unselecteOptionAll()
+    {
         $('input:radio[name=radioOption]').each(function () { $(this).prop('checked', false); });
+        $('input:checkbox[name=checkboxOption]').each(function () { $(this).prop('checked', false); });
+    }
+
+    deselectClick(e){
+        let qid = e.target.dataset.questionid;
+        this.unselecteOptionAll();
+        this.removeQuestionItemFromList(qid);
+
+    }
+
+    selecteOption()
+    {
+        var questionid = $(".divQuestion")[0].dataset.questionid;
+
+        $(this.answers).each(function (index,val){
+            if(val.questionid ==questionid){
+               
+                $("#male").prop("checked", true);
+                return false; // This will stop the execution of jQuery each loop.
+            }
+        });
+    }
+    removeQuestionItemFromList(questionid)
+    {
+        const tempAnswerobj = [...this.answers];
+        //First Remove item from list
+        $(this.answers).each(function (index,val){
+            if(val.questionid ==questionid){
+                tempAnswerobj.splice(index,1);
+                return false; // This will stop the execution of jQuery each loop.
+            }
+        });
+        
+        this.answers = tempAnswerobj;
+    }
+
+    removeQuestionItemFromList_checkbox(questionid,optionvalue)
+    {
+        const tempAnswerobj = [...this.answers];
+        //First Remove item from list
+        $(this.answers).each(function (index,val){
+            if(val.questionid ==questionid){
+                const index = val.answerid.indexOf(optionvalue);
+                if (index > -1) {
+                            val.answerid.splice(index, 1);
+                }
+                //tempAnswerobj.splice(index,1);
+                return false; // This will stop the execution of jQuery each loop.
+            }
+        });
+        
+        this.answers = tempAnswerobj;
+    }
+    addOptionToList(questionid,optId,optVal)
+    {
+        const tempAnswerobj = [...this.answers];
+        //First Remove item from list
+        $(this.answers).each(function (index,val){
+            if(val.questionid ==questionid){
+               val.answerid.push(optVal);
+            }
+        });
+        
+        this.answers = tempAnswerobj;
+
+    }
+
+    checkboxbuttonClick(e)
+    {
+        let optVal = e.target.value;
+        let optId = e.target.id;
+        let qid = e.target.dataset.questionid;
+        let itemindex = e.target.dataset.itemindex;
+        let questiontype = e.target.dataset.questiontype;
+
+       
+
+        if (e.target.checked) {
+
+            const tempAnswerobj = [...this.answers];        
+            let item = tempAnswerobj.find(x=>x.questionid == qid);
+            if(item)
+            {
+                this.addOptionToList(qid,optId,optVal);
+            }
+            else
+            {
+                let answeridarray=[];
+                let answer={};
+    
+                answer.questionid =qid;
+                answeridarray.push(optVal);
+                answer.answerid = answeridarray;
+                
+                tempAnswerobj.push(answer);
+                this.answers = tempAnswerobj;
+            }           
+          } 
+          else {
+            this.removeQuestionItemFromList_checkbox(qid,optVal);
+          }
+
+       
+
+    }
+    
+
+    radionbuttonClick(e){
+
+            let optVal = e.target.value;
+            let optId = e.target.id;
+            let qid = e.target.dataset.questionid;
+            let itemindex = e.target.dataset.itemindex;
+            let questiontype = e.target.dataset.questiontype;
+            this.removeQuestionItemFromList(qid);
+
+            let answer={};
+            let answeridarray=[];
+            
+            answer.questionid =qid;
+            answer.itemindex =itemindex;
+
+            // let radioanswerobj={};
+
+            // radioanswerobj.radioId=optId;
+            // radioanswerobj.radioValue=optVal;
+
+            answeridarray.push(optVal);
+            answer.answerid = answeridarray;
+
+            this.answers.push(answer);
+    }
+
+    getSnapshotBeforeUpdateate(PrevProps,PreState)
+    {
+        console.log('getSnapshotBeforeUpdateate....');
+        return {Message : 'Snapshot!!'}
+    }   
+    componentDidUpdatepdate(preProps,preState,snapsot){
+        console.log('componentDidUpdatepdate....');
+        console.log('snapsot1',snapsot);
     }
     componentWillMount() {
-        this.receivedData();
+        console.log('componentWillMount....');
+        if(this.IsTimerStart)
+        {
+            this.receivedData();
+        }   
     }
 
     componentWillUnmount() {
-        clearInterval(this.receivedData)
+        console.log('componentWillUnmount....');
+
+        if(this.IsTimerStart)
+        {
+            clearInterval(this.receivedData)
+        }   
+        
         this._isMounted = false;
     }
 
     render() {
+        this.state.userDetails = JSON.parse(localStorage.getItem('authuser'));
+        console.log('render....');
         const { mockTestData, addedby, property, minutes, seconds } = this.state;
         const { index, disabledNext, disabledPrev, mockTestArray } = this.state
         const mocktestobj = this.state.mockTestArray ? this.state.mockTestArray[index] : null;
         const mockTest = mockTestArray ? mockTestArray[index] : null;
        
-        console.log('mockTest', mockTest);
+        //console.log('mockTest', mockTest);
         if (mockTest) {
             mockTest.itemindex = index;
             
@@ -150,7 +365,7 @@ class MockTestDetails extends Component {
                         <nav className="navbar navbar-expand navbar-dark p-0">
                             <div id="header" className="header-inner fixed-top">
                                 <div className="container">
-                                    <Link to="/" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
+                                    <Link to="/Dashboard" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
                                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span className="navbar-toggler-icon"></span> </button>
                                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                         <ul className="navbar-nav ml-auto">
@@ -160,7 +375,16 @@ class MockTestDetails extends Component {
                                                     : <>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</>
                                                 }
                                             </span></li>
-                                            <li className="nav-item"> <Link to="/MockTestResults" className="btn btn-primary btn-lg">Submit</Link> </li>
+                                            <li className="nav-item">
+                                                {/* <Link 
+                                                        to="/MockTestResults" 
+                                                        className="btn btn-primary btn-lg"
+                                                        onClick={this.prepareRelustObjectonSumbit}
+                                                >
+                                                    Submit
+                                                </Link> */}
+                                                <a href="#" onClick={this.prepareRelustObjectonSumbit.bind(this)} className="btn btn-primary btn-lg">Submit</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -238,7 +462,14 @@ class MockTestDetails extends Component {
                                                     <h2> {mockTestData.title}</h2>
                                                     <div className="mb-3"><span className="mr-4" >{moment(mockTestData.startdatetime).format("D MMMM YYYY")}</span>   <span className="mt-price">Free</span> </div>
                                                     {/* <div className="mt-tags mb-4"><a href="#"  >NEET</a> <a href="#" >Maths</a> </div> */}
-                                                    <MockTest {...mockTest} click={(e) => this.radionbuttonClick(e)} />
+                                                    <MockTest 
+                                                                {...mockTest} 
+                                                                click={(e) => this.radionbuttonClick(e)}  
+                                                                deselect={(e) => this.deselectClick(e)} 
+                                                                chkclick={(e) => this.checkboxbuttonClick(e)} 
+                                                                questionitem = {this.answers}
+
+                                                    />
                                                     <div>
                                                         <Prev toggle={(e) => this.togglePrev(e)} active={disabledPrev} />
                                                         <Next toggle={(e) => this.toggleNext(e)} active={disabledNext} />
@@ -258,6 +489,7 @@ class MockTestDetails extends Component {
         }
     }
 }
+
 function Prev(props) {
     console.log('toggle',props.toggle);
     return (
@@ -272,12 +504,62 @@ function Next(props) {
 }
 
 function MockTest(props) {
+    console.log('props.questionitem',props.questionitem);
+    let currItem = props.questionitem.find(x=>x.questionid == props._id);
+    let currOptVal = '';
+
+    if(currItem)
+    {
+        //currOptVal = currItem.answerid[0];
+        $(props.options).each(function (index,val){
+            
+            if(currItem.answerid.includes(val.option))
+            {
+                val.ischecked=true;
+            }
+        });
+
+    }
     let OptionList = null;
+
     if (props != null) {
-        console.log('radiclick',props.click);
+        
         OptionList = props.options.map((optionval, index) => (
+                                             
                                             <div className="form-check mb-3 divOption">
-                                                <input className="form-check-input" type="radio" name="radioOption" value={optionval.option} id={optionval._id} onClick={props.click} data-questionid={props._id} data-itemindex = {props.itemindex} data-questiontype ={props.questiontype} />
+                                                {
+                                                    props.questiontype == 'Multi Select'?
+                                                    <input 
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            name="checkboxOption"
+                                                            value={optionval.option} 
+                                                            id={optionval._id} 
+                                                            onClick={props.chkclick} 
+                                                            data-questionid = {props._id} 
+                                                            data-itemindex = {props.itemindex} 
+                                                            data-questiontype = {props.questiontype}  
+                                                            data-mark = {props.mark}
+                                                            //checked={optionval.ischecked} 
+                                                            
+                                                    />
+                                                    :
+                                                    <input 
+                                                            className="form-check-input"
+                                                            type="radio"
+                                                            name="radioOption"
+                                                            value={optionval.option} 
+                                                            id={optionval._id} 
+                                                            onClick={props.click} 
+                                                            data-questionid = {props._id} 
+                                                            data-itemindex = {props.itemindex} 
+                                                            data-questiontype = {props.questiontype}
+                                                            data-mark = {props.mark}
+                                                            //checked={optionval.ischecked} 
+                                                            
+                                                    />
+                                                }
+                                                 
                                                
                                                    <label className="form-check-label">
                                                     {
@@ -285,11 +567,7 @@ function MockTest(props) {
                                                     }
                                                 </label>
                                             </div>
-                         ));
-                                    
-                                
-                           
-        
+                         ));        
       }
    
     return (
@@ -306,7 +584,7 @@ function MockTest(props) {
                 OptionList
             }
             <div className="mb-5">
-                <a href="#">Deselect </a>
+                <a href="#" onClick={props.deselect} data-questionid={props._id}>Deselect </a>
             </div>
         </div>
     );
