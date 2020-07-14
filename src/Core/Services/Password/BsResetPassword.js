@@ -1,5 +1,5 @@
-import React, { Component, useState } from 'react';
 import axios from '../../../axiosInst'
+import appConfig from '../../configuration/AppConfig'
 
 class PasswordService {
     static ResetPassword(data) {
@@ -11,5 +11,21 @@ class PasswordService {
                 console.log(error);
             });
     }
+
+    static getUserIdForgetPassword(data) {
+        const body = JSON.stringify(data)
+        const requestOptions = {
+            method: 'POST',
+            headers: appConfig.headers,
+            body: body
+        };
+        return fetch(appConfig.baseUrl + 'members/filter', requestOptions)
+            .then(response => response.json())
+            .catch(error => {
+                //this.setState({ errorMessage: error });
+                console.error('There was an error!', error);
+            });
+    }
 }
+
 export default PasswordService;
