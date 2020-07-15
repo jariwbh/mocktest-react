@@ -20,7 +20,8 @@ class MockTestResults extends Component {
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
-
+        this._isMounted = true;
+        
         axios.get(`examresults/${this.props.match.params.id}`)
             .then((response) => {
                 if (this._isMounted) {
