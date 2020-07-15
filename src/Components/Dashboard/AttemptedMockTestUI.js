@@ -4,7 +4,6 @@ import * as moment from 'moment'
 import * as images from '../Pages/Image'
 
 function AttemptedMockTestUI(props) {
-    console.log('Attempted Mock Test:', props)
     return (
         <div className="col-lg-4 col-sm-6 d-flex" >
             <div className="white-box animate slideIn" >
@@ -41,7 +40,7 @@ function AttemptedMockTestUI(props) {
                 <div className="row">
                     <div className="col-6">
                         {/* <a href="#" className="btn btn-primary btn-block">Marksheet</a> */}
-                        <Link to="MockTestResults" params className="btn btn-primary btn-block">Marksheet</Link>
+                        <Link to={`MockTestResults/${props.id}`} className="btn btn-primary btn-block">Marksheet</Link>
                     </div>
                     <div className="col-6">
                         <a href="#" className="btn btn-primary btn-block">Retake</a>
