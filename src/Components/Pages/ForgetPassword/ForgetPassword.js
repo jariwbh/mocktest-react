@@ -39,14 +39,11 @@ class ForgetPassword extends Component {
       this.submitted = true;
       const { UserName, error } = this.state;
       console.log(UserName)
-      const ForgetPasswordBody = {
+      const ForgetPasswordBody =
+      {
         "search": [
-          {
-            "searchfield": "membernumber",
-            "searchvalue": UserName,
-            "criteria": "eq",
-            "datatype": "text"
-          }
+          { "searchfield": "property.mobile_number", "searchvalue": UserName, "criteria": "eq", "cond": "or" },
+          { "searchfield": "membernumber", "searchvalue": UserName, "criteria": "eq", "cond": "or" }
         ]
       }
       ResetPasswordService.getUserIdForgetPassword(ForgetPasswordBody)
@@ -55,6 +52,7 @@ class ForgetPassword extends Component {
             this.setState({ UserDetails: data[0] });
             const { UserDetails } = this.state;
             if (UserDetails != null) {
+
               this.props.history.push(`/ForgetPassVerifyMobile/${UserDetails._id}`)
             }
             else {
@@ -65,7 +63,6 @@ class ForgetPassword extends Component {
             this.setState({ error: 'Internal Server Error!' })
           }
         })
-
     }
   };
 
@@ -75,7 +72,6 @@ class ForgetPassword extends Component {
     this.setState({
       fields
     });
-
   }
 
   render() {
@@ -107,7 +103,6 @@ class ForgetPassword extends Component {
         <Footer />
       </React.Fragment>
     );
-
   }
 }
 
