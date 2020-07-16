@@ -179,6 +179,21 @@ class MockTestDetails extends Component {
 
     }
 
+    examTimeOver()
+    {
+        swal("Time is over!", {
+            buttons: false,
+            timer: 5000,
+          })
+          .then(
+            this.prepareRelustObjectonSumbit()
+          );
+
+       
+
+
+       
+    }
     startTimer()
     {
         const { seconds, minutes } = this.state
@@ -191,6 +206,7 @@ class MockTestDetails extends Component {
         if (seconds === 0) {
             if (minutes === 0) {
                 clearInterval(this.myInterval)
+                this.examTimeOver();
             } else {
                 this.setState(({ minutes }) => ({
                     minutes: minutes - 1,
