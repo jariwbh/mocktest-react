@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import * as moment from 'moment'
 import Header from './Header';
 import Footer from './Footer';
@@ -18,10 +19,10 @@ class MockTestResults extends Component {
     }
 
     componentDidMount() {
-        document.title = "Igyanam";
+        document.title = "Igyanam - Mock Test Result";
         window.scrollTo(0, 0);
         this._isMounted = true;
-        
+
         axios.get(`examresults/${this.props.match.params.id}`)
             .then((response) => {
                 if (this._isMounted) {
@@ -70,11 +71,11 @@ class MockTestResults extends Component {
                                                         </tr>
                                                         <tr>
                                                             <td className="text-success">Correct Answers	</td>
-                                                            <td>{examresult.correctanswers} <a href="#" className="text-success ml-3">View</a></td>
+                                                            <td>{examresult.correctanswers} <Link to={`/AnswerSheet/${examresult._id}`} className="text-success ml-3">View</Link></td>
                                                         </tr>
                                                         <tr>
                                                             <td className="text-danger">Incorrect Answers</td>
-                                                            <td>{examresult.incorrectanswers} <a href="#" className="text-danger ml-3">View</a></td>
+                                                            <td>{examresult.incorrectanswers} <Link to={`/AnswerSheet/${examresult._id}`} className="text-danger ml-3">View</Link></td>
                                                         </tr>
                                                         <tr>
                                                             <td >Duration</td>
@@ -87,7 +88,10 @@ class MockTestResults extends Component {
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <div><a href="#" className="btn btn-success btn-lg xs-mrb30"><span className="customicons-answersheet-icon"></span> Answer Sheet</a> <a href="#" className="btn btn-primary btn-lg xs-mrb30 ml-1"><span className="customicons-printer-icon"></span> Print</a></div>
+                                                <div>
+                                                <Link to={`/AnswerSheet/${examresult._id}`} className="btn btn-success btn-lg xs-mrb30">Answer Sheet</Link><span className="customicons-answersheet-icon"></span> 
+                                                
+                                                <a href="#" className="btn btn-primary btn-lg xs-mrb30 ml-1"><span className="customicons-printer-icon"></span> Print</a></div>
                                             </div>
                                         </div>
                                     </div>
