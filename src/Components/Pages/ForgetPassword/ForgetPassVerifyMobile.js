@@ -20,8 +20,8 @@ class ForgetPassVerifyMobile extends Component {
         this.state = {
             verifyCode: '',
             validation: this.validator.valid(),
-            StudentId: '',
-            StudentName: ''
+            StudentName: '',
+            error: ''
         }
         this.submitted = false;
     }
@@ -38,61 +38,72 @@ class ForgetPassVerifyMobile extends Component {
         event.preventDefault();
         const validation = this.validator.validate(this.state);
         this.setState({ validation });
-        this.submitted = true;
         if (validation.isValid) {
-            this.props.history.push('/NewPassword')
+            const { StudentName, verifyCode } = this.state;
+            if (verifyCode === '123456') {
+                this.props.history.push(`/NewPassword/${StudentName._id}`)
+                console.log('done')
+            }
+            else {
+                this.setState({ error: '6-digit verification code is wrong!' })
+            }
         }
     };
 
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
-        const { StudentId } = this.props.match.params.id
-        console.log('StudentId')
-        console.log(StudentId)
-        StudentService.getByIdStudent(StudentId)
-            .then(data => {
-                this.setState({ StudentName: data });
-                console.log(this.state.StudentName)
-            })
+        const StudentId = this.props.match.params.id;
+        if (StudentId != null) {
+            StudentService.getByIdStudent(StudentId)
+                .then(data => {
+                    this.setState({ StudentName: data });
+                    console.log(this.state.StudentName)
+                })
+        }
     }
 
     render() {
         const validation = this.submitted ? this.validator.validate(this.state) : this.state.validation
-        const { StudentName } = this.state;
-        return (
-            <React.Fragment>
-                <Header />
-                <main className="flex-shrink-0">
-                    <section className="common-block">
-                        <div className="container">
-                            <div className="login-main">
-                                <h2 className="mb-3"> Forgot Password</h2>
-                                <form method="post" name="ForgetVerifyMobile" onChange={this.handleInputChange} >
-                                    <div className="white-box-no-animate p-20">
-                                        <div className="form-group">
-                                            <div className="mr-4 text-center">
-                                                <img className="rounded-circle img-fluid" src={forGetUserIcon} />
-                                            </div>
-                                            <br />
-                                            <h4 className="card-title text-center">{'Jay Parmar'}</h4>
-                                            <label htmlFor="exampleInputNumber" className="text-center">
-                                                A text message with a 6-digit verification code was just sent to Registered Mobile number.
+        const { StudentName, error } = this.state;
+        if (StudentName) {
+            return (
+                <React.Fragment>
+                    <Header />
+                    <main className="flex-shrink-0">
+                        <section className="common-block">
+                            <div className="container">
+                                <div className="login-main">
+                                    <h2 className="mb-3"> Forgot Password</h2>
+                                    <form method="post" name="ForgetVerifyMobile" onChange={this.handleInputChange} >
+                                        {error && <div className="alert alert-danger">{error}</div>}
+                                        <div className="white-box-no-animate p-20">
+                                            <div className="form-group">
+                                                <div className="mr-4 text-center">
+                                                    <img className="rounded-circle img-fluid" src={forGetUserIcon} />
+                                                </div>
+                                                <br />
+                                                <h4 className="card-title text-center">{StudentName.property.fullname}</h4>
+                                                <label htmlFor="exampleInputNumber" className="text-center">
+                                                    A text message with a 6-digit verification code was just sent to Registered Mobile number.
                                                 <span style={{ color: 'red' }}>*</span>
-                                            </label>
-                                            <input type="text" placeholder="Enter the code" name='verifyCode' className="form-control" id="verifyCode" />
-                                            <span className="help-block">{validation.verifyCode.message}</span>
+                                                </label>
+                                                <input type="text" placeholder="Enter the code" name='verifyCode' className="form-control" id="verifyCode" />
+                                                <span className="help-block">{validation.verifyCode.message}</span>
+                                            </div>
+                                            <button className="btn btn-primary btn-lg btn-block" onClick={this.handleFormSubmit}>Next</button>
                                         </div>
-                                        <button className="btn btn-primary btn-lg btn-block" onClick={this.handleFormSubmit}>Next</button>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    </section>
-                </main>
-                <Footer />
-            </React.Fragment>
-        );
+                        </section>
+                    </main>
+                    <Footer />
+                </React.Fragment>
+            );
+        } else {
+            return <span></span>
+        }
     }
 }
 

@@ -6,6 +6,8 @@ import BsStudent from '../../Core/Services/Student/BsStudent'
 import BsResetpassword from '../../Core/Services/Password/BsResetPassword'
 import swal from 'sweetalert';
 import FormValidator from './FromValidator';
+import { getUser } from '../../Core/Auth'
+import { get } from 'jquery';
 
 export class StudentProfile extends Component {
 
@@ -115,7 +117,8 @@ export class StudentProfile extends Component {
     // }
 
     render() {
-        this.state.userDetails = JSON.parse(localStorage.getItem('authuser'));
+        this.state.userDetails = getUser() // JSON.parse(localStorage.getItem('authuser'));
+        console.log("Student Profile User:", this.state.userDetails)
         const validation = this.submitted ? this.validator.validate(this.state) : this.state.validation
         const { errorProfile, errorPassword, errors } = this.state;
         this.state.fullname = this.state.userDetails.user.property.fullname;
