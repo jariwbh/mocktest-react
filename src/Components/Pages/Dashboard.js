@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import AttemptedMockTestUI from '../Dashboard/AttemptedMockTestUI';
+import { getUserId } from '../../Core/Auth'
 import axios from '../../axiosInst'
 
 class Dashboard extends Component {
+    _isMounted = false;
 
     constructor() {
         super();
@@ -18,27 +20,35 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        document.title = "Igyanam";
+        this._isMounted = true;
 
+        document.title = "Igyanam Dashboard";
+        const userId = getUserId()
         const request = {
             "search": [
-                { "searchfield": "studentid", "searchvalue": "5e940ab9df559b3e68fd6612", "datatype": "ObjectId", "criteria": "eq" }
+                { "searchfield": "studentid", "searchvalue": userId, "datatype": "ObjectId", "criteria": "eq" }
             ]
         }
 
         axios.post('examresults/filter', request)
             .then((response) => {
-                this.setState({ loading: false, error: response.data.message, examresults: response.data })
-                console.log('Dashboard Response:', response.data);
+                if (this._isMounted) {
+                    this.setState({ loading: false, error: response.data.message, examresults: response.data })
+                }
             }, (error) => {
                 this.setState({ loading: false, errorMessage: error })
                 console.log('Dashboard Error:', error);
             });
 
     }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
         const { loading, examresults } = this.state
-        console.log('Dashboard Render: isLoading', loading);
+
         return (
             <React.Fragment>
                 <Header />
@@ -50,7 +60,8 @@ class Dashboard extends Component {
                                     <h2 className="mb-3"> Attempted Mock Test</h2>
                                     <div className="row">
                                         {examresults && examresults.map(examresult =>
-                                            <AttemptedMockTestUI key={examresult.examid._id}
+                                            <AttemptedMockTestUI key={examresult._id}
+                                                id={examresult._id}
                                                 title={examresult.examid.title}
                                                 createdAt={examresult.examid.createdAt}
                                                 attemptedquestions={examresult.attemptedquestions}

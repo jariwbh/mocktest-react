@@ -1,5 +1,5 @@
-import React, { Component, useState } from 'react';
 import axios from '../../../axiosInst'
+import appConfig from '../../configuration/AppConfig'
 
 class StudentService {
     static UpdateStudentProfile(id, data) {
@@ -10,6 +10,18 @@ class StudentService {
                 console.log(response);
             }).catch(error => {
                 console.log(error);
+            });
+    }
+
+    static getByIdStudent(id) {
+        const requestOptions = {
+            method: 'GET',
+            headers: appConfig.headers
+        };
+        return fetch(appConfig.baseUrl + 'members/' + id, requestOptions)
+            .then(response => response.json())
+            .catch(error => {
+                console.error('There was an error!', error);
             });
     }
 }

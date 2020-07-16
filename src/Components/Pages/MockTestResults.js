@@ -1,33 +1,62 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
+import * as moment from 'moment'
 import Header from './Header';
 import Footer from './Footer';
+import axios from '../../axiosInst'
 
 class MockTestResults extends Component {
-    constructor() {
-        super();
+    _isMounted = false;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            examresult: null,
+            loading: true,
+            errorMessage: ''
+        }
     }
 
     componentDidMount() {
-        document.title = "Igyanam";
+        document.title = "Igyanam - Mock Test Result";
         window.scrollTo(0, 0);
+        this._isMounted = true;
+
+        axios.get(`examresults/${this.props.match.params.id}`)
+            .then((response) => {
+                if (this._isMounted) {
+                this.setState({ loading: false, error: response.data.message, examresult: response.data })
+                }
+            }, (error) => {
+                this.setState({ loading: false, errorMessage: error })
+                console.log('MockTestResults Error:', error);
+            });
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+    
     render() {
+        const { loading, examresult } = this.state
         return (
             <React.Fragment>
                 <Header />
                 <main className="flex-shrink-0">
                     <section className="common-block">
                         <div className="container">
+                        {!loading &&
+                         <React.Fragment>
                             <div className="row">
                                 <div className="col-lg-12" >
                                     <div className="white-box-no-animate p-20 animate slideIn" >
                                         <div className="row">
                                             <div className="col-lg-12">
-                                                <h2> SPEED KOTA  Foundation Test</h2>
-                                                <div className="mb-4">10 June 2020 05:12 PM   </div>
+                                                <h2> {examresult.examid.title}</h2>
+                                                <div className="mb-4">{moment(examresult.examid.createdAt).format("D MMMM YYYY h:mm A")}</div>
                                                 <div className="mt-username" >
-                                                    Amol Patel
+                                                {examresult.studentid.property.fullname}
 					                        </div>
                                                 <table className="table table-bordered mb-5">
                                                     <thead>
@@ -38,27 +67,31 @@ class MockTestResults extends Component {
                                                     <tbody>
                                                         <tr>
                                                             <td width="50%">Questions Attempted	</td>
-                                                            <td>25 / 37</td>
+                                                            <td>{examresult.attemptedquestions} / {examresult.attemptedquestions + examresult.unattemptedquestions}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="text-success">Correct Answers	</td>
-                                                            <td>18 <a href="#" className="text-success ml-3">View</a></td>
+                                                            <td>{examresult.correctanswers} <Link to={`/AnswerSheet/${examresult._id}`} className="text-success ml-3">View</Link></td>
                                                         </tr>
                                                         <tr>
                                                             <td className="text-danger">Incorrect Answers</td>
-                                                            <td>6 <a href="#" className="text-danger ml-3">View</a></td>
+                                                            <td>{examresult.incorrectanswers} <Link to={`/AnswerSheet/${examresult._id}`} className="text-danger ml-3">View</Link></td>
                                                         </tr>
                                                         <tr>
                                                             <td >Duration</td>
-                                                            <td>0min. 52sec.</td>
+                                                            <td>{examresult.timetaken}min</td>
+                                                            {/* <td>0min. 52sec.</td> */}
                                                         </tr>
                                                         <tr>
                                                             <td >Marks</td>
-                                                            <td>12.00 / 145</td>
+                                                            <td>{examresult.markesobtained} / {examresult.totalmarks}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <div><a href="#" className="btn btn-success btn-lg xs-mrb30"><span className="customicons-answersheet-icon"></span> Answer Sheet</a> <a href="#" className="btn btn-primary btn-lg xs-mrb30 ml-1"><span className="customicons-printer-icon"></span> Print</a></div>
+                                                <div>
+                                                <Link to={`/AnswerSheet/${examresult._id}`} className="btn btn-success btn-lg xs-mrb30">Answer Sheet</Link><span className="customicons-answersheet-icon"></span> 
+                                                
+                                                <a href="#" className="btn btn-primary btn-lg xs-mrb30 ml-1"><span className="customicons-printer-icon"></span> Print</a></div>
                                             </div>
                                         </div>
                                     </div>
@@ -95,6 +128,13 @@ class MockTestResults extends Component {
                                     </div>
                                 </div>
                             </div>
+                         </React.Fragment>
+                        }
+                        {loading &&
+                                <div colSpan="4" className="text-center">
+                                    <span className="spinner-border spinner-border-lg align-center"></span>
+                                </div>
+                            }
                         </div>
                     </section>
                 </main>

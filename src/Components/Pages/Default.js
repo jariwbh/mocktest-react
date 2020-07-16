@@ -14,7 +14,7 @@ import MockTestList from './MockTestList';
 import MockTestResults from "./MockTestResults";
 import MockTestStartTest from "./MockTestStartTest";
 import Home from './Home';
-import { Switch, Route, Router } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Test from "./Test";
 import Demo from "./Demo"
 import DemoSlider from "./DemoSlider"
@@ -23,11 +23,12 @@ import StudentProfile from "./StudentProfile";
 import { ProtectedRoute } from "./ProtectedRoute";
 import ForgetPassVerifyMobile from "./ForgetPassword/ForgetPassVerifyMobile";
 import NewPassword from "./ForgetPassword/NewPassword";
+import AnswerSheet from "./AnswerSheet";
 
 class Default extends Component {
-    constructor() {
-        super();
-    }
+    // constructor() {
+    //     super();
+    // }
 
     componentDidMount() {
         document.title = "Igyanam";
@@ -39,7 +40,7 @@ class Default extends Component {
             <React.Fragment>
                 <Switch>
                     <Route strict exact path="/" component={Home} />
-                    {/* <Route exact path="/Teachers" component={Teachers} /> */}
+                    <Route exact path="/Teachers" component={Teachers} />
                     <Route exact path="/Faqs" component={Faqs} />
                     <Route exact path="/Contactus" component={Contactus} />
                     <Route exact path="/Signup" component={Signup} />
@@ -48,21 +49,20 @@ class Default extends Component {
                     <Route exact path="/TermsofService" component={TermOfService} />
                     <Route exact path="/PrivacyPolicy" component={PrivacyPolice} />
                     <Route exact path="/MockTestDetails/:id" component={MockTestDetails} />
-                    <Route exact path="/MockTestResults/:id" component={MockTestResults} />
                     <Route exact path="/MockTestList" component={MockTestList} />
-                    <Route exact path="/MockTestStartTest/:id" component={MockTestStartTest} />
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/TeacherProfile/:id" component={TeacherProfile} />
-                    {/* <Route exact path="/DashBoard" component={Dashboard} /> */}
-                    <Route exact path="/StudentProfile" component={StudentProfile} />
                     <Route exact path="/Test" component={Test} />
                     <Route exact path="/Demo" component={Demo} />
                     <Route exact path="/DemoSlider" component={DemoSlider} />
-                    <Route exact path="/ForgetPassVerifyMobile" component={ForgetPassVerifyMobile} />
-                    <Route exact path="/NewPassword" component={NewPassword} />
+                    <Route exact path="/ForgetPassVerifyMobile/:id" component={ForgetPassVerifyMobile} />
+                    <Route exact path="/NewPassword/:id" component={NewPassword} />
 
-                    <ProtectedRoute path="/Teachers" component={Teachers} />
                     <ProtectedRoute path="/Dashboard" component={Dashboard} />
+                    <ProtectedRoute exact path="/StudentProfile" component={StudentProfile} />
+                    <ProtectedRoute exact path="/MockTestStartTest/:id" component={MockTestStartTest} />
+                    <ProtectedRoute exact path="/MockTestResults/:id" component={MockTestResults} />
+                    <ProtectedRoute exact path="/AnswerSheet/:id" component={AnswerSheet} />
                 </Switch>
             </React.Fragment>
         );
