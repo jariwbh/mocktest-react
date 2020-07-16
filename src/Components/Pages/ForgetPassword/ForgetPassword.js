@@ -3,7 +3,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import FormValidator from '../FromValidator';
 import ResetPasswordService from '../../../Core/Services/Password/BsResetPassword';
-import { smstokenset } from '../../../Core/Auth'
+import { smstokenset } from '../../../Core/Sms'
 import SmsService from '../../../Core/Services/SMS/Bssms';
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('SecretKey');
@@ -44,7 +44,6 @@ class ForgetPassword extends Component {
       this.setState({ loading: true })
       this.submitted = true;
       const { UserName } = this.state;
-      console.log(UserName)
       const ForgetPasswordBody =
       {
         "search": [
@@ -62,7 +61,6 @@ class ForgetPassword extends Component {
               const rendomNumber = Math.floor(100000 + Math.random() * 900000);
               const encryptedRendomNumber = cryptr.encrypt(rendomNumber);
               smstokenset(encryptedRendomNumber)
-              console.log(rendomNumber)
               const SmsBody = {
                 "tomobile": `${UserDetails.property.mobile_number}`,
                 "message": `Your One Time Password (OTP) for Reset Password is ${rendomNumber}.This OTP Will Be Valid For Next 5 Minutes.`

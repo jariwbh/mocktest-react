@@ -4,7 +4,7 @@ import Footer from '../Footer';
 import FormValidator from '../FromValidator';
 import { forGetUserIcon } from '../Image';
 import StudentService from '../../../Core/Services/Student/BsStudent'
-import { getsms, destroySMS } from '../../../Core/Auth'
+import { getsms, destroySMS } from '../../../Core/Sms'
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('SecretKey');
 
