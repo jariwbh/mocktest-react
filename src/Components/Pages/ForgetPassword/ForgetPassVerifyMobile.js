@@ -1,9 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, version } from 'react'
 import Header from '../Header';
 import Footer from '../Footer';
 import FormValidator from '../FromValidator';
 import { forGetUserIcon } from '../Image';
 import StudentService from '../../../Core/Services/Student/BsStudent'
+import { getsms, destroySMS } from '../../../Core/Auth'
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('SecretKey');
 
 class ForgetPassVerifyMobile extends Component {
     constructor() {
@@ -21,14 +24,13 @@ class ForgetPassVerifyMobile extends Component {
             verifyCode: '',
             validation: this.validator.valid(),
             StudentName: '',
-            error: ''
+            error: '',
         }
         this.submitted = false;
     }
 
     handleInputChange = event => {
         event.preventDefault();
-
         this.setState({
             [event.target.name]: event.target.value,
         });
@@ -38,11 +40,13 @@ class ForgetPassVerifyMobile extends Component {
         event.preventDefault();
         const validation = this.validator.validate(this.state);
         this.setState({ validation });
+        const smstoken = getsms()
         if (validation.isValid) {
             const { StudentName, verifyCode } = this.state;
-            if (verifyCode === '123456') {
+            const decryptedsmstoken = cryptr.decrypt(smstoken);
+            if (verifyCode === decryptedsmstoken.toString()) {
                 this.props.history.push(`/NewPassword/${StudentName._id}`)
-                console.log('done')
+                destroySMS()
             }
             else {
                 this.setState({ error: '6-digit verification code is wrong!' })
@@ -58,7 +62,6 @@ class ForgetPassVerifyMobile extends Component {
             StudentService.getByIdStudent(StudentId)
                 .then(data => {
                     this.setState({ StudentName: data });
-                    console.log(this.state.StudentName)
                 })
         }
     }

@@ -135,7 +135,7 @@ export class StudentProfile extends Component {
                 var json = '{"username":' + JSON.stringify(this.state.userDetails.user.membernumber) + ',"status":"active","property":' + JSON.stringify(object) + '}';
                 console.log(json);
                 this.submitted = true;
-                //BsStudent.UpdateStudentProfile(this.state.userDetails.user._id, json)
+                BsStudent.UpdateStudentProfile(this.state.userDetails.user._id, json)
                 console.log('done');
                 swal({
                     title: "Your Profile Update!",
@@ -161,7 +161,7 @@ export class StudentProfile extends Component {
                     formData.forEach((value, key) => { object[key] = value });
                     var json = '{"username":' + JSON.stringify(this.state.userDetails.user.membernumber) + ',"newpassword":' + JSON.stringify(object.newpassword) + '}';
                     console.log(json);
-                    //BsResetpassword.ResetPassword(json)
+                    BsResetpassword.ResetPassword(json)
                     console.log('done');
                     swal({
                         title: "Your Password Reset!",

@@ -81,6 +81,7 @@ class Signup extends Component {
       swal({
         title: "Sign Up Success!",
         icon: "success",
+        text: "Please check your email and activate your account"
       });
       this.props.history.push('/signin')
     }

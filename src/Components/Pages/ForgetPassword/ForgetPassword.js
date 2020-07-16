@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import Header from '../Header';
 import Footer from '../Footer';
 import FormValidator from '../FromValidator';
-import ResetPasswordService from '../../../Core/Services/Password/BsResetPassword'
+import ResetPasswordService from '../../../Core/Services/Password/BsResetPassword';
+import { smstokenset } from '../../../Core/Auth'
+import SmsService from '../../../Core/Services/SMS/Bssms';
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('SecretKey');
 
 class ForgetPassword extends Component {
   constructor() {
@@ -19,6 +23,7 @@ class ForgetPassword extends Component {
       UserName: '',
       UserDetails: null,
       error: '',
+      loading: false,
       validation: this.validator.valid(),
     }
     this.submitted = false;
@@ -36,8 +41,9 @@ class ForgetPassword extends Component {
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
     if (validation.isValid) {
+      this.setState({ loading: true })
       this.submitted = true;
-      const { UserName, error } = this.state;
+      const { UserName } = this.state;
       console.log(UserName)
       const ForgetPasswordBody =
       {
@@ -46,21 +52,31 @@ class ForgetPassword extends Component {
           { "searchfield": "membernumber", "searchvalue": UserName, "criteria": "eq", "cond": "or" }
         ]
       }
+
       ResetPasswordService.getUserIdForgetPassword(ForgetPasswordBody)
         .then(data => {
           if (data != null) {
             this.setState({ UserDetails: data[0] });
             const { UserDetails } = this.state;
             if (UserDetails != null) {
-
+              const rendomNumber = Math.floor(100000 + Math.random() * 900000);
+              const encryptedRendomNumber = cryptr.encrypt(rendomNumber);
+              smstokenset(encryptedRendomNumber)
+              console.log(rendomNumber)
+              const SmsBody = {
+                "tomobile": `${UserDetails.property.mobile_number}`,
+                "message": `Your One Time Password (OTP) for Reset Password is ${rendomNumber}.This OTP Will Be Valid For Next 5 Minutes.`
+              }
+              SmsService.getSMS(SmsBody)
+              this.setState({ loading: false })
               this.props.history.push(`/ForgetPassVerifyMobile/${UserDetails._id}`)
             }
             else {
-              this.setState({ error: 'UserName or PhoneNumber is wrong!' })
+              this.setState({ loading: false, error: 'UserName or PhoneNumber is wrong!' })
             }
           }
           else {
-            this.setState({ error: 'Internal Server Error!' })
+            this.setState({ loading: false, error: 'Internal Server Error!' })
           }
         })
     }
@@ -76,7 +92,7 @@ class ForgetPassword extends Component {
 
   render() {
     const validation = this.submitted ? this.validator.validate(this.state) : this.state.validation;
-    const { error } = this.state;
+    const { error, loading } = this.state;
     return (
       <React.Fragment>
         <Header />
@@ -93,7 +109,9 @@ class ForgetPassword extends Component {
                       <input type="text" placeholder="Username or phone" name='UserName' className="form-control" id="UserName" />
                       <span className="help-block">{validation.UserName.message}</span>
                     </div>
-                    <button type="submit" className="btn btn-primary" onClick={this.handleFormSubmit} value="Next">Next</button>
+                    <button type="submit" className="btn btn-primary" onClick={this.handleFormSubmit} value="Next" disabled={loading}>
+                      {loading && <span className="spinner-border spinner-border-sm mr-1"></span>} Next
+                      </button>
                   </div>
                 </form>
               </div>
