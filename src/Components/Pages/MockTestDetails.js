@@ -25,7 +25,7 @@ class MockTestDetails extends Component {
             disabledPrev: true,
             minutes: 0,
             seconds: 0,
-            userDetails:'',
+            userDetails:''          
 
         };
     }
@@ -65,7 +65,7 @@ class MockTestDetails extends Component {
                 //let timetaken = (this.state.mockTestData.time - (this.state.minutes +':'+ this.state.seconds));       
                 let endtime = new Date();
                 const allMockTestArray = this.state.mockTestArray;
-                this.examObject.attemptedquestions = this.answers.length;
+                this.examObject.attemptedquestions = 0;                
                 this.examObject.unattemptedquestions = this.state.mockTestArray.length - this.examObject.attemptedquestions;
             
                 let correctanswers = 0;
@@ -134,9 +134,15 @@ class MockTestDetails extends Component {
 
                 });
 
+                this.examObject.answers = [];
+
+                if(this.answers)
+                {
+                    this.examObject.attemptedquestions = this.answers.length;
+                    this.examObject.answers = this.answers;
+                }
                 this.examObject.examid = this.props.match.params.id;
-                this.examObject.studentid= this.state.userDetails.user._id;
-                this.examObject.answers = this.answers;
+                this.examObject.studentid= this.state.userDetails.user._id;               
                 this.examObject.correctanswers = correctanswers;
                 this.examObject.incorrectanswers = incorrectanswers;       
                 this.examObject.totalpositivemarks = totalpositivemarks;
@@ -172,6 +178,10 @@ class MockTestDetails extends Component {
         MockTestService.getByIdMockTest(this.props.match.params.id)
             .then(data => {
                 this.setState({ mockTestData: data, addedby: data.addedby, property: data.addedby.property, mockTestArray: data.questions, minutes: data.time });
+                if(data.questions.length == 1)
+                {
+                    this.setState({disabledNext : true})
+                }
                 console.log(this.state.mockTestData)
             }).catch(error => {
                 console.log(error);
@@ -225,13 +235,15 @@ class MockTestDetails extends Component {
         }, 1000)
     }
 
+   
     togglePrev(e) {
         debugger;
         let index = this.state.index - 1;
         let disabledPrev = (index === 0);
-        this.setState({ index: index, disabledPrev: disabledPrev, disabledNext: false });
+        this.setState({ index: index, disabledPrev: disabledPrev, disabledNext: false,SubmitbuttonVisible: !this.state.disabledNext });
        
     }   
+
     toggleNext(e) {
 
         debugger;      
@@ -240,7 +252,7 @@ class MockTestDetails extends Component {
         //this.state.mocktestarray[index]
         let disabledNext = index === (this.state.mockTestArray.length - 1);
 
-        this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false });
+        this.setState({ index: index, disabledNext: disabledNext, disabledPrev: false,SubmitbuttonVisible: !this.state.disabledNext });
         this.unselecteOptionAll();
     }
 
@@ -257,6 +269,7 @@ class MockTestDetails extends Component {
 
     }
 
+    
     selecteOption()
     {
         var questionid = $(".divQuestion")[0].dataset.questionid;
@@ -411,11 +424,11 @@ class MockTestDetails extends Component {
     render() {
         this.state.userDetails = JSON.parse(localStorage.getItem('authuser'));
         console.log('render....');
-        const { mockTestData, addedby, property, minutes, seconds } = this.state;
+        const { mockTestData, addedby, property, minutes, seconds} = this.state;
         const { index, disabledNext, disabledPrev, mockTestArray } = this.state
         const mocktestobj = this.state.mockTestArray ? this.state.mockTestArray[index] : null;
         const mockTest = mockTestArray ? mockTestArray[index] : null;
-       
+       let SubmitbuttonVisible = disabledNext;
         //console.log('mockTest', mockTest);
         if (mockTest) {
             mockTest.itemindex = index;
@@ -535,6 +548,9 @@ class MockTestDetails extends Component {
                                                     <div>
                                                         <Prev toggle={(e) => this.togglePrev(e)} active={disabledPrev} />
                                                         <Next toggle={(e) => this.toggleNext(e)} active={disabledNext} />
+                                                        { 
+                                                            SubmitbuttonVisible &&< SubmitResult toggle={(e) => this.onSumbitClick(e)}  />
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
@@ -562,6 +578,13 @@ function Prev(props) {
 function Next(props) {
     return (
       <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30 ml-1">Next</button>    
+    );
+}
+
+
+function SubmitResult(props) {
+    return (
+      <button onClick={props.toggle} disabled={props.active} className="btn btn-primary btn-lg xs-mrb30 ml-2">Submit</button>    
     );
 }
 
