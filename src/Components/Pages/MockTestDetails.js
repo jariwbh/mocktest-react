@@ -5,6 +5,7 @@ import MockTestService from '../../Core/Services/MockTest/BsMockTest';
 import moment from 'moment';
 import ReactHtmlParser from 'react-html-parser';
 import $ from 'jquery'; 
+import swal from 'sweetalert';
 
 class MockTestDetails extends Component {
     _isMounted = false;
@@ -40,97 +41,115 @@ class MockTestDetails extends Component {
         
         //return new Date(dt.getTime() + minutes*60000);
     }
+
+    onSumbitClick()
+    {
+ 
+        swal({
+            title: "Are you sure?",
+            text: "Once Sumbit, you will not be able to recover this mock test!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                this.prepareRelustObjectonSumbit();
+            }
+          });
+    }
     prepareRelustObjectonSumbit()
     {
-        this.examObject.timetaken = this.get_Diff_minutes();
-        this.IsTimerStart = false;
-        //let timetaken = (this.state.mockTestData.time - (this.state.minutes +':'+ this.state.seconds));       
-        let endtime = new Date();
-        const allMockTestArray = this.state.mockTestArray;
-        this.examObject.attemptedquestions = this.answers.length;
-        this.examObject.unattemptedquestions = this.state.mockTestArray.length - this.examObject.attemptedquestions;
-      
-        let correctanswers = 0;
-        let incorrectanswers = 0;
-        let totalpositivemarks = 0;
-        let totalnegativemarks = 0;
-        let totalmarks = 0;
+                this.examObject.timetaken = this.get_Diff_minutes();
+                this.IsTimerStart = false;
+                //let timetaken = (this.state.mockTestData.time - (this.state.minutes +':'+ this.state.seconds));       
+                let endtime = new Date();
+                const allMockTestArray = this.state.mockTestArray;
+                this.examObject.attemptedquestions = this.answers.length;
+                this.examObject.unattemptedquestions = this.state.mockTestArray.length - this.examObject.attemptedquestions;
+            
+                let correctanswers = 0;
+                let incorrectanswers = 0;
+                let totalpositivemarks = 0;
+                let totalnegativemarks = 0;
+                let totalmarks = 0;
 
-        $.each(allMockTestArray, function () {
-            totalmarks += this.mark;
-        });
+                $.each(allMockTestArray, function () {
+                    totalmarks += this.mark;
+                });
 
-        console.log('this.examObject = ',this.examObject.correctanswers);
+                console.log('this.examObject = ',this.examObject.correctanswers);
 
-        const tempAnswerobj = [...this.answers];
-        $(tempAnswerobj).each(function (index,val){
-           
-            let examibjOption = allMockTestArray.find(x=>x._id == val.questionid);
+                const tempAnswerobj = [...this.answers];
+                $(tempAnswerobj).each(function (index,val){
+                
+                    let examibjOption = allMockTestArray.find(x=>x._id == val.questionid);
 
-            if(examibjOption && examibjOption.options)
-            {
-                if(examibjOption.questiontype == 'Multi Select')
-                {
-                    let CorrectOptions =[];
-                    examibjOption.options.forEach(x => {if (x.iscorrect == true) CorrectOptions.push(x)});
-
-                    let isValidTotal = 0;
-
-                    $.each(val.answerid, function (index,Optionval) {
-
-                       let isCorrectOpt = CorrectOptions.find(x=>x.option == Optionval);
-
-                       if(isCorrectOpt)
-                       {
-                          isValidTotal += 1;
-                       }
-                    });
-
-                    if((val.answerid.length == CorrectOptions.length) && (isValidTotal == CorrectOptions.length))
+                    if(examibjOption && examibjOption.options)
                     {
-                        correctanswers = correctanswers + 1;
-                        totalpositivemarks = totalpositivemarks + examibjOption.mark;
-                    }
-                    else
-                    {
-                        incorrectanswers = incorrectanswers + 1;
-                        totalnegativemarks = totalnegativemarks + examibjOption.negativemark;
-                    }
-                }
-                else
-                {
-                    var optionObj = examibjOption.options.find(x=>x.iscorrect == true);
+                        if(examibjOption.questiontype == 'Multi Select')
+                        {
+                            let CorrectOptions =[];
+                            examibjOption.options.forEach(x => {if (x.iscorrect == true) CorrectOptions.push(x)});
 
-                    if(optionObj.option == val.answerid[0])
-                    {
-                        correctanswers = correctanswers + 1;
-                        totalpositivemarks = totalpositivemarks + examibjOption.mark;
+                            let isValidTotal = 0;
+
+                            $.each(val.answerid, function (index,Optionval) {
+
+                            let isCorrectOpt = CorrectOptions.find(x=>x.option == Optionval);
+
+                            if(isCorrectOpt)
+                            {
+                                isValidTotal += 1;
+                            }
+                            });
+
+                            if((val.answerid.length == CorrectOptions.length) && (isValidTotal == CorrectOptions.length))
+                            {
+                                correctanswers = correctanswers + 1;
+                                totalpositivemarks = totalpositivemarks + examibjOption.mark;
+                            }
+                            else
+                            {
+                                incorrectanswers = incorrectanswers + 1;
+                                totalnegativemarks = totalnegativemarks + examibjOption.negativemark;
+                            }
+                        }
+                        else
+                        {
+                            var optionObj = examibjOption.options.find(x=>x.iscorrect == true);
+
+                            if(optionObj.option == val.answerid[0])
+                            {
+                                correctanswers = correctanswers + 1;
+                                totalpositivemarks = totalpositivemarks + examibjOption.mark;
+                            }
+                            else
+                            {
+                                incorrectanswers = incorrectanswers+1;
+                                totalnegativemarks = totalnegativemarks + examibjOption.negativemark;
+                            }
+                        }
                     }
-                    else
-                    {
-                        incorrectanswers = incorrectanswers+1;
-                        totalnegativemarks = totalnegativemarks + examibjOption.negativemark;
-                    }
-                }
-            }
 
-        });
+                });
 
-        this.examObject.examid = this.props.match.params.id;
-        this.examObject.studentid= this.state.userDetails.user._id;
-        this.examObject.answers = this.answers;
-        this.examObject.correctanswers = correctanswers;
-        this.examObject.incorrectanswers = incorrectanswers;       
-        this.examObject.totalpositivemarks = totalpositivemarks;
-        this.examObject.totalnegativemarks = totalnegativemarks;
-        this.examObject.markesobtained = totalpositivemarks - totalnegativemarks;
-        this.examObject.totalmarks = totalmarks;
-        this.examObject.percentage = ((this.examObject.markesobtained * 100)/totalmarks).toFixed(2);
-        this.examObject.starttime = this.starttime;
-        this.examObject.endtime = endtime;
-        console.log('My JSON Object',JSON.stringify(this.examObject));
+                this.examObject.examid = this.props.match.params.id;
+                this.examObject.studentid= this.state.userDetails.user._id;
+                this.examObject.answers = this.answers;
+                this.examObject.correctanswers = correctanswers;
+                this.examObject.incorrectanswers = incorrectanswers;       
+                this.examObject.totalpositivemarks = totalpositivemarks;
+                this.examObject.totalnegativemarks = totalnegativemarks;
+                this.examObject.markesobtained = totalpositivemarks - totalnegativemarks;
+                this.examObject.totalmarks = totalmarks;
+                this.examObject.percentage = ((this.examObject.markesobtained * 100)/totalmarks).toFixed(2);
+                this.examObject.starttime = this.starttime;
+                this.examObject.endtime = endtime;
+                console.log('My JSON Object',JSON.stringify(this.examObject));
 
-        this.addExamResult(this.examObject);
+                this.addExamResult(this.examObject);
+        
 
     }
 
@@ -160,6 +179,21 @@ class MockTestDetails extends Component {
 
     }
 
+    examTimeOver()
+    {
+        swal("Time is over!", {
+            buttons: false,
+            timer: 5000,
+          })
+          .then(
+            this.prepareRelustObjectonSumbit()
+          );
+
+       
+
+
+       
+    }
     startTimer()
     {
         const { seconds, minutes } = this.state
@@ -172,6 +206,7 @@ class MockTestDetails extends Component {
         if (seconds === 0) {
             if (minutes === 0) {
                 clearInterval(this.myInterval)
+                this.examTimeOver();
             } else {
                 this.setState(({ minutes }) => ({
                     minutes: minutes - 1,
@@ -410,7 +445,7 @@ class MockTestDetails extends Component {
                                                 >
                                                     Submit
                                                 </Link> */}
-                                                <a href="#" onClick={this.prepareRelustObjectonSumbit.bind(this)} className="btn btn-primary btn-lg">Submit</a>
+                                                <a href="#" onClick={this.onSumbitClick.bind(this)} className="btn btn-primary btn-lg">Submit</a>
                                             </li>
                                         </ul>
                                     </div>
