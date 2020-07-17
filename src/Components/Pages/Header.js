@@ -14,7 +14,6 @@ class Header extends Component {
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
-        console.log("isAuthenticated", isAuthenticated())
     }
 
     render() {
@@ -39,6 +38,7 @@ class Header extends Component {
                                         <li className="nav-item"> <Link className="nav-link" to="/Contactus">Contact Us</Link> </li>
                                         {isAuthenticated() ?
                                             <NavDropdown title="Dashboard" id="basic-nav-dropdown">
+                                                <NavDropdown.Item ><Link className="dropdown-item" to="/dashboard">My Dashboard</Link></NavDropdown.Item>
                                                 <NavDropdown.Item ><Link className="dropdown-item" to="/StudentProfile">My Profile</Link></NavDropdown.Item>
                                                 <NavDropdown.Item ><Link className="dropdown-item" to="/Logout">Logout</Link></NavDropdown.Item>
                                             </NavDropdown>

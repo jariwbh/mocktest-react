@@ -1,11 +1,8 @@
 import React from 'react'
 import ReactHtmlParser from 'react-html-parser';
-import moment from 'moment';
-import { avatarimg, quesimg, marksimg, timeimg, negativeimg, logo, userIcon } from '../Pages/Image'
-import $ from 'jquery';
 
 function AnswerUI(props) {
-  const isCorrect =  isCorrectAns(props.question)
+  const answeredType =  getGnsweredType(props.question)
     return (
         <React.Fragment>
             <div class="white-box-no-animate p-20 animate slideIn">
@@ -13,7 +10,7 @@ function AnswerUI(props) {
                     <div class="col-lg-12">
                         <div class="d-flex mb-2">
                             <div class="mr-auto justify-content-start font-weight-bold">{ReactHtmlParser(props.question.question)}</div>
-                            <div class="justify-content-end"><span class="badge badge-mt-custom" style={{ background: isCorrect }}> Marks - {props.question.mark} </span></div>
+                            <div class="justify-content-end"><span class="badge badge-mt-custom" style={{ background: answeredType }}> Marks - {props.question.mark} </span></div>
                         </div>
                         <MockTest
                             click={(e) => this.radionbuttonClick(e)}
@@ -28,7 +25,7 @@ function AnswerUI(props) {
     )
 }
 
-function isCorrectAns (question) {
+function getGnsweredType (question) {
     if (question.questionanswered.answerid.length === 0){
         return "black"
     }
@@ -87,14 +84,13 @@ function MockTest(questionitem) {
             </div>
             
             <div className="mt-tags" >
-            Solution Options :
-                                        {questionitem.question.solutions.map((sol, index) => (
-                                            <a href="#" key={index} >{sol === null ? '' : sol}</a>
-                                        ))}
-                                    </div> 
-            {/* {questionitem.question.solutions.toString()}  */}
-           
-            <div className="t-mock-test">explanation : { ReactHtmlParser(questionitem.question.explanation)} </div>
+                Correct Answer :
+                {questionitem.question.solutions.map((sol, index) => (
+                <a href="#" key={index} >{sol === null ? '' : sol}</a>
+            ))}
+            </div>
+
+            <div className="t-mock-test">explanation : {ReactHtmlParser(questionitem.question.explanation)} </div>
         </React.Fragment>
     );
 }

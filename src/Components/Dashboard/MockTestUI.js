@@ -1,48 +1,53 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+import * as moment from 'moment';
+import *  as images from '../Pages/Image'
 
-export default function MockTestUI() {
+export default function MockTestUI(props) {
+    const mockTest = props.mockTest;
     return (
         <div className="col-lg-4 col-sm-6 d-flex" >
-            <div className="white-box animate slideIn" > <a href="#">
-                <h3 className="mt-head">SPEED KOTA  Foundation Test</h3>
-            </a>
-                <div className="teacher-date-text">By Kamlesh Sharma</div>
-                <div className="teacher-date-text mb-3">10 June 2020</div>
+            <div className="white-box animate slideIn" >
+                <Link to={'/MockTestStartTest/' + mockTest._id}>
+                    <h3 className="mt-head">{mockTest.title}</h3>
+                </Link>
+                <div className="teacher-date-text">By {mockTest.addedby.fullname}</div>
+                <div className="teacher-date-text mb-3">{moment(mockTest.createdAt).format("D MMMM YYYY")}</div>
                 <div className="row">
                     <div className="col-6">
                         <div className="media mb-3">
-                            <img src="images/question-icon.svg" width="40" height="40" className="mr-3" alt="" />
+                            <img src={images.quesimg} width="40" height="40" className="mr-3" alt="" />
                             <div className="media-body">
-                                <div className="mt-0">50 </div>
-                                                        Questions
-                                                    </div>
+                                <div className="mt-0">{mockTest.questions.length} </div>
+                                Questions
+                             </div>
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="media mb-3">
-                            <img src="images/marks-icon.svg" width="40" height="40" className="mr-3" alt="" />
+                            <img src={images.marksimg} width="40" height="40" className="mr-3" alt="" />
                             <div className="media-body">
-                                <div className="mt-0">200  </div>
-                                                            Marks
-                                                        </div>
+                                <div className="mt-0">{mockTest.totalmarks}  </div>
+                                Marks
+                            </div>
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="media mb-3">
-                            <img src="images/time-icon.svg" width="40" height="40" className="mr-3" alt="" />
+                            <img src={images.timeimg} width="40" height="40" className="mr-3" alt="" />
                             <div className="media-body">
-                                <div className="mt-0">60 </div>
-                                                            Minutes
-                                                        </div>
+                                <div className="mt-0">{mockTest.time} </div>
+                                Minutes
+                            </div>
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="media mb-3">
-                            <img src="images/negative-icon.svg" width="40" height="40" className="mr-3" alt="" />
+                            <img src={images.negativeimg} width="40" height="40" className="mr-3" alt="" />
                             <div className="media-body">
-                                <div className="mt-0">1 </div>
-                                                            Negative
-                                                        </div>
+                                <div className="mt-0">0 </div>
+                                Negative
+                            </div>
                         </div>
                     </div>
                 </div>

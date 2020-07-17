@@ -98,7 +98,7 @@ export default class AnswerSheet extends Component {
                                                                         <div className="media-body">
                                                                             <div className="mt-0">{examresult.examid.totalmarks}  </div>
                                                                             Marks
-                                                                </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-lg-3 col-md-3">
@@ -107,7 +107,7 @@ export default class AnswerSheet extends Component {
                                                                         <div className="media-body">
                                                                             <div className="mt-0">{examresult.examid.totalnegativemarks} </div>
                                                                                     Negative
-                                                                </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-lg-3 col-md-3">
