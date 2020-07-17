@@ -49,7 +49,6 @@ class NewPassword extends Component {
             StudentService.getByIdStudent(StudentId)
                 .then(data => {
                     this.setState({ StudentName: data });
-                    console.log(this.state.StudentName)
                 })
         }
     }

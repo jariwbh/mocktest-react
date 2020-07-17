@@ -47,7 +47,7 @@ class Teachers extends Component {
 
     handlePageChange(pageNumber) {
         window.scrollTo(0, 0);
-        console.log(`active page is ${pageNumber}`);
+        // console.log(`active page is ${pageNumber}`);
         this.setState({ activePage: pageNumber, offset: pageNumber });
         this.receivedData();
     }
@@ -100,7 +100,7 @@ class Teachers extends Component {
                 </div>
             </div>
         ))
-        console.log(teachers)
+        //console.log(teachers)
         return (
             <React.Fragment>
                 <Header />

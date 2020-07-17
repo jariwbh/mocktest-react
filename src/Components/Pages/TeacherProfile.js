@@ -29,7 +29,6 @@ class TeacherProfile extends Component {
         TeacherService.getByIdTeachers(teacherId)
             .then(data => {
                 this.setState({ teacherProfile: data, property: data.property });
-                console.log(this.state.teacherProfile)
             })
 
         const TeacherMockTestBody = {
@@ -47,7 +46,6 @@ class TeacherProfile extends Component {
             .then(data => {
                 if (data != null) {
                     this.setState({ teacherMockTest: data });
-                    console.log(this.state.teacherMockTest);
                 }
                 else {
                     console.log('fetching error failed. Try later!')
