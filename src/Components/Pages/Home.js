@@ -6,6 +6,7 @@ import Footer from './Footer';
 import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
 import MockTestService from '../../Core/Services/MockTest/BsMockTest'
 import * as moment from 'moment';
+import TeacherUI from '../UI/Teacher/TeacherUI';
 
 class Home extends Component {
     _isMounted = false;
@@ -14,7 +15,10 @@ class Home extends Component {
         this.state = {
             teachers: [],
             errorMessage: null,
-            mockTest: []
+            mockTest: [],
+            startno: 0,
+            endno: 6,
+            buttonVisible: true
         };
     }
 
@@ -59,7 +63,16 @@ class Home extends Component {
     }
 
     render() {
-        const { teachers, mockTest } = this.state;
+        const { teachers, mockTest, startno, endno, buttonVisible } = this.state;
+        const getMoreTeachers = () => {
+            console.log('no' + endno)
+            const len = teachers.length;
+            this.setState({ endno: this.state.endno + 6 });
+            if (endno >= len) {
+                this.setState({ buttonVisible: false });
+            }
+        }
+
         return (
             <React.Fragment >
                 <Header />
@@ -142,29 +155,20 @@ class Home extends Component {
                             </div>
                             <h2 className="mb-3"> Teachers</h2>
                             <div className="row">
-                                {teachers.slice(0, 6).map((val, index) => (
-                                    <div className="col-lg-4 col-sm-6 d-flex" key={val._id}>
-                                        <div className="white-box animate slideIn" >
-                                            <div className="media mb-3">
-                                                <div className="t-avatar-img-main mr-4">
-                                                    <a href="#" >  {val.profileimage != null ? <img src={val.profileimage} className="rounded-circle img-fluid" alt="" /> :
-                                                        <img src={userIcon} className="rounded-circle img-fluid" alt="" />}</a>
-                                                </div>
-                                                <div className="media-body mt-auto mb-auto">
-                                                    <a className="t-name" href="#">{val.property.fullname} </a>
-                                                    <div className="">{val.property.qualification === null ? '' : val.property.qualification}</div>
-                                                    <div className="t-mock-test">Mock Test (90)</div>
-                                                </div>
-                                            </div>
-                                            <div className="mt-tags mb-3">
-                                                {val.property.subject.map((sub, i) => (
-                                                    <a href="#" key={i} >{sub === null ? '' : sub}</a>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
+                                {console.log('render', endno)}
+                                {teachers.slice(startno, endno).map((val, index) => (
+                                    <TeacherUI
+                                        key={val._id}
+                                        profileimage={val.profileimage}
+                                        fullname={val.property.fullname}
+                                        qualification={val.property.qualification}
+                                        subject={val.property.subject.map((sub, i) => (
+                                            <a href="#" key={i} >{sub === null ? '' : sub}</a>
+                                        ))}
+                                    />
                                 ))}
                             </div>
+                            {buttonVisible && <input type="button" name="View More" value="View More" className="fa fa-caret-down" style={{ alignItems: 'center', justifyContent: 'center' }} onClick={getMoreTeachers} />}
                         </div>
                     </section>
                 </main>
@@ -174,4 +178,6 @@ class Home extends Component {
     }
 }
 
+
 export default Home;
+
