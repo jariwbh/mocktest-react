@@ -68,7 +68,7 @@ class Dashboard extends Component {
     render() {
         const { examResults, mockTests, loadingExamResults, loadingMockTests, errorExamResults, errorMockTests } = this.state
         const user = getUser();
-
+        
         return (
             <React.Fragment>
                 <Header />
@@ -78,7 +78,7 @@ class Dashboard extends Component {
                             <div colSpan="4" className="text-center">
                                 <h2 className="text-danger">Welcome {user.user.fullname}!</h2>
                             </div>
-                            {!loadingExamResults && !errorExamResults && examResults && examResults.length &&
+                            {!loadingExamResults && !errorExamResults && examResults && examResults.length > 0 &&
                                 <React.Fragment>
                                     <h2 className="mb-3"> Attempted Mock Test</h2>
                                     <div className="row">
@@ -101,7 +101,7 @@ class Dashboard extends Component {
                             {!loadingExamResults && errorExamResults &&
                                 <div className="text-center text-danger">There are error to load your exam!: {errorExamResults}</div>
                             }
-                            {!loadingMockTests && !errorMockTests && mockTests && mockTests.length &&
+                            {!loadingMockTests && !errorMockTests && mockTests && mockTests.length > 0 &&
                             <React.Fragment>
                                 <h2 className="mb-3"> Popular Mock Tests</h2>
                                 <div className="row">
