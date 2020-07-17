@@ -7,6 +7,7 @@ import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
 import MockTestService from '../../Core/Services/MockTest/BsMockTest'
 import * as moment from 'moment';
 import TeacherUI from '../UI/Teacher/TeacherUI';
+import Button from 'react-bootstrap/Button'
 
 class Home extends Component {
     _isMounted = false;
@@ -168,7 +169,12 @@ class Home extends Component {
                                     />
                                 ))}
                             </div>
-                            {buttonVisible && <input type="button" name="View More" value="View More" className="fa fa-caret-down" style={{ alignItems: 'center', justifyContent: 'center' }} onClick={getMoreTeachers} />}
+                            {buttonVisible &&
+                                <Button className="light" name="View More" title="View More"
+                                    onClick={getMoreTeachers}>
+                                    View More
+                                </Button>
+                            }
                         </div>
                     </section>
                 </main>
@@ -177,7 +183,6 @@ class Home extends Component {
         );
     }
 }
-
 
 export default Home;
 
