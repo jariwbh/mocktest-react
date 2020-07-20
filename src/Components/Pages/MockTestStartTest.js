@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { logo, negativeimg, timeimg, marksimg, quesimg, avatarimg, userIcon } from './Image'
+import { logo, negativeimg, timeimg, marksimg, quesimg, userIcon } from './Image'
 import { Link } from 'react-router-dom';
 import MockTestService from '../../Core/Services/MockTest/BsMockTest';
 

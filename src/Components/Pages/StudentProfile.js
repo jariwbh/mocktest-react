@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { avatarimg, quesimg, marksimg, timeimg, negativeimg } from './Image';
+//import { avatarimg, quesimg, marksimg, timeimg, negativeimg } from './Image';
 import Header from './Header';
 import Footer from './Footer';
 import BsStudent from '../../Core/Services/Student/BsStudent'
@@ -7,7 +7,7 @@ import BsResetpassword from '../../Core/Services/Password/BsResetPassword'
 import swal from 'sweetalert';
 import FormValidator from './FromValidator';
 import { getUser } from '../../Core/Auth'
-import { get } from 'jquery';
+//import { get } from 'jquery';
 
 export class StudentProfile extends Component {
 
@@ -118,7 +118,7 @@ export class StudentProfile extends Component {
 
     render() {
         this.state.userDetails = getUser() // JSON.parse(localStorage.getItem('authuser'));
-        console.log("Student Profile User:", this.state.userDetails)
+        //console.log("Student Profile User:", this.state.userDetails)
         const validation = this.submitted ? this.validator.validate(this.state) : this.state.validation
         const { errorProfile, errorPassword, errors } = this.state;
         this.state.fullname = this.state.userDetails.user.property.fullname;
@@ -133,10 +133,10 @@ export class StudentProfile extends Component {
                 var object = {};
                 formData.forEach((value, key) => { object[key] = value });
                 var json = '{"username":' + JSON.stringify(this.state.userDetails.user.membernumber) + ',"status":"active","property":' + JSON.stringify(object) + '}';
-                console.log(json);
+                //console.log(json);
                 this.submitted = true;
                 BsStudent.UpdateStudentProfile(this.state.userDetails.user._id, json)
-                console.log('done');
+                //console.log('done');
                 swal({
                     title: "Your Profile Update!",
                     icon: "success",
@@ -144,7 +144,7 @@ export class StudentProfile extends Component {
                 // }
             }
             catch (errorProfile) {
-                console.log('error', errorProfile)
+                //console.log('error', errorProfile)
                 this.setState({ loading: false, errorProfile: 'Internal Server Error!' })
             }
         }
@@ -160,9 +160,9 @@ export class StudentProfile extends Component {
                     var object = {};
                     formData.forEach((value, key) => { object[key] = value });
                     var json = '{"username":' + JSON.stringify(this.state.userDetails.user.membernumber) + ',"newpassword":' + JSON.stringify(object.newpassword) + '}';
-                    console.log(json);
+                    //console.log(json);
                     BsResetpassword.ResetPassword(json)
-                    console.log('done');
+                    //  console.log('done');
                     swal({
                         title: "Your Password Reset!",
                         icon: "success",
@@ -171,7 +171,7 @@ export class StudentProfile extends Component {
                 }
             }
             catch (errorPassword) {
-                console.log('error', errorPassword)
+                //console.log('error', errorPassword)
                 this.setState({ loading: false, errorPassword: 'Internal Server Error!' })
             }
         }

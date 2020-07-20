@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { quesimg, marksimg, timeimg, negativeimg, avatarimg, homeimg, userIcon } from './Image';
+import { quesimg, marksimg, timeimg, negativeimg, homeimg } from './Image';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
@@ -66,7 +66,6 @@ class Home extends Component {
     render() {
         const { teachers, mockTest, startno, endno, buttonVisible } = this.state;
         const getMoreTeachers = () => {
-            console.log('no' + endno)
             const len = teachers.length;
             this.setState({ endno: this.state.endno + 6 });
             if (endno >= len) {
@@ -77,7 +76,6 @@ class Home extends Component {
         return (
             <React.Fragment >
                 <Header />
-                {console.log(mockTest)}
                 <main className="flex-shrink-0">
                     <section className="coffee-block">
                         <div className="container">
@@ -156,7 +154,6 @@ class Home extends Component {
                             </div>
                             <h2 className="mb-3"> Teachers</h2>
                             <div className="row">
-                                {console.log('render', endno)}
                                 {teachers.slice(startno, endno).map((val, index) => (
                                     <TeacherUI
                                         key={val._id}
