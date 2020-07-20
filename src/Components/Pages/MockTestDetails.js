@@ -25,7 +25,8 @@ class MockTestDetails extends Component {
             disabledPrev: true,
             minutes: 0,
             seconds: 0,
-            userDetails:''          
+            userDetails:'',
+            questionanswers:[]          
 
         };
     }
@@ -312,6 +313,7 @@ class MockTestDetails extends Component {
         });
         
         this.answers = tempAnswerobj;
+        this.setState({ questionanswers: this.answers });
     }
     addOptionToList(questionid,optId,optVal)
     {
@@ -324,6 +326,7 @@ class MockTestDetails extends Component {
         });
         
         this.answers = tempAnswerobj;
+        this.setState({ questionanswers: this.answers });
 
     }
 
@@ -356,6 +359,7 @@ class MockTestDetails extends Component {
                 
                 tempAnswerobj.push(answer);
                 this.answers = tempAnswerobj;
+                this.setState({ questionanswers: this.answers });
             }           
           } 
           else {
@@ -391,6 +395,7 @@ class MockTestDetails extends Component {
             answer.answerid = answeridarray;
 
             this.answers.push(answer);
+            this.setState({ questionanswers: this.answers });
     }
 
     getSnapshotBeforeUpdateate(PrevProps,PreState)
@@ -425,7 +430,7 @@ class MockTestDetails extends Component {
         this.state.userDetails = JSON.parse(localStorage.getItem('authuser'));
         console.log('render....');
         const { mockTestData, addedby, property, minutes, seconds} = this.state;
-        const { index, disabledNext, disabledPrev, mockTestArray } = this.state
+        const { index, disabledNext, disabledPrev, mockTestArray,questionanswers } = this.state
         const mocktestobj = this.state.mockTestArray ? this.state.mockTestArray[index] : null;
         const mockTest = mockTestArray ? mockTestArray[index] : null;
        let SubmitbuttonVisible = disabledNext;
@@ -433,6 +438,10 @@ class MockTestDetails extends Component {
         if (mockTest) {
             mockTest.itemindex = index;
             
+            if(questionanswers)
+            {
+                mockTest.questionanswers = questionanswers.find(x=>x.questionid == mockTest._id);
+            }
 
             return (
                 <React.Fragment>
@@ -626,6 +635,14 @@ function MockTest(props) {
                                                             data-questiontype = {props.questiontype}  
                                                             data-mark = {props.mark}
                                                             //checked={optionval.ischecked} 
+                                                            checked = {
+                                                                (props.questionanswers)
+                                                                ?
+                                                                (
+                                                                    (props.questionanswers.answerid.indexOf(optionval.option) > -1)
+                                                                )
+                                                                :false
+                                                            }
                                                             
                                                     />
                                                     :
@@ -641,6 +658,14 @@ function MockTest(props) {
                                                             data-questiontype = {props.questiontype}
                                                             data-mark = {props.mark}
                                                             //checked={optionval.ischecked} 
+                                                            checked = {
+                                                                (props.questionanswers)
+                                                                ?
+                                                                (
+                                                                    (props.questionanswers.answerid.indexOf(optionval.option) > -1)
+                                                                )
+                                                                :false
+                                                            }
                                                             
                                                     />
                                                 }
