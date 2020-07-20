@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { avatarimg, quesimg, marksimg, timeimg, negativeimg, userIcon } from './Image';
+import { quesimg, marksimg, timeimg, negativeimg, userIcon } from './Image';
 import Header from './Header';
 import Footer from './Footer';
 import Tabs from 'react-bootstrap/Tabs';

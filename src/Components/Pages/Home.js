@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { quesimg, marksimg, timeimg, negativeimg, avatarimg, homeimg, userIcon } from './Image';
+import { quesimg, marksimg, timeimg, negativeimg, homeimg } from './Image';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';

@@ -19,6 +19,7 @@ class ForgetPassword extends Component {
         message: 'Enter your UserName .'
       }
     ]);
+
     this.state = {
       UserName: '',
       UserDetails: null,

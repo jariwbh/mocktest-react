@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { avatarimg, quesimg, marksimg, timeimg, negativeimg } from './Image';
+//import { avatarimg, quesimg, marksimg, timeimg, negativeimg } from './Image';
 import Header from './Header';
 import Footer from './Footer';
 import BsStudent from '../../Core/Services/Student/BsStudent'
@@ -7,7 +7,7 @@ import BsResetpassword from '../../Core/Services/Password/BsResetPassword'
 import swal from 'sweetalert';
 import FormValidator from './FromValidator';
 import { getUser } from '../../Core/Auth'
-import { get } from 'jquery';
+//import { get } from 'jquery';
 
 export class StudentProfile extends Component {
 

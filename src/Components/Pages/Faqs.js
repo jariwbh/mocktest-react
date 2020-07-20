@@ -7,9 +7,9 @@ import Card from 'react-bootstrap/Card';
 import $ from 'jquery';
 class Faqs extends Component {
 
-    constructor() {
-        super();
-    }
+    // constructor() {
+    //     super();
+    // }
 
     componentDidMount() {
         document.title = "Igyanam - FAQs";

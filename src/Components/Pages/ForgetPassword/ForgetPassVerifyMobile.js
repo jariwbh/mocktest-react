@@ -1,4 +1,4 @@
-import React, { Component, version } from 'react'
+import React, { Component } from 'react'
 import Header from '../Header';
 import Footer from '../Footer';
 import FormValidator from '../FromValidator';
@@ -83,7 +83,7 @@ class ForgetPassVerifyMobile extends Component {
                                         <div className="white-box-no-animate p-20">
                                             <div className="form-group">
                                                 <div className="mr-4 text-center">
-                                                    <img className="rounded-circle img-fluid" src={forGetUserIcon} />
+                                                    <img className="rounded-circle img-fluid" src={forGetUserIcon} alt="UserIcon" />
                                                 </div>
                                                 <br />
                                                 <h4 className="card-title text-center">{StudentName.property.fullname}</h4>
