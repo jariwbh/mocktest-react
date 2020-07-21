@@ -3,8 +3,9 @@ import Header from '../Header';
 import Footer from '../Footer';
 import FormValidator from '../FromValidator';
 import { forGetUserIcon } from '../Image';
-import StudentService from '../../../Core/Services/Student/BsStudent'
-import { getsms, destroySMS } from '../../../Core/Sms'
+import StudentService from '../../../Core/Services/Student/BsStudent';
+import { getsms, destroySMS } from '../../../Core/Sms';
+import $ from 'jquery';
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('SecretKey');
 
@@ -25,6 +26,7 @@ class ForgetPassVerifyMobile extends Component {
             validation: this.validator.valid(),
             StudentName: '',
             error: '',
+            loading: false
         }
         this.submitted = false;
     }
@@ -37,20 +39,34 @@ class ForgetPassVerifyMobile extends Component {
     }
 
     handleFormSubmit = event => {
+        debugger
+        $('#btn').addClass("disabled");
         event.preventDefault();
         const validation = this.validator.validate(this.state);
         this.setState({ validation });
         const smstoken = getsms()
         if (validation.isValid) {
             const { StudentName, verifyCode } = this.state;
-            const decryptedsmstoken = cryptr.decrypt(smstoken);
-            if (verifyCode === decryptedsmstoken.toString()) {
-                this.props.history.push(`/NewPassword/${StudentName._id}`)
-                destroySMS()
+            this.setState({ loading: true });
+            if (smstoken != null) {
+                console.log(this.state.loading)
+                const decryptedsmstoken = cryptr.decrypt(smstoken);
+                if (verifyCode === decryptedsmstoken.toString()) {
+                    this.props.history.push(`/NewPassword/${StudentName._id}`)
+                    destroySMS()
+                }
+                else {
+                    $('#btn').removeClass("disabled");
+                    this.setState({ loading: false, error: '6-digit verification code is wrong!' })
+                }
             }
             else {
-                this.setState({ error: '6-digit verification code is wrong!' })
+                this.props.history.push('/ForgetPassword')
             }
+        }
+        else {
+            $('#btn').removeClass("disabled");
+            this.setState({ loading: false, error: 'Internal Server Error!' })
         }
     };
 
@@ -68,7 +84,7 @@ class ForgetPassVerifyMobile extends Component {
 
     render() {
         const validation = this.submitted ? this.validator.validate(this.state) : this.state.validation
-        const { StudentName, error } = this.state;
+        const { StudentName, error, loading } = this.state;
         if (StudentName) {
             return (
                 <React.Fragment>
@@ -94,7 +110,9 @@ class ForgetPassVerifyMobile extends Component {
                                                 <input type="text" placeholder="Enter the code" name='verifyCode' className="form-control" id="verifyCode" />
                                                 <span className="help-block">{validation.verifyCode.message}</span>
                                             </div>
-                                            <button className="btn btn-primary btn-lg btn-block" onClick={this.handleFormSubmit}>Next</button>
+                                            <button id="btn" className="btn btn-primary btn-lg btn-block" onClick={this.handleFormSubmit} >
+                                                Next
+                                            </button>
                                         </div>
                                     </form>
                                 </div>

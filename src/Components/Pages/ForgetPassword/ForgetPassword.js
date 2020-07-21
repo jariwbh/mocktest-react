@@ -60,13 +60,14 @@ class ForgetPassword extends Component {
             const { UserDetails } = this.state;
             if (UserDetails != null) {
               const rendomNumber = Math.floor(100000 + Math.random() * 900000);
+              console.log(rendomNumber)
               const encryptedRendomNumber = cryptr.encrypt(rendomNumber);
               smstokenset(encryptedRendomNumber)
               const SmsBody = {
                 "tomobile": `${UserDetails.property.mobile_number}`,
                 "message": `Your One Time Password (OTP) for Reset Password is ${rendomNumber}.This OTP Will Be Valid For Next 5 Minutes.`
               }
-              SmsService.getSMS(SmsBody)
+              // SmsService.getSMS(SmsBody)
               this.setState({ loading: false })
               this.props.history.push(`/ForgetPassVerifyMobile/${UserDetails._id}`)
             }
