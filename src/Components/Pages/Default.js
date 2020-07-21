@@ -64,7 +64,7 @@ class Default extends Component {
                     <Route exact path="/TeacherProfile/:id" component={TeacherProfile} />
                     <Route exact path="/Test" component={Test} />
                     <Route exact path="/Demo" component={Demo} />
-                    <Route exact path="/DemoSlider" component={DemoSlider} />
+                    <Route exact path="/DemoSlider/:id" component={DemoSlider} />
                     <Route exact path="/ForgetPassVerifyMobile/:id" component={ForgetPassVerifyMobile} />
                     <Route exact path="/NewPassword/:id" component={NewPassword} />
 
