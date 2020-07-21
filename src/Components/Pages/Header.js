@@ -5,8 +5,10 @@ import { isAuthenticated } from '../../Core/Auth'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
-import DemoService from '../../Core/Services/DemoService/DemoServices'
+//import DemoService from '../../Core/Services/DemoService/DemoServices'
+import { getheader } from "../../Core/CustomerHeader";
 
+const details = '';
 class Header extends Component {
     constructor() {
         super();
@@ -18,11 +20,7 @@ class Header extends Component {
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
-        DemoService.getClientDetails()
-            .then(data => {
-                this.setState({ details: data })
-                console.log(this.state.details)
-            })
+        this.state.details = getheader();
     }
 
     render() {
