@@ -24,15 +24,25 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import ForgetPassVerifyMobile from "./ForgetPassword/ForgetPassVerifyMobile";
 import NewPassword from "./ForgetPassword/NewPassword";
 import AnswerSheet from "./AnswerSheet";
+import DemoService from '../../Core/Services/DemoService/DemoServices'
+import { headerset } from "../../Core/CustomerHeader";
 
 class Default extends Component {
-    // constructor() {
-    //     super();
-    // }
+    constructor() {
+        super();
+        this.state = {
+            customerDetails: []
+        }
+    }
 
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
+        DemoService.getClientDetails()
+            .then(data => {
+                this.setState({ customerDetails: data })
+                headerset(this.state.customerDetails)
+            })
     }
 
     render() {
@@ -58,6 +68,7 @@ class Default extends Component {
                     <Route exact path="/ForgetPassVerifyMobile/:id" component={ForgetPassVerifyMobile} />
                     <Route exact path="/NewPassword/:id" component={NewPassword} />
 
+                    {/*-------ProtectedRoute--------*/}
                     <ProtectedRoute path="/Dashboard" component={Dashboard} />
                     <ProtectedRoute exact path="/StudentProfile" component={StudentProfile} />
                     <ProtectedRoute exact path="/MockTestStartTest/:id" component={MockTestStartTest} />

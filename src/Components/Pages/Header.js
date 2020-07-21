@@ -5,18 +5,28 @@ import { isAuthenticated } from '../../Core/Auth'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import DemoService from '../../Core/Services/DemoService/DemoServices'
 
 class Header extends Component {
-    // constructor() {
-    //     super();
-    // }
+    constructor() {
+        super();
+        this.state = {
+            details: ''
+        }
+    }
 
     componentDidMount() {
         document.title = "Igyanam";
         window.scrollTo(0, 0);
+        DemoService.getClientDetails()
+            .then(data => {
+                this.setState({ details: data })
+                console.log(this.state.details)
+            })
     }
 
     render() {
+        const { details } = this.state;
         return (
             <React.Fragment>
                 <header>
@@ -24,9 +34,9 @@ class Header extends Component {
                         <div id="header" className="header-inner fixed-top">
                             <div className="container">
                                 <Navbar.Brand>{isAuthenticated() ?
-                                    <Link to="/Dashboard" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
+                                    <Link to="/Dashboard" className="navbar-brand"><img className="img-fluid" width="70px" height="70px" src={details.branchlogo} alt="" /></Link>
                                     :
-                                    <Link to="/" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
+                                    <Link to="/" className="navbar-brand"><img className="img-fluid" width="70px" height="70px" src={details.branchlogo} alt="" /></Link>
                                 }</Navbar.Brand>
                                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                                 <div className="collapse navbar-collapse" id="navbarSupportedContent1"></div>
