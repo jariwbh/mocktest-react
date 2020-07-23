@@ -103,7 +103,7 @@ class Signin extends Component {
   }
 
   componentDidMount() {
-    document.title = "Igyanam - Sign In";
+    document.title = this.props.title;
     window.scrollTo(0, 0);
 
     const user = getRememberUser();

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { logo, negativeimg, timeimg, marksimg, quesimg, userIcon } from './Image'
 import { Link } from 'react-router-dom';
 import MockTestService from '../../Core/Services/MockTest/BsMockTest';
+import { getheader } from '../../Core/CustomerHeader';
 
 class MockTestStartTest extends Component {
     _isMounted = false;
@@ -10,14 +11,16 @@ class MockTestStartTest extends Component {
         this.state = {
             mockTest: [],
             addedby: [],
-            property: []
+            property: [],
+            details: null
 
         };
     }
 
     componentDidMount() {
-        document.title = "Igyanam";
+        document.title = "Aakash Institute";
         window.scrollTo(0, 0);
+        this.state.details = getheader();
         MockTestService.getByIdMockTest(this.props.match.params.id)
             .then(data => {
                 this.setState({ mockTest: data, addedby: data.addedby, property: data.addedby.property });
@@ -32,14 +35,14 @@ class MockTestStartTest extends Component {
     }
 
     render() {
-        const { mockTest, addedby, property } = this.state;
+        const { mockTest, addedby, property, details } = this.state;
         return (
             <React.Fragment>
                 <header>
                     <nav className="navbar navbar-expand navbar-dark p-0">
                         <div id="header" className="header-inner fixed-top">
                             <div className="container">
-                                <Link to="/Dashboard" className="navbar-brand"><img className="img-fluid" src={logo} alt="logo" /></Link>
+                                <Link to="/Dashboard" className="navbar-brand"><img className="img-fluid" width="70px" height="70px" src={details != null ? details.branchlogo : ''} alt="logo" /></Link>
                                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span className="navbar-toggler-icon"></span> </button>
                             </div>
                         </div>

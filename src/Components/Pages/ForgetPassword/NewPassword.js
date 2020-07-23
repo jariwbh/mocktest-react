@@ -5,6 +5,7 @@ import FormValidator from '../FromValidator';
 import StudentService from '../../../Core/Services/Student/BsStudent';
 import swal from 'sweetalert';
 import BsResetpassword from '../../../Core/Services/Password/BsResetPassword'
+import { getheader } from '../../../Core/CustomerHeader';
 
 class NewPassword extends Component {
     constructor() {
@@ -34,7 +35,8 @@ class NewPassword extends Component {
             confpassword: '',
             validation: this.validator.valid(),
             StudentName: '',
-            error: ''
+            error: '',
+            tabTitle: getheader()
         }
         this.submitted = false;
     }
@@ -42,7 +44,7 @@ class NewPassword extends Component {
     passwordMatch = (confirmation, state) => (state.newpassword === confirmation)
 
     componentDidMount() {
-        document.title = "Igyanam";
+        document.title = this.props.title;
         window.scrollTo(0, 0);
         const StudentId = this.props.match.params.id;
         if (StudentId != null) {

@@ -22,9 +22,8 @@ class TeacherProfile extends Component {
     }
 
     componentDidMount() {
-        document.title = "Igyanam - Teachers Profile";
+        document.title = this.props.title;
         window.scrollTo(0, 0);
-        //teacherId = ;
         const { teacherId } = this.state;
         TeacherService.getByIdTeachers(teacherId)
             .then(data => {

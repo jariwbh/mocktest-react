@@ -1,11 +1,11 @@
 import React, { Component, useState, useEffect } from "react";
-import { logo } from './Image';
+//import { logo } from './Image';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../../Core/Auth'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
-import DemoService from '../../Core/Services/DemoService/DemoServices'
+//import DemoService from '../../Core/Services/DemoService/DemoServices'
 import { getheader } from "../../Core/CustomerHeader";
 
 // class Header extends Component {

@@ -3,11 +3,12 @@ import { quesimg, marksimg, timeimg, negativeimg, homeimg } from './Image';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList'
-import MockTestService from '../../Core/Services/MockTest/BsMockTest'
+import TeacherService from '../../Core/Services/Teacher/BsTeacherGetList';
+import MockTestService from '../../Core/Services/MockTest/BsMockTest';
 import * as moment from 'moment';
 import TeacherUI from '../UI/Teacher/TeacherUI';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
+import { getheader } from "../../Core/CustomerHeader";
 
 class Home extends Component {
     _isMounted = false;
@@ -19,12 +20,13 @@ class Home extends Component {
             mockTest: [],
             startno: 0,
             endno: 6,
-            buttonVisible: true
+            buttonVisible: true,
+            tabTitle: getheader()
         };
     }
 
     componentDidMount() {
-        document.title = "Igyanam";
+        document.title = this.props.title
         window.scrollTo(0, 0);
         this._isMounted = true;
         const TeacherBody = { "search": [] }

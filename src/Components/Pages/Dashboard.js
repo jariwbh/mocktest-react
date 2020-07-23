@@ -26,7 +26,7 @@ class Dashboard extends Component {
     componentDidMount() {
         this._isMounted = true;
 
-        document.title = "Igyanam - Dashboard";
+        document.title = "Aakash Institute - Dashboard";
         const userId = getUserId()
         const request = {
             "search": [
@@ -44,13 +44,13 @@ class Dashboard extends Component {
                 console.log('Dashboard Exam Result Error:', error);
             });
 
-            const mockTestBody = {
-                "search": [{ "fieldname": "status", "fieldvalue": "publish", "criteria": "eq", "datatype": "text" }],
-                "limit": 3,
-                "sort": { "createdAt": 1 }
-            }
+        const mockTestBody = {
+            "search": [{ "fieldname": "status", "fieldvalue": "publish", "criteria": "eq", "datatype": "text" }],
+            "limit": 3,
+            "sort": { "createdAt": 1 }
+        }
 
-            axios.post('exams/filter', mockTestBody)
+        axios.post('exams/filter', mockTestBody)
             .then((response) => {
                 if (this._isMounted) {
                     this.setState({ loadingMockTests: false, errorMockTests: response.data.message, mockTests: response.data })
@@ -68,7 +68,7 @@ class Dashboard extends Component {
     render() {
         const { examResults, mockTests, loadingExamResults, loadingMockTests, errorExamResults, errorMockTests } = this.state
         const user = getUser();
-        
+
         return (
             <React.Fragment>
                 <Header />
@@ -82,12 +82,12 @@ class Dashboard extends Component {
                                 <React.Fragment>
                                     <h2 className="mb-3"> Attempted Mock Test</h2>
                                     <div className="row">
-                                        { examResults.map(examResult =>
+                                        {examResults.map(examResult =>
                                             <AttemptedMockTestUI key={examResult._id}
                                                 examResult={examResult} />
                                         )}
                                     </div>
-                                   
+
                                 </React.Fragment>
                             }
                             {loadingExamResults &&
@@ -102,15 +102,15 @@ class Dashboard extends Component {
                                 <div className="text-center text-danger">There are error to load your exam!: {errorExamResults}</div>
                             }
                             {!loadingMockTests && !errorMockTests && mockTests && mockTests.length > 0 &&
-                            <React.Fragment>
-                                <h2 className="mb-3"> Popular Mock Tests</h2>
-                                <div className="row">
-                                { mockTests.map(mockTest =>
+                                <React.Fragment>
+                                    <h2 className="mb-3"> Popular Mock Tests</h2>
+                                    <div className="row">
+                                        {mockTests.map(mockTest =>
                                             <MockTestUI key={mockTest._id}
                                                 mockTest={mockTest} />
                                         )}
-                                </div>
-                            </React.Fragment>
+                                    </div>
+                                </React.Fragment>
                             }
                             {loadingMockTests &&
                                 <div colSpan="4" className="text-center">

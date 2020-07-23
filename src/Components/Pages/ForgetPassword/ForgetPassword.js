@@ -5,6 +5,7 @@ import FormValidator from '../FromValidator';
 import ResetPasswordService from '../../../Core/Services/Password/BsResetPassword';
 import { smstokenset } from '../../../Core/Sms'
 import SmsService from '../../../Core/Services/SMS/Bssms';
+import { getheader } from '../../../Core/CustomerHeader';
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('SecretKey');
 
@@ -25,9 +26,15 @@ class ForgetPassword extends Component {
       UserDetails: null,
       error: '',
       loading: false,
+      tabTitle: getheader(),
       validation: this.validator.valid(),
     }
     this.submitted = false;
+  }
+
+  componentDidMount() {
+    document.title = this.props.title;
+    window.scrollTo(0, 0);
   }
 
   handleInputChange = event => {

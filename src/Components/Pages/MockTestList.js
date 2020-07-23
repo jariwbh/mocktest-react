@@ -44,7 +44,7 @@ class MockTestList extends Component {
     }
 
     componentDidMount() {
-        document.title = "Igyanam";
+        document.title = this.props.title;
         window.scrollTo(0, 0);
         this.receivedData();
     }

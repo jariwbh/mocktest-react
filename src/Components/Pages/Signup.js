@@ -88,7 +88,7 @@ class Signup extends Component {
   }
 
   componentDidMount() {
-    document.title = "Igyanam - Sign Up";
+    document.title = this.props.title;
     window.scrollTo(0, 0);
   }
 

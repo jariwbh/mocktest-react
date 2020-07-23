@@ -5,14 +5,11 @@ import Accordion from 'react-bootstrap/Accordion';
 import NavLink from 'react-bootstrap/NavLink';
 import Card from 'react-bootstrap/Card';
 import $ from 'jquery';
+
 class Faqs extends Component {
 
-    // constructor() {
-    //     super();
-    // }
-
     componentDidMount() {
-        document.title = "Igyanam - FAQs";
+        document.title = this.props.title
         window.scrollTo(0, 0);
     }
 

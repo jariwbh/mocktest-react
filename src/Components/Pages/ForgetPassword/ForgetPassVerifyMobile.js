@@ -6,6 +6,7 @@ import { forGetUserIcon } from '../Image';
 import StudentService from '../../../Core/Services/Student/BsStudent';
 import { getsms, destroySMS } from '../../../Core/Sms';
 import $ from 'jquery';
+import { getheader } from '../../../Core/CustomerHeader';
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('SecretKey');
 
@@ -27,6 +28,7 @@ class ForgetPassVerifyMobile extends Component {
             validation: this.validator.valid(),
             StudentName: '',
             error: '',
+            tabTitle: getheader()
         }
         this.submitted = false;
     }
@@ -69,7 +71,7 @@ class ForgetPassVerifyMobile extends Component {
     };
 
     componentDidMount() {
-        document.title = "Igyanam";
+        document.title = this.props.title;
         window.scrollTo(0, 0);
         const StudentId = this.props.match.params.id;
         if (StudentId != null) {

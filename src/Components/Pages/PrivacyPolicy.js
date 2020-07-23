@@ -7,7 +7,7 @@ class PrivacyPolice extends Component {
         super();
     }
     componentDidMount() {
-        document.title = "Igyanam - Privacy Policy";
+        document.title = this.props.title;
         window.scrollTo(0, 0);
     }
 

@@ -60,6 +60,11 @@ export class StudentProfile extends Component {
     }
     passwordMatch = (confirmation, state) => (state.newpassword === confirmation)
 
+    componentDidMount() {
+        document.title = "Aakash Institute - Mock Test Result";
+        window.scrollTo(0, 0);
+    }
+
     handleInputChange = event => {
         event.preventDefault();
         this.setState({

@@ -14,7 +14,7 @@ import MockTestList from './MockTestList';
 import MockTestResults from "./MockTestResults";
 import MockTestStartTest from "./MockTestStartTest";
 import Home from './Home';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Test from "./Test";
 import Demo from "./Demo"
 import DemoSlider from "./DemoSlider"
@@ -25,58 +25,167 @@ import ForgetPassVerifyMobile from "./ForgetPassword/ForgetPassVerifyMobile";
 import NewPassword from "./ForgetPassword/NewPassword";
 import AnswerSheet from "./AnswerSheet";
 import DemoService from '../../Core/Services/DemoService/DemoServices'
-import { headerset } from "../../Core/CustomerHeader";
+import { headerset, getheader } from "../../Core/CustomerHeader";
 
 class Default extends Component {
+
     constructor() {
         super();
         this.state = {
-            customerDetails: []
+            customerDetails: [],
+            tabTitle: 'Aakash Institute'
         }
     }
 
     componentDidMount() {
-        document.title = "Igyanam";
-        window.scrollTo(0, 0);
         DemoService.getClientDetails()
             .then(data => {
+                console.log(data)
                 this.setState({ customerDetails: data })
                 headerset(this.state.customerDetails)
             })
     }
 
-    render() {
-        return (
-            <React.Fragment>
-                <Switch>
-                    <Route strict exact path="/" component={Home} />
-                    <Route exact path="/Teachers" component={Teachers} />
-                    <Route exact path="/Faqs" component={Faqs} />
-                    <Route exact path="/Contactus" component={Contactus} />
-                    <Route exact path="/Signup" component={Signup} />
-                    <Route exact path="/Signin" component={Signin} />
-                    <Route exact path="/Logout" component={Logout} />
-                    <Route exact path="/TermsofService" component={TermOfService} />
-                    <Route exact path="/PrivacyPolicy" component={PrivacyPolice} />
-                    <Route exact path="/MockTestDetails/:id" component={MockTestDetails} />
-                    <Route exact path="/MockTestList" component={MockTestList} />
-                    <Route exact path="/ForgetPassword" component={ForgetPassword} />
-                    <Route exact path="/TeacherProfile/:id" component={TeacherProfile} />
-                    <Route exact path="/Test" component={Test} />
-                    <Route exact path="/Demo" component={Demo} />
-                    <Route exact path="/DemoSlider/:id" component={DemoSlider} />
-                    <Route exact path="/ForgetPassVerifyMobile/:id" component={ForgetPassVerifyMobile} />
-                    <Route exact path="/NewPassword/:id" component={NewPassword} />
 
-                    {/*-------ProtectedRoute--------*/}
-                    <ProtectedRoute path="/Dashboard" component={Dashboard} />
-                    <ProtectedRoute exact path="/StudentProfile" component={StudentProfile} />
-                    <ProtectedRoute exact path="/MockTestStartTest/:id" component={MockTestStartTest} />
-                    <ProtectedRoute exact path="/MockTestResults/:id" component={MockTestResults} />
-                    <ProtectedRoute exact path="/AnswerSheet/:id" component={AnswerSheet} />
-                </Switch>
-            </React.Fragment>
-        );
+    render() {
+        const { tabTitle } = this.state;
+
+        if (tabTitle != null) {
+            return (
+                <React.Fragment>
+                    <Switch>
+                        <Route strict exact path="/"
+                            render={props => (
+                                <Home {...props} component={Home} title={`${tabTitle}`} />
+                            )}
+                        />
+
+                        <Route exact path="/Teachers"
+                            render={props => (
+                                <Teachers {...props} component={Teachers} title={`${tabTitle} - Teachers`} />
+                            )}
+                        />
+
+                        <Route exact path="/Faqs"
+                            render={props => (
+                                <Faqs {...props} component={Faqs} title={`${tabTitle} - Faqs`} />
+                            )}
+                        />
+
+                        <Route exact path="/Contactus"
+                            render={props => (
+                                <Contactus {...props} component={Contactus} title={`${tabTitle} - Contact Us`} />
+                            )}
+                        />
+
+                        <Route exact path="/Signup"
+                            render={props => (
+                                <Signup {...props} component={Signup} title={`${tabTitle} - Sign Up`} />
+                            )}
+                        />
+
+                        <Route exact path="/Signin"
+                            render={props => (
+                                <Signin {...props} component={Signin} title={`${tabTitle} - Sign In`} />
+                            )}
+                        />
+
+                        <Route exact path="/Logout" component={Logout} />
+
+                        <Route exact path="/TermsofService"
+                            render={props => (
+                                <TermOfService
+                                    {...props} component={TermOfService} title={`${tabTitle} - Terms of Service`} />
+                            )}
+                        />
+
+                        <Route exact path="/PrivacyPolicy"
+                            render={props => (
+                                <PrivacyPolice
+                                    {...props} component={PrivacyPolice} title={`${tabTitle} - Privacy Policy`} />
+                            )}
+                        />
+
+                        <Route exact path="/MockTestDetails/:id"
+                            render={props => (
+                                <MockTestDetails {...props} component={MockTestDetails} title={`${tabTitle} - MockTest`} />
+                            )}
+                        />
+
+                        <Route exact path="/MockTestList"
+                            render={props => (
+                                <MockTestList {...props} component={MockTestList} title={`${tabTitle} - MockTest`} />
+                            )}
+                        />
+
+                        <Route exact path="/ForgetPassword"
+                            render={props => (
+                                <ForgetPassword {...props} component={ForgetPassword} title={`${tabTitle} - Forget Password`} />
+                            )}
+                        />
+
+                        <Route exact path="/TeacherProfile/:id"
+                            render={props => (
+                                <TeacherProfile {...props} component={TeacherProfile} title={`${tabTitle} - Teachers Profile`} />
+                            )}
+                        />
+
+                        <Route exact path="/Test" component={Test} />
+                        <Route exact path="/Demo" component={Demo} />
+                        <Route exact path="/DemoSlider/:id" component={DemoSlider} />
+
+                        <Route exact path="/ForgetPassVerifyMobile/:id"
+                            render={props => (
+                                <ForgetPassVerifyMobile {...props} component={ForgetPassVerifyMobile} title={`${tabTitle} - Forget Password`} />
+                            )}
+                        />
+
+                        <Route exact path="/NewPassword/:id"
+                            render={props => (
+                                <NewPassword {...props} component={NewPassword} title={`${tabTitle} - Forget Password`} />
+                            )}
+                        />
+
+                        {/*-------ProtectedRoute--------*/}
+                        <ProtectedRoute path="/Dashboard" component={Dashboard}
+                        // render={props => (
+                        //     <Dashboard {...props} component={Dashboard} title={`${tabTitle.branchname} - Dashboard`} />
+                        // )}
+                        />
+
+                        <ProtectedRoute exact path="/StudentProfile" component={StudentProfile}
+                        // render={props => (
+                        //     <StudentProfile {...props} component={StudentProfile} title={`${tabTitle.branchname} - Student Profile`} />
+                        // )}
+                        />
+
+                        <ProtectedRoute exact path="/MockTestStartTest/:id" component={MockTestStartTest}
+                        // render={props => (
+                        //     <MockTestStartTest {...props} component={MockTestStartTest} title={`${tabTitle.branchname} - MockTest`} />
+                        // )}
+                        />
+
+                        <ProtectedRoute exact path="/MockTestResults/:id" component={MockTestResults}
+                        // render={props => (
+                        //     <MockTestResults {...props} component={MockTestResults} title={`${tabTitle.branchname} - MockTest Result`} />
+                        // )}
+                        />
+
+                        <ProtectedRoute exact path="/AnswerSheet/:id" component={AnswerSheet}
+                        // render={props => (
+                        //     <AnswerSheet {...props} component={AnswerSheet} title={`${tabTitle.branchname} - Answer Sheet`} />
+                        // )}
+                        />
+                    </Switch>
+                </React.Fragment>
+            );
+        } else {
+            return (
+                <React.Fragment>
+                    <></>
+                </React.Fragment>
+            );
+        }
     }
 }
 

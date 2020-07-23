@@ -21,7 +21,7 @@ export default class AnswerSheet extends Component {
     }
 
     componentDidMount() {
-        document.title = "Igyanam - Answer Sheet";
+        document.title = "Aakash Institute - Answer Sheet";
         window.scrollTo(0, 0);
         this._isMounted = true;
 

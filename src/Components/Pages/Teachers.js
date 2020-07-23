@@ -36,7 +36,7 @@ class Teachers extends Component {
     }
 
     componentDidMount() {
-        document.title = "Igyanam - Teachers";
+        document.title = this.props.title;
         window.scrollTo(0, 0);
         this.receivedData();
     }
