@@ -43,18 +43,18 @@ class Default extends Component {
         console.log('getdata')
         const TOKEN_KEY = 'header'
         const localdata = localStorage.getItem(TOKEN_KEY);
-        if (localdata == null) {
-            console.log('header')
-            DemoService.getClientDetails()
-                .then(data => {
-                    console.log(data)
-                    this.setState({ customerDetails: data, tabTitle: data.branchname })
-                    headerset(this.state.customerDetails)
-                })
-        }
-        else {
-            this.state.tabTitle = getheader()
-        }
+        //if (localdata == null) {
+        console.log('header')
+        DemoService.getClientDetails()
+            .then(data => {
+                console.log(data)
+                this.setState({ customerDetails: data, tabTitle: data.branchname })
+                headerset(this.state.customerDetails)
+            })
+        // }
+        // else {
+        //     this.state.tabTitle = getheader()
+        // }
     }
 
     render() {
@@ -68,25 +68,25 @@ class Default extends Component {
                     <Switch>
                         <Route strict exact path="/"
                             render={props => (
-                                <Home {...props} component={Home} title={`${tabTitle}`} />
+                                <Home {...props} component={Home} title={`${tabTitle != null ? tabTitle : tabTitle.branchname}`} />
                             )}
                         />
 
                         <Route exact path="/Teachers"
                             render={props => (
-                                <Teachers {...props} component={Teachers} title={`${tabTitle} - Teachers`} />
+                                <Teachers {...props} component={Teachers} title={`${tabTitle != null ? tabTitle : tabTitle.branchname} - Teachers`} />
                             )}
                         />
 
                         <Route exact path="/Faqs"
                             render={props => (
-                                <Faqs {...props} component={Faqs} title={`${tabTitle} - Faqs`} />
+                                <Faqs {...props} component={Faqs} title={`${tabTitle != null ? tabTitle : tabTitle.branchname} - Faqs`} />
                             )}
                         />
 
                         <Route exact path="/Contactus"
                             render={props => (
-                                <Contactus {...props} component={Contactus} title={`${tabTitle} - Contact Us`} />
+                                <Contactus {...props} component={Contactus} title={`${tabTitle != null ? tabTitle : tabTitle.branchname} - Contact Us`} />
                             )}
                         />
 
