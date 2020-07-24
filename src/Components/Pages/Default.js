@@ -30,26 +30,38 @@ import { headerset, getheader } from "../../Core/CustomerHeader";
 class Default extends Component {
 
     constructor() {
+        console.log('const')
         super();
         this.state = {
             customerDetails: [],
-            tabTitle: 'Aakash Institute'
+            tabTitle: null,
+        }
+        this.getdata();
+    }
+
+    getdata() {
+        console.log('getdata')
+        const TOKEN_KEY = 'header'
+        const localdata = localStorage.getItem(TOKEN_KEY);
+        if (localdata == null) {
+            console.log('header')
+            DemoService.getClientDetails()
+                .then(data => {
+                    console.log(data)
+                    this.setState({ customerDetails: data, tabTitle: data.branchname })
+                    headerset(this.state.customerDetails)
+                })
+        }
+        else {
+            this.state.tabTitle = getheader()
         }
     }
 
-    componentDidMount() {
-        DemoService.getClientDetails()
-            .then(data => {
-                console.log(data)
-                this.setState({ customerDetails: data })
-                headerset(this.state.customerDetails)
-            })
-    }
-
-
     render() {
+        console.log('render')
         const { tabTitle } = this.state;
-
+        console.log('tabTitle', tabTitle)
+        //console.log('branchname', tabTitle.branchname)
         if (tabTitle != null) {
             return (
                 <React.Fragment>
@@ -179,11 +191,10 @@ class Default extends Component {
                     </Switch>
                 </React.Fragment>
             );
-        } else {
+        }
+        else {
             return (
-                <React.Fragment>
-                    <></>
-                </React.Fragment>
+                <span></span>
             );
         }
     }
