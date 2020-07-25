@@ -9,9 +9,9 @@ import axios from '../../axiosInst';
 class Dashboard extends Component {
     _isMounted = false;
 
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
+        document.title = this.props.title;
 
         this.state = {
             examResults: [],
@@ -25,8 +25,6 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this._isMounted = true;
-
-        document.title = "Aakash Institute - Dashboard";
         const userId = getUserId()
         const request = {
             "search": [
