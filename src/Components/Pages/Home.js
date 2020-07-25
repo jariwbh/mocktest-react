@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import TeacherUI from '../UI/Teacher/TeacherUI';
 import Button from 'react-bootstrap/Button';
 import { getheader } from "../../Core/CustomerHeader";
+import MockTestCardUI from '../UI/MockTestCard/MockTestCardUI';
 
 class Home extends Component {
     _isMounted = false;
@@ -100,59 +101,8 @@ class Home extends Component {
                             <h2 className="mb-3"> Recent Mock Tests</h2>
                             <div className="row">
                                 {mockTest.slice(0, 6).map(obj => (
-                                    <div className="col-lg-4 col-sm-6 d-flex" key={obj._id}>
-                                        <div className="white-box animate slideIn" >
-                                            <Link to={'/MockTestStartTest/' + obj._id}>
-                                                <h3 className="mt-head">{obj.title}</h3>
-                                            </Link>
-                                            <div className="teacher-date-text">By {obj.addedby.fullname}</div>
-                                            <div className="teacher-date-text mb-3">
-                                                {moment(obj.createdAt).format("D MMMM YYYY")}
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-6">
-                                                    <div className="media mb-3">
-                                                        <img src={quesimg} width="40" height="40" className="mr-3" alt="question" />
-                                                        <div className="media-body">
-                                                            <div className="mt-0">{obj.questions.length} </div>
-                                                            Questions
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-6">
-                                                    <div className="media mb-3">
-                                                        <img src={marksimg} width="40" height="40" className="mr-3" alt="Marks" />
-                                                        <div className="media-body">
-                                                            <div className="mt-0">{obj.totalmarks}  </div>
-                                                            Marks
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-6">
-                                                    <div className="media mb-3">
-                                                        <img src={timeimg} width="40" height="40" className="mr-3" alt="times" />
-                                                        <div className="media-body">
-                                                            <div className="mt-0">{obj.time}</div>
-                                                            Minutes
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-6">
-                                                    <div className="media mb-3">
-                                                        <img src={negativeimg} width="40" height="40" className="mr-3" alt="negative" />
-                                                        <div className="media-body">
-                                                            <div className="mt-0">0 </div>
-                                                             Negative
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="mt-price mb-3">
-                                                Free
-			                                </div>
-                                            {/* <div className="mt-tags"><a href="#" >NEET</a> <a href="#" >Maths</a> </div> */}
-                                        </div>
-                                    </div>
+                                    <MockTestCardUI key={obj._id}
+                                        mockTest={obj} />
                                 ))}
                             </div>
                             <h2 className="mb-3"> Teachers</h2>
