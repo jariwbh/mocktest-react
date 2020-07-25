@@ -21,12 +21,12 @@ class MockTestStartTest extends Component {
     componentDidMount() {
         document.title = this.props.title;
         window.scrollTo(0, 0);
-        console.log(this.props.computedMatch.params.id)
+        // console.log(this.props.computedMatch.params.id)
         this.state.details = getheader();
         MockTestService.getByIdMockTest(this.props.computedMatch.params.id)
             .then(data => {
                 this.setState({ mockTest: data, addedby: data.addedby, property: data.addedby.property });
-                console.log(this.state.mockTest)
+                // console.log(this.state.mockTest)
             }).catch(error => {
                 console.log(error);
             });

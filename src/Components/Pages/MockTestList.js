@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { quesimg, marksimg, timeimg, negativeimg } from './Image';
-import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import MockTestService from '../../Core/Services/MockTest/BsMockTest';
-import * as moment from 'moment';
 import Pagination from "react-js-pagination";
+import MockTestCardUI from '../UI/MockTestCard/MockTestCardUI';
 
 class MockTestList extends Component {
     _isMounted = false;
@@ -55,7 +53,7 @@ class MockTestList extends Component {
 
     handlePageChange(pageNumber) {
         window.scrollTo(0, 0);
-        console.log(`active page is ${pageNumber}`);
+        //console.log(`active page is ${pageNumber}`);
         this.setState({ activePage: pageNumber, offset: pageNumber });
         this.receivedData();
     }
@@ -67,7 +65,7 @@ class MockTestList extends Component {
 
     render() {
         const { mockTest, loading } = this.state;
-        console.log(mockTest)
+        //console.log(mockTest)
         const mockTestList = mockTest.filter((obj) => {
             if (this.state.search == null)
                 return obj
@@ -75,57 +73,8 @@ class MockTestList extends Component {
                 return obj
             }
         }).map((val) => (
-            <div className="col-lg-4 col-sm-6 d-flex" key={val._id} >
-                <div className="white-box animate slideIn" >
-                    <Link to={'/MockTestStartTest/' + val._id}>
-                        <h3 className="mt-head">{val.title}</h3>
-                    </Link>
-                    <div className="teacher-date-text">By {val.addedby.fullname}</div>
-                    <div className="teacher-date-text mb-3">{moment(val.createdAt).format("D MMMM YYYY")}</div>
-                    <div className="row">
-                        <div className="col-6">
-                            <div className="media mb-3">
-                                <img src={quesimg} width="40" height="40" className="mr-3" alt="Question" />
-                                <div className="media-body">
-                                    <div className="mt-0">{val.questions.length} </div>
-                                                    Questions
-                                    </div>
-                            </div>
-                        </div>
-                        <div className="col-6">
-                            <div className="media mb-3">
-                                <img src={marksimg} width="40" height="40" className="mr-3" alt="Marks" />
-                                <div className="media-body">
-                                    <div className="mt-0">{val.totalmarks}  </div>
-                                                    Marks
-                                                </div>
-                            </div>
-                        </div>
-                        <div className="col-6">
-                            <div className="media mb-3">
-                                <img src={timeimg} width="40" height="40" className="mr-3" alt="Times" />
-                                <div className="media-body">
-                                    <div className="mt-0">{val.time} </div>
-                                                    Minutes
-                                                </div>
-                            </div>
-                        </div>
-                        <div className="col-6">
-                            <div className="media mb-3">
-                                <img src={negativeimg} width="40" height="40" className="mr-3" alt="Negative" />
-                                <div className="media-body">
-                                    <div className="mt-0">0 </div>
-                                                    Negative
-                                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="mt-price mb-3">
-                        Free
-			                        </div>
-                    {/* <div className="mt-tags"><a href="#" >NEET</a> <a href="#" >Maths</a> </div> */}
-                </div>
-            </div>
+            <MockTestCardUI key={val._id}
+                mockTest={val} />
         ))
         return (
             <React.Fragment>

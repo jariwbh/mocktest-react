@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import * as moment from 'moment';
-import *  as images from '../Pages/Image'
+import *  as images from '../../Pages/Image'
 
-export default function MockTestUI(props) {
+function MockTestCardUI(props) {
     const mockTest = props.mockTest;
     return (
         <div className="col-lg-4 col-sm-6 d-flex" >
@@ -61,3 +61,4 @@ export default function MockTestUI(props) {
         </div>
     )
 }
+export default MockTestCardUI;
