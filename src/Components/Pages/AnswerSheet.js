@@ -12,6 +12,8 @@ export default class AnswerSheet extends Component {
 
     constructor(props) {
         super(props);
+        document.title = this.props.title;
+        window.scrollTo(0, 0);
 
         this.state = {
             examresult: null,
@@ -21,11 +23,9 @@ export default class AnswerSheet extends Component {
     }
 
     componentDidMount() {
-        document.title = "Aakash Institute - Answer Sheet";
-        window.scrollTo(0, 0);
         this._isMounted = true;
 
-        axios.get(`examresults/${this.props.match.params.id}`)
+        axios.get(`examresults/${this.props.computedMatch.params.id}`)
             .then((response) => {
                 if (this._isMounted) {
                     this.setState({ loading: false, error: response.data.message, examresult: response.data })
@@ -57,23 +57,22 @@ export default class AnswerSheet extends Component {
             <React.Fragment>
                 <Header />
                 <React.Fragment>
-                    <main class="flex-shrink-0">
+                    <main className="flex-shrink-0">
 
-                        <section class="common-block">
-                            <div class="container">
+                        <section className="common-block">
+                            <div className="container">
 
-                                <div class="row">
-                                    <div class="col-lg-12">
+                                <div className="row">
+                                    <div className="col-lg-12">
                                         {!loading &&
                                             <React.Fragment>
-
-                                                <div class="white-box-no-animate p-20 animate slideIn">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
+                                                <div className="white-box-no-animate p-20 animate slideIn">
+                                                    <div className="row">
+                                                        <div className="col-lg-12">
                                                             <h2> {examresult.examid.title}</h2>
-                                                            <div class="mb-3"><span class="mr-4">{moment(examresult.examid.createdAt).format("D MMMM YYYY h:mm A")}</span> <span
-                                                                class="mt-price">Free</span> </div>
-                                                            <div class="mt-tags mb-4"><a href="#">NEET</a> <a href="#">Maths</a> </div>
+                                                            <div className="mb-3"><span className="mr-4">{moment(examresult.examid.createdAt).format("D MMMM YYYY h:mm A")}</span> <span
+                                                                className="mt-price">Free</span> </div>
+                                                            <div className="mt-tags mb-4"><a href="#">NEET</a> <a href="#">Maths</a> </div>
                                                         </div>
                                                     </div>
                                                 </div>
