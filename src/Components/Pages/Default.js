@@ -30,7 +30,7 @@ import { headerset, getheader } from "../../Core/CustomerHeader";
 class Default extends Component {
 
     constructor() {
-        console.log('const')
+        //console.log('const')
         super();
         this.state = {
             customerDetails: [],
@@ -40,14 +40,14 @@ class Default extends Component {
     }
 
     getdata() {
-        console.log('getdata')
-        const TOKEN_KEY = 'header'
-        const localdata = localStorage.getItem(TOKEN_KEY);
+        //console.log('getdata')
+        // const TOKEN_KEY = 'header'
+        // const localdata = localStorage.getItem(TOKEN_KEY);
         //if (localdata == null) {
-        console.log('header')
+        //console.log('header')
         DemoService.getClientDetails()
             .then(data => {
-                console.log(data)
+                //console.log(data)
                 this.setState({ customerDetails: data, tabTitle: data.branchname })
                 headerset(this.state.customerDetails)
             })
@@ -58,9 +58,9 @@ class Default extends Component {
     }
 
     render() {
-        console.log('render')
+        //console.log('render')
         const { tabTitle } = this.state;
-        console.log('tabTitle', tabTitle)
+        //console.log('tabTitle', tabTitle)
         //console.log('branchname', tabTitle.branchname)
         if (tabTitle != null) {
             return (
@@ -102,8 +102,6 @@ class Default extends Component {
                             )}
                         />
 
-                        <Route exact path="/Logout" component={Logout} />
-
                         <Route exact path="/TermsofService"
                             render={props => (
                                 <TermOfService
@@ -142,10 +140,6 @@ class Default extends Component {
                             )}
                         />
 
-                        <Route exact path="/Test" component={Test} />
-                        <Route exact path="/Demo" component={Demo} />
-                        <Route exact path="/DemoSlider/:id" component={DemoSlider} />
-
                         <Route exact path="/ForgetPassVerifyMobile/:id"
                             render={props => (
                                 <ForgetPassVerifyMobile {...props} component={ForgetPassVerifyMobile} title={`${tabTitle} - Forget Password`} />
@@ -158,36 +152,22 @@ class Default extends Component {
                             )}
                         />
 
+                        <Route exact path="/Test" component={Test} />
+                        <Route exact path="/Demo" component={Demo} />
+                        <Route exact path="/DemoSlider/:id" component={DemoSlider} />
+                        <Route exact path="/Logout" component={Logout} />
+
                         {/*-------ProtectedRoute--------*/}
-                        <ProtectedRoute path="/Dashboard" component={Dashboard}
-                        // render={props => (
-                        //     <Dashboard {...props} component={Dashboard} title={`${tabTitle.branchname} - Dashboard`} />
-                        // )}
-                        />
+                        <ProtectedRoute path="/Dashboard" component={Dashboard} title={`${tabTitle} - Dashboard`} />
 
-                        <ProtectedRoute exact path="/StudentProfile" component={StudentProfile}
-                        // render={props => (
-                        //     <StudentProfile {...props} component={StudentProfile} title={`${tabTitle.branchname} - Student Profile`} />
-                        // )}
-                        />
+                        <ProtectedRoute exact path="/StudentProfile" component={StudentProfile} title={`${tabTitle} - Student Profile`} />
 
-                        <ProtectedRoute exact path="/MockTestStartTest/:id" component={MockTestStartTest}
-                        // render={props => (
-                        //     <MockTestStartTest {...props} component={MockTestStartTest} title={`${tabTitle.branchname} - MockTest`} />
-                        // )}
-                        />
+                        <ProtectedRoute exact path="/MockTestStartTest/:id" component={MockTestStartTest} title={`${tabTitle} - MockTest`} />
 
-                        <ProtectedRoute exact path="/MockTestResults/:id" component={MockTestResults}
-                        // render={props => (
-                        //     <MockTestResults {...props} component={MockTestResults} title={`${tabTitle.branchname} - MockTest Result`} />
-                        // )}
-                        />
+                        <ProtectedRoute exact path="/MockTestResults/:id" component={MockTestResults} title={`${tabTitle} - MockTest Result`} />
 
-                        <ProtectedRoute exact path="/AnswerSheet/:id" component={AnswerSheet}
-                        // render={props => (
-                        //     <AnswerSheet {...props} component={AnswerSheet} title={`${tabTitle.branchname} - Answer Sheet`} />
-                        // )}
-                        />
+                        <ProtectedRoute exact path="/AnswerSheet/:id" component={AnswerSheet} title={`${tabTitle} - Answer Sheet`} />
+
                     </Switch>
                 </React.Fragment>
             );
