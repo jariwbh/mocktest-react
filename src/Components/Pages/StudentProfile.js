@@ -13,6 +13,9 @@ export class StudentProfile extends Component {
 
     constructor(props) {
         super(props);
+        document.title = this.props.title;
+        window.scrollTo(0, 0);
+
         this.validator = new FormValidator([
             {
                 field: 'oldpassword',
@@ -59,11 +62,6 @@ export class StudentProfile extends Component {
 
     }
     passwordMatch = (confirmation, state) => (state.newpassword === confirmation)
-
-    componentDidMount() {
-        document.title = "Aakash Institute - Mock Test Result";
-        window.scrollTo(0, 0);
-    }
 
     handleInputChange = event => {
         event.preventDefault();

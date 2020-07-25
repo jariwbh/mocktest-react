@@ -14,7 +14,7 @@ class PasswordService {
 
     static getUserIdForgetPassword(data) {
         const body = JSON.stringify(data)
-        console.log(body)
+        //console.log(body)
         const requestOptions = {
             method: 'POST',
             headers: appConfig.headers,

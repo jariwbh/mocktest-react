@@ -5,15 +5,15 @@ import { isAuthenticated } from '../../Core/Auth'
 
 function ProtectedRoute({ component: Component, ...rest }) {
     return (
-        <Route {...rest} render={props => {
+        < Route {...rest} render={props => {
             if (!isAuthenticated()) {
                 // not logged in so redirect to login page with the return url
                 return <Redirect to={{ pathname: '/Signin', state: { from: props.location } }} />
             }
 
-            // authorized so return component
-            return <Component {...props} />
-        }} />
+            return <Component {...rest} />
+        }
+        } />
     );
 }
 
