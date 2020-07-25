@@ -2,15 +2,15 @@ import React from 'react'
 import ReactHtmlParser from 'react-html-parser';
 
 function AnswerUI(props) {
-  const answeredType =  getGnsweredType(props.question)
+    const answeredType = getGnsweredType(props.question)
     return (
         <React.Fragment>
-            <div class="white-box-no-animate p-20 animate slideIn">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="d-flex mb-2">
-                            <div class="mr-auto justify-content-start font-weight-bold">{ReactHtmlParser(props.question.question)}</div>
-                            <div class="justify-content-end"><span class="badge badge-mt-custom" style={{ background: answeredType }}> Marks - {props.question.mark} </span></div>
+            <div className="white-box-no-animate p-20 animate slideIn">
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="d-flex mb-2">
+                            <div className="mr-auto justify-content-start font-weight-bold">{ReactHtmlParser(props.question.question)}</div>
+                            <div className="justify-content-end"><span className="badge badge-mt-custom" style={{ background: answeredType }}> Marks - {props.question.mark} </span></div>
                         </div>
                         <MockTest
                             click={(e) => this.radionbuttonClick(e)}
@@ -25,14 +25,14 @@ function AnswerUI(props) {
     )
 }
 
-function getGnsweredType (question) {
-    if (question.questionanswered.answerid.length === 0){
+function getGnsweredType(question) {
+    if (question.questionanswered.answerid.length === 0) {
         return "black"
     }
-    if (JSON.stringify(question.solutions) === JSON.stringify(question.questionanswered.answerid)){
-        return "green" 
+    if (JSON.stringify(question.solutions) === JSON.stringify(question.questionanswered.answerid)) {
+        return "green"
     }
-    return "red" 
+    return "red"
 }
 
 function getCheckedAnswer(currentOption, options) {
@@ -70,7 +70,7 @@ function MockTest(questionitem) {
                     {
                         ReactHtmlParser(optionval.option + '. ' + optionval.value)
                     }
-                </label>             
+                </label>
             </div>
         ));
     }
@@ -82,7 +82,7 @@ function MockTest(questionitem) {
                     OptionList
                 }
             </div>
-            
+
             <div className="mt-tags" >
                 Correct Answer :
                 {questionitem.question.solutions.map((sol, index) => (
