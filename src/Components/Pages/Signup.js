@@ -68,6 +68,7 @@ class Signup extends Component {
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
     if (validation.isValid) {
+      this.setState({ submitted: true });
       let myForm = document.getElementById('myForm');
       let formData = new FormData(myForm);
       var object = {};
@@ -76,7 +77,6 @@ class Signup extends Component {
       console.log(json);
       BsSignUp.signUp(json)
       console.log('done');
-      this.setState({ submitted: true });
       this.setState({ loading: false })
       swal({
         title: "Sign Up Success!",
