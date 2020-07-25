@@ -10,7 +10,8 @@ class MockTestResults extends Component {
 
     constructor(props) {
         super(props);
-
+        document.title = this.props.title;
+        window.scrollTo(0, 0);
         this.state = {
             examresult: null,
             loading: true,
@@ -19,11 +20,9 @@ class MockTestResults extends Component {
     }
 
     componentDidMount() {
-        document.title = "Aakash Institute - Mock Test Result";
-        window.scrollTo(0, 0);
         this._isMounted = true;
 
-        axios.get(`examresults/${this.props.match.params.id}`)
+        axios.get(`examresults/${this.props.computedMatch.params.id}`)
             .then((response) => {
                 if (this._isMounted) {
                     this.setState({ loading: false, error: response.data.message, examresult: response.data })
