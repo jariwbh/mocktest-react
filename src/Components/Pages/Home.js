@@ -70,6 +70,7 @@ class Home extends Component {
         const getMoreTeachers = () => {
             const len = teachers.length;
             this.setState({ endno: this.state.endno + 6 });
+            window.scrollTo(0, 0);
             if (endno >= len) {
                 this.setState({ buttonVisible: false });
             }
