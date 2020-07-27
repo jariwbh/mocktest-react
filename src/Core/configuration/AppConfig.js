@@ -7,5 +7,7 @@ const appConfig = {
     }
 }
 
+export const branches = 'branches/';
+export const clientID = '5ef44df26bf23edb7fd9a8e6';
 
 export default appConfig;
