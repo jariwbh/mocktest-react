@@ -24,7 +24,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import ForgetPassVerifyMobile from "./ForgetPassword/ForgetPassVerifyMobile";
 import NewPassword from "./ForgetPassword/NewPassword";
 import AnswerSheet from "./AnswerSheet";
-import DemoService from '../../Core/Services/DemoService/DemoServices'
+import ClientService from '../../Core/Services/Client/ClientServices'
 import { headerset, getheader } from "../../Core/CustomerHeader";
 
 class Default extends Component {
@@ -45,7 +45,7 @@ class Default extends Component {
         // const localdata = localStorage.getItem(TOKEN_KEY);
         //if (localdata == null) {
         //console.log('header')
-        DemoService.getClientDetails()
+        ClientService.getClientDetails()
             .then(data => {
                 //console.log(data)
                 this.setState({ customerDetails: data, tabTitle: data.branchname })
