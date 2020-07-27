@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { getheader } from '../../Core/CustomerHeader';
 
 class Footer extends Component {
     constructor() {
         super();
         this.state = {
-            is_visible: false
+            is_visible: false,
+            details: getheader()
         };
     }
 
@@ -36,7 +38,7 @@ class Footer extends Component {
     }
 
     render() {
-        const { is_visible } = this.state;
+        const { is_visible, details } = this.state;
 
         return (
             <React.Fragment>
@@ -75,7 +77,7 @@ class Footer extends Component {
                         </div>
                         <div className="row">
                             <div className="col text-center">
-                                <div className="copyright-main"> Copyright © 2020 Igyanam. </div>
+                                <div className="copyright-main"> Copyright © 2020 {details != null ? details.branchname : ''} </div>
                             </div>
                         </div>
                     </div>
