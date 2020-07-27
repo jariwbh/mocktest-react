@@ -26,6 +26,9 @@ function AnswerUI(props) {
 }
 
 function getGnsweredType(question) {
+    if (!question.questionanswered){
+        return "black"
+    }
     if (question.questionanswered.answerid.length === 0) {
         return "black"
     }
@@ -35,8 +38,15 @@ function getGnsweredType(question) {
     return "red"
 }
 
-function getCheckedAnswer(currentOption, options) {
-    return options.indexOf(currentOption) > -1
+// function getCheckedAnswer(currentOption, options) {
+//     return options.indexOf(currentOption) > -1
+// }
+
+function getCheckedAnswer(currentOption, question) {
+    if (!question.questionanswered){
+        return false;
+    }
+    return question.questionanswered.answerid.indexOf(currentOption) > -1
 }
 
 function MockTest(questionitem) {
@@ -53,7 +63,7 @@ function MockTest(questionitem) {
                             className="form-check-input"
                             type="checkbox"
                             name={`checkboxOption_${ind}`}
-                            checked={getCheckedAnswer(optionval.option, questionitem.question.answers.answerid)}
+                            checked={getCheckedAnswer(optionval.option, questionitem.question)}
 
                         />
                         :
@@ -61,7 +71,7 @@ function MockTest(questionitem) {
                             className="form-check-input"
                             type="radio"
                             name={`radioOption_${ind}`}
-                            checked={getCheckedAnswer(optionval.option, questionitem.question.questionanswered.answerid)}
+                            checked={getCheckedAnswer(optionval.option, questionitem.question)}
 
                         />
                 }
