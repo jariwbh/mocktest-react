@@ -77,7 +77,7 @@ class Footer extends Component {
                         </div>
                         <div className="row">
                             <div className="col text-center">
-                                <div className="copyright-main"> Copyright © 2020 {details != null ? details.branchname : ''} </div>
+                                <div className="copyright-main"> Copyright © 2020 {details != null ? details.branchname : 'Aakash Institute'} </div>
                             </div>
                         </div>
                     </div>
