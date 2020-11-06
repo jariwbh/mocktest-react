@@ -46,7 +46,7 @@ function Header() {
                             <div className="collapse navbar-collapse" id="navbarSupportedContent1"></div>
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="navbar-nav ml-auto">
-                                    <li className="nav-item"> <Link className="nav-link" to="/">Mock Tests</Link> </li>
+                                    <li className="nav-item"> <Link className="nav-link" to="/MockTestList">Mock Tests</Link> </li>
                                     <li className="nav-item"> <Link className="nav-link" to="/Teachers">Teachers</Link> </li>
                                     <li className="nav-item"> <Link className="nav-link" to="/Faqs">FAQs</Link> </li>
                                     <li className="nav-item"> <Link className="nav-link" to="/Contactus">Contact Us</Link> </li>
